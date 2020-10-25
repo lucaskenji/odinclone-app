@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const request = require('supertest');
 const userApi = require('../routes/api.js');
 
 let mongoServer;
 
+app.use(express.json());
 app.use('/', userApi);
 
 
@@ -45,6 +47,7 @@ describe('User API', () => {
     request(app)
       .post('/users')
       .send(newUser)
+      .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, postResult) => {
@@ -63,7 +66,7 @@ describe('User API', () => {
             done();
           })          
       });
-  });
+  }, 20000);
   
   test('is able to modify an user', (done) => {
     const newUser = {
@@ -79,25 +82,63 @@ describe('User API', () => {
       .post('/users')
       .send(newUser)
       .end((err, postResult) => {
-        newUser.password = '54321';
-        const modifiedUser = {...newUser};
+        if (err) throw err;
+        
+        const modifiedUser = { email: 'janedoe@otherdomain.com' };
         
         request(app)
           .put('/users/' + postResult.body._id)
           .send(modifiedUser)
           .expect(200)
           .end((err, updateResult) => {
-            expect(updateResult.body.password).toBe('54321');
+            expect(updateResult.body.email).toBe('janedoe@otherdomain.com');
             done();
           })
       })
-  })
+  }, 20000)
+  
+  
+  test('is not able to use an already existing email', (done) => {
+    const userOne = {
+      firstName: 'Foo',
+      lastName: 'Baz',
+      email: 'foobaz@email.com',
+      password: '12345',
+      birthDate: new Date(),
+      gender: 'male'
+    };
+    
+    const userTwo = {
+      firstName: 'Baz',
+      lastName: 'Foo',
+      email: 'foobaz@email.com',
+      password: '12345',
+      birthDate: new Date(),
+      gender: 'male'
+    }
+    
+    request(app)
+      .post('/users')
+      .send(userOne)
+      .end((err, postResult) => {
+        if (err) throw err;
+
+        request(app)
+          .post('/users')
+          .send(userTwo)
+          .expect(400)
+          .end((err) => {
+            if (err) throw err;
+            done();
+          })
+      })
+  }, 20000)
   
   test('is able to delete an user', (done) => {
     const newUser = {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'johndoe@email.com',
+      firstName: 'Foo',
+      lastName: 'Bar',
+      email: 'foobar@email.com',
       password: '12345',
       birthDate: new Date(),
       gender: 'male'
@@ -120,5 +161,5 @@ describe('User API', () => {
             .expect(404, done)
           })
       });
-  })
+  }, 20000)
 });
