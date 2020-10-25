@@ -8,4 +8,10 @@ router.post('/users', user.registerValidation, user.userValidation, user.createU
 router.put('/users/:userid', user.userValidation, user.updateUser);
 router.delete('/users/:userid', user.deleteUser);
 
+// router.get('/posts', post.getAllPosts);
+// router.get('/posts/:postid', post.getPostWithId);
+// router.post('/posts', post.postValidation, post.createPost);
+// router.put('/posts/:postid', post.postValidation, post.updatePost);
+// router.delete('/posts/:postid', post.deletePost);
+
 module.exports = router;

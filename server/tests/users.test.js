@@ -1,37 +1,16 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 const request = require('supertest');
-const userApi = require('../routes/api.js');
-
-let mongoServer;
-
-app.use(express.json());
-app.use('/', userApi);
+const { startDatabase, destroyDatabase, app } = require('./mongo.config.js');
 
 
 beforeAll(async (done) => {
-  mongoServer = new MongoMemoryServer();
-
-  const connectionString = await mongoServer.getUri();
-  
-  try {
-    await mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
-  } catch (err) {
-    console.log('Mongo connection error:', err);
-  } finally {
-    done();
-  }
+  await startDatabase();
+  done();
 });
 
-
-afterAll(async () => {
-  await mongoose.disconnect();
-  await mongoServer.stop();
+afterAll(async (done) => {
+  await destroyDatabase();
+  done();
 });
-
 
 describe('User API', () => {
   test('creates user and access it', (done) => {
