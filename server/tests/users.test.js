@@ -5,12 +5,12 @@ const { startDatabase, destroyDatabase, app } = require('./mongo.config.js');
 beforeAll(async (done) => {
   await startDatabase();
   done();
-});
+}, 20000);
 
 afterAll(async (done) => {
   await destroyDatabase();
   done();
-});
+}, 20000);
 
 describe('User API', () => {
   test('creates user and access it', (done) => {

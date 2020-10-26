@@ -18,13 +18,13 @@ beforeAll(async (done) => {
   const postResult = await request(app).post('/users').send(newUser);
   mainUser = postResult.body._id;
   done();
-});
+}, 20000);
 
 
 afterAll(async (done) => {
   await destroyDatabase();
   done();
-});
+}, 20000);
 
 
 describe('Post API', () => {
