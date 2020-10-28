@@ -1,0 +1,9 @@
+.fieldset-sr-only {
+  margin-left: -11px;
+  border: none;
+}
+
+.sr-only {
+  position: absolute;
+  left: -9999px;
+}
