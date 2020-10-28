@@ -21,7 +21,9 @@ function RegisterForm(props) {
         console.log(response);
       })
       .catch((err) => {
-        console.log(err.response.data.details);
+        if (err.response) {
+          console.log(err.response.data.details);
+        }
       })
   }
   

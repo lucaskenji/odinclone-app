@@ -44,12 +44,13 @@ exports.getUserWithId = (req, res) => {
 
 
 exports.registerValidation = [
-  body('firstName').not().isEmpty().withMessage('First name not provided').trim(),
-  body('lastName').not().isEmpty().withMessage('Last name not provided').trim(),
-  body('email').not().isEmpty().withMessage('E-mail not provided').trim(),
-  body('password').not().isEmpty().withMessage('Password not provided').trim(),
-  body('birthDate').not().isEmpty().withMessage('Birth date not provided').trim(),
-  body('gender').not().isEmpty().withMessage('Gender not provided').trim()
+  body('firstName').not().isEmpty().withMessage('You must provide your first name.').trim(),
+  body('lastName').not().isEmpty().withMessage('You must provide your last name.').trim(),
+  body('email').not().isEmpty().withMessage('You must provide an email.'),
+  body('email').isEmail().withMessage('The email provided is invalid.').trim(),
+  body('password').not().isEmpty().withMessage('You must provide a password.').trim(),
+  body('birthDate').not().isEmpty().withMessage('You must provide a valid birth date.').trim(),
+  body('gender').not().isEmpty().withMessage('You must provide your gender.').trim()
 ];
 
 
@@ -59,7 +60,7 @@ exports.userValidation = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({
       message: 'Bad request.',
-      details: errors.array()
+      details: errors.array({ onlyFirstError: true })
     });
   }
   
