@@ -1,16 +1,24 @@
 import React from 'react';
 import './index.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
 
-import RegisterForm from './components/signin/RegisterForm';
-import LoginForm from './components/signin/LoginForm';
+// import RegisterForm from './components/signin/RegisterForm';
+// import LoginForm from './components/signin/LoginForm';
+import Profile from './components/profiles/Profile';
 
 function App() {
   return (
     <div className="App">
-      <h1>Sign up!</h1>
-      <RegisterForm/>
-      <h1>Sign in!</h1>
-      <LoginForm/>
+      <Router>
+        <Switch>
+          
+          <Route path="/profile/:userId" children={<Profile/>} />
+        </Switch>
+      </Router>
     </div>
   );
 }
