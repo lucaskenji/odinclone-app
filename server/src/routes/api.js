@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const user = require('../controllers/userController.js');
 const post = require('../controllers/postController.js');
 const comment = require('../controllers/commentController.js');
+const auth = require('../controllers/auth.js');
 
 router.get('/users', user.getAllUsers);
 router.get('/users/:userid', user.getUserWithId);
@@ -21,5 +23,8 @@ router.get('/posts/:postid/comments/:commentid', comment.getCommentWithId);
 router.post('/posts/:postid/comments', comment.commentValidation, comment.createComment);
 router.put('/posts/:postid/comments/:commentid', comment.updateValidation, comment.updateComment);
 router.delete('/posts/:postid/comments/:commentid', comment.deleteComment);
+
+router.get('/islogged', auth.checkAuth);
+router.post('/login', passport.authenticate('local'), auth.authenticate);
 
 module.exports = router;
