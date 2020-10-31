@@ -18,7 +18,7 @@ class App extends React.Component {
   }
   
   verifyAuth = () => {
-    axios.get('http://localhost:3030/api/islogged', { withCredentials: true })
+    axios.get(`${process.env.REACT_APP_API_URL}/api/islogged`, { withCredentials: true })
       .then((response) => {
         this.setState({ isLogged: response.data.isLogged, loading: false });
       })

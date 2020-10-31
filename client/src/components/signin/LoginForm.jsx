@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-function LoginForm(props) {
+function LoginForm(props) {  
   useEffect(() => {
     props.verifyAuth();
   }, []);
@@ -13,7 +13,7 @@ function LoginForm(props) {
     const email = form.target.email.value;
     const password = form.target.password.value;
     
-    axios.post('http://localhost:3030/api/login', { email, password }, { withCredentials: true })
+    axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { email, password }, { withCredentials: true })
       .then((response) => {
         window.location.href = '/';
       })

@@ -7,7 +7,7 @@ function Profile(props) {
   const { userId } = useParams();
   
   useEffect(() => {
-    axios.get(`http://localhost:3030/api/users/${userId}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
         setUser({
           firstName: response.data.firstName,
