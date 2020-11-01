@@ -4,6 +4,7 @@ const passport = require('passport');
 const user = require('../controllers/userController.js');
 const post = require('../controllers/postController.js');
 const comment = require('../controllers/commentController.js');
+const friendRequest = require('../controllers/friendRequestController.js');
 const auth = require('../controllers/auth.js');
 
 router.get('/users', user.getAllUsers);
@@ -23,6 +24,12 @@ router.get('/posts/:postid/comments/:commentid', comment.getCommentWithId);
 router.post('/posts/:postid/comments', comment.commentValidation, comment.createComment);
 router.put('/posts/:postid/comments/:commentid', comment.updateValidation, comment.updateComment);
 router.delete('/posts/:postid/comments/:commentid', comment.deleteComment);
+
+router.get('/friendrequests', friendRequest.getAllRequests);
+router.get('/friendrequests/:requestid', friendRequest.getRequestWithId);
+router.post('/friendrequests', friendRequest.createRequest);
+router.put('/friendrequests', friendRequest.updateRequest);
+router.delete('/friendrequests', friendRequest.deleteRequest);
 
 router.get('/islogged', auth.checkAuth);
 router.post('/login', passport.authenticate('local'), auth.authenticate);
