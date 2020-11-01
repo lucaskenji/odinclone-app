@@ -27,9 +27,9 @@ router.delete('/posts/:postid/comments/:commentid', comment.deleteComment);
 
 router.get('/friendrequests', friendRequest.getAllRequests);
 router.get('/friendrequests/:requestid', friendRequest.getRequestWithId);
-router.post('/friendrequests', friendRequest.createRequest);
-router.put('/friendrequests', friendRequest.updateRequest);
-router.delete('/friendrequests', friendRequest.deleteRequest);
+router.post('/friendrequests', friendRequest.requestValidation, friendRequest.createRequest);
+router.put('/friendrequests/:requestid', friendRequest.updateRequest);
+router.delete('/friendrequests/:requestid', friendRequest.deleteRequest);
 
 router.get('/islogged', auth.checkAuth);
 router.post('/login', passport.authenticate('local'), auth.authenticate);

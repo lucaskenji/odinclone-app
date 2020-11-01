@@ -16,4 +16,4 @@ const friendRequestSchema = new Schema({
 
 const FriendRequest = ('FriendRequest', friendRequestSchema);
 
-export default FriendRequest;
+module.exports = FriendRequest;
