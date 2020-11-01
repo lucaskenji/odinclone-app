@@ -20,3 +20,10 @@ exports.checkAuth = (req, res) => {
     id: null
   });
 }
+
+exports.logout = (req, res) => {
+  req.logout();
+  return res.json({
+    message: 'Successfully logged out'
+  });
+}

@@ -32,6 +32,7 @@ router.put('/friendrequests/:requestid', friendRequest.updateRequest);
 router.delete('/friendrequests/:requestid', friendRequest.deleteRequest);
 
 router.get('/islogged', auth.checkAuth);
+router.get('/logout', auth.logout);
 router.post('/login', passport.authenticate('local'), auth.authenticate);
 
 module.exports = router;

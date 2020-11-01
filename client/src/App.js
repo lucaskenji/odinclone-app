@@ -11,6 +11,7 @@ import RegisterForm from './components/signin/RegisterForm';
 import LoginForm from './components/signin/LoginForm';
 import Profile from './components/profiles/Profile';
 import FriendRequests from './components/user/FriendRequests';
+import LogoutPrompt from './components/misc/LogoutPrompt';
 
 class App extends React.Component {
   state = {
@@ -38,6 +39,7 @@ class App extends React.Component {
           <Route path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
           <Route path="/login" children={<LoginForm state={this.state} verifyAuth={this.verifyAuth} />} />
           <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
+          <Route path="/logout" children={<LogoutPrompt/>} />
         </Switch>
         </Router>
       </div>
