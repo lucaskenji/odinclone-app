@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-function LoginForm(props) {  
+function LoginForm(props) {
+  const { verifyAuth } = props;
+  
   useEffect(() => {
-    props.verifyAuth();
-  }, []);
+    verifyAuth();
+  }, [verifyAuth]);
   
   const handleLogin = (form) => {
     form.preventDefault();
@@ -15,6 +17,7 @@ function LoginForm(props) {
     
     axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { email, password }, { withCredentials: true })
       .then((response) => {
+        localStorage.setItem('odinbook_id', response.data.id);
         window.location.href = '/';
       })
       .catch((err) => {

@@ -2,7 +2,7 @@ const FriendRequest = require('../models/FriendRequest');
 const User = require('../models/User');
 
 exports.getAllRequests = (req, res) => {
-  FriendRequest.find().lean()
+  FriendRequest.find().lean().populate('sender').populate('receiver')
   .then((results) => {
     if (results.length === 0) {
       return res.status(404).json({
@@ -22,7 +22,7 @@ exports.getAllRequests = (req, res) => {
 
 
 exports.getRequestWithId = (req, res) => {
-  FriendRequest.findById(req.params.requestid).lean()
+  FriendRequest.findById(req.params.requestid).lean().populate('sender').populate('receiver')
   .then((request) => {
     if (!request) {
       return res.status(404).json({

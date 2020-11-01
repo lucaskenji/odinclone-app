@@ -7,9 +7,10 @@ import {
   Switch
 } from 'react-router-dom';
 
-// import RegisterForm from './components/signin/RegisterForm';
+import RegisterForm from './components/signin/RegisterForm';
 import LoginForm from './components/signin/LoginForm';
 import Profile from './components/profiles/Profile';
+import FriendRequests from './components/user/FriendRequests';
 
 class App extends React.Component {
   state = {
@@ -33,8 +34,10 @@ class App extends React.Component {
       <div className="App">
         <Router>
         <Switch>
-          <Route path="/profile/:userId" children={<Profile/>} />
+          <Route path="/profile/:userId" children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} />
+          <Route path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
           <Route path="/login" children={<LoginForm state={this.state} verifyAuth={this.verifyAuth} />} />
+          <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
         </Switch>
         </Router>
       </div>

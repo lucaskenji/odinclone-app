@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 function RegisterForm(props) {
+  const { verifyAuth } = props;
+  
+  useEffect(() => {
+    verifyAuth();
+  }, [ verifyAuth ]);
+  
   const requestRegister = (form) => {
     form.preventDefault();
     const fields = form.target;
@@ -33,69 +40,75 @@ function RegisterForm(props) {
     yearOptions.push(i);
   }
   
-  return (
-    <form onSubmit={requestRegister}>
-      <label htmlFor="firstName" className="sr-only">First name</label>
-      <input type="text" placeholder="First name" name="firstName" id="firstName" />
-      <br/>
-      
-      <label htmlFor="lastName" className="sr-only">Last name</label>
-      <input type="text" placeholder="Last name" name="lastName" id="lastName" />
-      <br/>
-      
-      <label htmlFor="email" className="sr-only">Email</label>
-      <input type="email" placeholder="Email" name="email" id="email" />
-      <br/>
-      
-      <label htmlFor="password" className="sr-only">Password</label>
-      <input type="password" placeholder="Password" name="password" id="password" />
-      <br/>
-      
-      <fieldset className="fieldset-sr-only">
-        <legend>Birth date</legend>
+  if (props.state.loading) {
+    return 'Loading...';
+  } else if (props.state.isLogged) {
+    return (<Redirect to="/" />)
+  } else {
+    return (
+      <form onSubmit={requestRegister}>
+        <label htmlFor="firstName" className="sr-only">First name</label>
+        <input type="text" placeholder="First name" name="firstName" id="firstName" />
+        <br/>
         
-        <label htmlFor="birthDay" className="sr-only"></label>
-        <select name="birthDay" id="birthDay" defaultValue="1">
-          <option key="1">1</option>
-          {
-            [...Array(32).keys()].splice(2).map((day) => <option value={day} key={day}>{day}</option>)
-          }
-        </select>
+        <label htmlFor="lastName" className="sr-only">Last name</label>
+        <input type="text" placeholder="Last name" name="lastName" id="lastName" />
+        <br/>
         
-        <select name="birthMonth" id="birthMonth" defaultValue="Jan">
-          <option value="0" key="Jan">Jan</option>
-          {
-            ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            .map((month, index) => <option value={index+1} key={month}>{month}</option>)
-          }
-        </select>
+        <label htmlFor="email" className="sr-only">Email</label>
+        <input type="email" placeholder="Email" name="email" id="email" />
+        <br/>
         
-        <select name="birthYear" id="birthYear" defaultValue="2020">
-          <option value="2020" key="2020">2020</option>
-          {
-            yearOptions.map((year) => <option value={year} key={year}>{year}</option>)
-          }
-        </select>
+        <label htmlFor="password" className="sr-only">Password</label>
+        <input type="password" placeholder="Password" name="password" id="password" />
+        <br/>
         
+        <fieldset className="fieldset-sr-only">
+          <legend>Birth date</legend>
+          
+          <label htmlFor="birthDay" className="sr-only"></label>
+          <select name="birthDay" id="birthDay" defaultValue="1">
+            <option key="1">1</option>
+            {
+              [...Array(32).keys()].splice(2).map((day) => <option value={day} key={day}>{day}</option>)
+            }
+          </select>
+          
+          <select name="birthMonth" id="birthMonth" defaultValue="Jan">
+            <option value="0" key="Jan">Jan</option>
+            {
+              ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              .map((month, index) => <option value={index+1} key={month}>{month}</option>)
+            }
+          </select>
+          
+          <select name="birthYear" id="birthYear" defaultValue="2020">
+            <option value="2020" key="2020">2020</option>
+            {
+              yearOptions.map((year) => <option value={year} key={year}>{year}</option>)
+            }
+          </select>
+          
+          
+        </fieldset>
         
-      </fieldset>
-      
-      <fieldset className="fieldset-sr-only">
-      <legend>Gender</legend>
-        <label>
-          <input type="radio" name="gender" value="female" />&nbsp;Female
-        </label>
-        <label>
-          <input type="radio" name="gender" value="male" />&nbsp;Male
-        </label>
-        <label>
-          <input type="radio" name="gender" value="other" />&nbsp;Other
-        </label>
-      </fieldset>
-      
-      <button type="submit">Create account</button>
-    </form>
-  );
+        <fieldset className="fieldset-sr-only">
+        <legend>Gender</legend>
+          <label>
+            <input type="radio" name="gender" value="female" />&nbsp;Female
+          </label>
+          <label>
+            <input type="radio" name="gender" value="male" />&nbsp;Male
+          </label>
+          <label>
+            <input type="radio" name="gender" value="other" />&nbsp;Other
+          </label>
+        </fieldset>
+        
+        <button type="submit">Create account</button>
+      </form>
+    );
+  }
 }
 
 export default RegisterForm;
