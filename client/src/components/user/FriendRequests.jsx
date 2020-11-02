@@ -31,7 +31,15 @@ function FriendRequests(props) {
   } else {
     return (
       <div>
-        { requestList.map((request) => <div key={request._id}>{request.sender.firstName}</div>) }
+        <h1>Friend requests</h1>
+        <hr/>
+        
+        { requestList.map((request) => 
+          <fieldset key={request._id}>
+            {request.sender.firstName}<br/>
+            <button>Accept</button>
+            <button>Decline</button>
+          </fieldset>) }
       </div>
     );
   }

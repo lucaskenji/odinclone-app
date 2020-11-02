@@ -12,7 +12,9 @@ router.get('/users/:userid', user.getUserWithId);
 router.post('/users', user.registerValidation, user.userValidation, user.createUser);
 router.put('/users/:userid', user.userValidation, user.updateUser);
 router.delete('/users/:userid', user.deleteUser);
-router.get('/users/:userid/friendrequests', user.getUserFriendRequests)
+router.get('/users/:userid/friendrequests', user.getUserFriendRequests);
+// router.put('/users/:userid/friend', user.addFriend);
+// router.put('/users/:userid/unfriend', user.removeFriend);
 
 router.get('/posts', post.getAllPosts);
 router.get('/posts/:postid', post.getPostWithId);

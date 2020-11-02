@@ -141,4 +141,46 @@ describe('User API', () => {
           })
       });
   }, 20000)
+  
+  test('fails to friend an user that does not exist', async (done) => {
+    const friender = {
+      firstName: 'Friend',
+      lastName: 'Request',
+      email: 'friend@email.com',
+      password: '12345',
+      birthDate: new Date(),
+      gender: 'male'
+    }
+    
+    const { body : {_id}} = await request(app).post('/users').send(friender);
+    await request(app).put(`/users/${_id}/friend`).send({ _id: '000000000000'}).expect(400, done);
+  }, 20000)
+  
+  test('fails to friend an already friended user', async (done) => {
+    const friender = {
+      firstName: 'Friend',
+      lastName: 'Request',
+      email: 'friend@email.com',
+      password: '12345',
+      birthDate: new Date(),
+      gender: 'male'
+    }
+    
+    const friended = {
+      firstName: 'Requested',
+      lastName: 'User',
+      email: 'friend2@email.com',
+      password: '12345',
+      birthDate: new Date(),
+      gender: 'male'
+    }
+    
+    const postOne = await request(app).post('/users').send(friender);
+    const postTwo = await request(app).post('/users').send(friended);
+    const frienderId = postOne.body._id;
+    const friendedId = postTwo.body._id;
+    
+    await request(app).put(`/users/${friendedId}/friend`).send({ _id: frienderId}).expect(200);
+    await request(app).put(`/users/${friendedId}/friend`).send({ _id: frienderId}).expect(400, done);
+  }, 20000)
 });
