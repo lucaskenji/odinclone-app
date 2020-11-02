@@ -196,3 +196,74 @@ exports.getUserFriendRequests = (req, res) => {
     });
   })
 }
+
+
+exports.addFriend = async (req, res) => {
+  try {
+    if (!req.body._id) {
+      return res.status(400).json({
+        message: 'Bad request.',
+        details: ['User id was not sent on request body']
+      });
+    }
+      
+    const userToAdd = await User.findById(req.body._id);
+    
+    if (!userToAdd) {
+      return res.status(400).json({
+        message: 'Bad request.',
+        details: ['ID sent on request body returns no user']
+      });
+    }
+    
+    const userRequested = await User.findById(req.params.userid);
+    
+    if (userRequested.friends.indexOf(req.body._id) !== -1) {
+      return res.status(400).json({
+        message: 'Bad request.',
+        details: ['User already has the requester ID on friend array.']
+      })
+    }
+    
+    userRequested.friends.push(req.body._id);
+    
+    const saveResult = userRequested.save();
+    return res.json( saveResult );
+  } catch(err) {
+    return res.status(500).json({
+      message: 'Internal server error.',
+      details: err
+    })
+  }
+}
+
+
+exports.removeFriend = async (req, res) => {
+  try {
+    if (!req.body._id) {
+      return res.status(400).json({
+        message: 'Bad request.',
+        details: ['User id was not sent on request body']
+      });
+    }
+
+    const user = await User.findById(req.params.userid);
+    
+    if (!user) {
+      return res.status(400).json({
+        message: 'Bad request.',
+        details: ['User does not exist.']
+      })
+    }
+    
+    user.friends = [...user.friends].filter((friend) => friend !== req.body._id);
+    
+    const saveResult = user.save();
+    return res.json( saveResult );
+  } catch(err) {
+    return res.status(500).json({
+      message: 'Internal server error.',
+      details: err
+    })
+  }
+}
