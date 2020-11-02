@@ -12,11 +12,11 @@ function FriendRequests(props) {
 
   useEffect(() => {
     if (props.state.isLogged) {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/friendrequests`)
+      const userId = localStorage.getItem('odinbook_id');
+      
+      axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friendrequests`)
         .then((response) => {
-          const userId = localStorage.getItem('odinbook_id');
-          const requests = [...response.data].filter((request) => request.receiver._id === userId);
-          setRequestList(requests);
+          setRequestList(response.data);
         })
         .catch((err) => {
           console.log(err);

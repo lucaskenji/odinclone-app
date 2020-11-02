@@ -1,6 +1,7 @@
 const User = require('../models/User.js');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const FriendRequest = require('../models/FriendRequest');
 
 
 exports.getAllUsers = (req, res) => {
@@ -174,4 +175,24 @@ exports.deleteUser = async (req, res) => {
       details: ['Deleted count did not return 1.']
     });
   }
+}
+
+
+exports.getUserFriendRequests = (req, res) => {
+  FriendRequest.find({ receiver: req.params.userid }).lean().populate('sender').populate('receiver')
+  .then((results) => {
+    if (results.length === 0) {
+      return res.status(404).json({
+        message: 'No requests found',
+      });
+    }
+    
+    return res.json(results);
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'An internal error occurred.',
+      details: err
+    });
+  })
 }
