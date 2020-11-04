@@ -45,7 +45,8 @@ exports.getPostWithId = (req, res) => {
 
 exports.postValidation = [
   body('content').not().isEmpty().withMessage('Must provide some content').trim(),
-  body('author').not().isEmpty().withMessage('Must provide an author ID').trim()
+  body('author').not().isEmpty().withMessage('Must provide an author ID').trim(),
+  body('timestamp').not().isEmpty().withMessage('Missing timestamp')
 ];
 
 
@@ -80,6 +81,7 @@ exports.createPost = async (req, res) => {
   const newPost = new Post({
     content: req.body.content,
     author: req.body.author,
+    timestamp: req.body.timestamp,
     likes: 0
   });
   

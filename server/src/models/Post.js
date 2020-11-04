@@ -14,6 +14,10 @@ const postSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  timestamp: {
+    type: Date,
+    required: true
   }
 });
 
