@@ -22,14 +22,18 @@ class App extends React.Component {
   }
   
   verifyAuth = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/islogged`, { withCredentials: true })
-      .then((response) => {
-        this.setState({ isLogged: response.data.isLogged, loading: false });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({ isLogged: false, loading: false });
-      });
+    return new Promise((resolve, reject) => {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/islogged`, { withCredentials: true })
+        .then((response) => {
+          this.setState({ isLogged: response.data.isLogged, loading: false });
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({ isLogged: false, loading: false });
+          reject();
+        });
+    });
   }
   
   render() {
@@ -46,7 +50,7 @@ class App extends React.Component {
             <Route path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/login" children={<LoginForm state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/logout" children={<LogoutPrompt/>} />
+            <Route path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
             <Route path="/dashboard" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
           </Switch>
         </Router>

@@ -17,6 +17,7 @@ router.put('/users/:userid/friend', user.addFriend);
 router.put('/users/:userid/unfriend', user.removeFriend);
 
 router.get('/posts', post.getAllPosts);
+router.get('/posts/relevant/:userid', post.getRelevantPosts);
 router.get('/posts/:postid', post.getPostWithId);
 router.post('/posts', post.postValidation, post.createPost);
 router.put('/posts/:postid', post.updateValidation, post.updatePost);

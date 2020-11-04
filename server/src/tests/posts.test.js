@@ -31,7 +31,8 @@ describe('Post API', () => {
   test('is able to create a post', (done) => {
     const newPost = {
       content: 'Hello world',
-      author: mainUser
+      author: mainUser,
+      timestamp: new Date()
     }
     
     request(app)
@@ -49,7 +50,8 @@ describe('Post API', () => {
   test('is not able to create a post with a non-existent user', (done) => {
     const newPost = {
       content: 'Hello world',
-      author: '000000000000'
+      author: '000000000000',
+      timestamp: new Date()
     }
     
     request(app)
@@ -61,7 +63,8 @@ describe('Post API', () => {
   test('is able to modify a post', (done) => {
     const newPost = {
       content: 'To be edited',
-      author: mainUser
+      author: mainUser,
+      timestamp: new Date()
     }
     
     request(app)
@@ -82,7 +85,8 @@ describe('Post API', () => {
   test('is able to delete a post', (done) => {
     const newPost = {
       content: 'To be deleted',
-      author: mainUser
+      author: mainUser,
+      timestamp: new Date()
     }
     
     request(app)

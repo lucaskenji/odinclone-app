@@ -7,7 +7,8 @@ function PostBox(props) {
     
     const newPost = {
       author: localStorage.getItem('odinbook_id'),
-      content: form.target.content.value
+      content: form.target.content.value,
+      timestamp: new Date()
     }
     
     axios.post(`${process.env.REACT_APP_API_URL}/api/posts`, newPost)

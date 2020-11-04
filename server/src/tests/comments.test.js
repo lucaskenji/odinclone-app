@@ -21,7 +21,8 @@ beforeAll(async (done) => {
   
   const newPost = {
     author: mainUser,
-    content: 'Hello world'
+    content: 'Hello world',
+    timestamp: new Date()
   };
   
   const responsePost = await request(app).post('/posts').send(newPost);

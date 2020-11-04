@@ -143,3 +143,35 @@ exports.deletePost = async (req, res) => {
     });
   }
 }
+
+
+exports.getRelevantPosts = (req, res) => {
+  User.findById(req.params.userid, (userErr, user) => {
+    if (userErr) {
+      return res.status(500).json({
+        message: 'An internal error occurred.',
+        details: userErr
+      })
+    }
+    
+    const friendList = user.friends;
+    friendList.push(req.params.userid);
+    
+    Post.find({ author: {$in: friendList} }).sort({ timestamp: -1 }).limit(30).lean().populate('author')
+    .then((posts) => {
+      if (posts.length === 0) {
+        return res.status(404).json({
+          message: 'No posts found.',
+        });
+      }
+      
+      return res.json(posts);
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        message: 'An internal error occurred.',
+        details: err
+      })
+    })
+  });
+}

@@ -4,6 +4,8 @@ import axios from 'axios';
 
 function LogoutPrompt(props) {
   const [loggedOut, setLoggedOut] = useState(false);
+  const [updatedState, setUpdatedState] = useState(false);
+  const { verifyAuth } = props;
   
   useEffect(() => {
     if (!loggedOut) {
@@ -15,10 +17,18 @@ function LogoutPrompt(props) {
         .catch((err) => {
           console.log(err);
         })
+    } else {
+      verifyAuth()
+        .then(() => {
+          setUpdatedState(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
-  }, [loggedOut]);
+  }, [loggedOut, verifyAuth]);
   
-  if (loggedOut) {
+  if (loggedOut && updatedState) {
     return <Redirect to="/" />
   } else {
     return 'Logging out...';

@@ -3,18 +3,25 @@ import axios from 'axios';
 
 function PostList(props) {
   const [postList, setPostList] = useState([]);
+  const [didSearch, setDidSearch] = useState(false);
   
   useEffect(() => {
-    console.log('Use Effect has ran.');
+    if (didSearch) {
+      return;
+    }
     
-    axios.get(`${process.env.REACT_APP_API_URL}/api/posts`)
+    const userId = localStorage.getItem('odinbook_id');
+    
+    axios.get(`${process.env.REACT_APP_API_URL}/api/posts/relevant/${userId}`)
       .then((response) => {
         setPostList(response.data);
+        setDidSearch(true);
       })
       .catch((err) => {
         console.log(err);
+        setDidSearch(true);
       })
-  }, [postList]);
+  }, [didSearch]);
   
   return (
     <div>
