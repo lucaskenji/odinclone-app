@@ -22,6 +22,8 @@ router.get('/posts/:postid', post.getPostWithId);
 router.post('/posts', post.postValidation, post.createPost);
 router.put('/posts/:postid', post.updateValidation, post.updatePost);
 router.delete('/posts/:postid', post.deletePost);
+router.put('/posts/:postid/like', post.likePost);
+router.put('/posts/:postid/dislike', post.dislikePost);
 
 router.get('/posts/:postid/comments', comment.getAllComments);
 router.get('/posts/:postid/comments/:commentid', comment.getCommentWithId);

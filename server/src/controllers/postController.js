@@ -175,3 +175,31 @@ exports.getRelevantPosts = (req, res) => {
     })
   });
 }
+
+
+exports.likePost = (req, res) => {
+  Post.updateOne({ _id: req.params.postid }, { $inc: {likes: 1} })
+  .then((result) => {
+    return res.json(result);
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'An internal error occurred.',
+      details: err
+    })
+  })
+}
+
+
+exports.dislikePost = (req, res) => {
+  Post.updateOne({ _id: req.params.postid }, { $inc: {likes: -1} })
+  .then((result) => {
+    return res.json(result);
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'An internal error occurred.',
+      details: err
+    })
+  })
+}
