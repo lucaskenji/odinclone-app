@@ -5,6 +5,7 @@ import axios from 'axios';
 function Profile(props) {
   const [user, setUser] = useState(null);
   const [isSameUser, setIsSameUser] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
   const { userId } = useParams();
   const { verifyAuth } = props;
   const { isLogged } = props.state;
@@ -23,6 +24,13 @@ function Profile(props) {
           gender: response.data.gender,
           friends: response.data.friends
         });
+        
+        const loggedUser = localStorage.getItem('odinbook_id');
+        const friendIds = [...response.data.friends].map((friend) => friend._id);
+        
+        if (friendIds.indexOf(loggedUser) !== -1) {
+          setIsFriend(true);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -52,6 +60,23 @@ function Profile(props) {
       })
   }
   
+  const handleUnfriend = async () => {
+    const requesterId = localStorage.getItem('odinbook_id');
+    
+    try {
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${requesterId}/unfriend`, { _id: userId });
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${userId}/unfriend`, { _id: requesterId });
+      
+      const newUser = {...user};
+      newUser.friends = newUser.friends.filter((friend) => friend._id.toString() !== requesterId);
+      
+      setIsFriend(false);
+      setUser(newUser);
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+  
   if (user) {
     return (
       <div>
@@ -59,11 +84,17 @@ function Profile(props) {
         Born on {user.birthDate}<br/>
         {user.gender}<br/>
         Friend list:<br/>
-        { user.friends.map((friend) => <div>{friend.firstName}&nbsp;{friend.lastName}</div>) }
+        { user.friends.map((friend) => <div key={friend._id}>{friend.firstName}&nbsp;{friend.lastName}</div>) }
         
         <br/>
         { isLogged 
-          ? ( isSameUser ? 'Same user.' : <button onClick={handleSendRequest}>Send friend request</button> ) 
+          ? ( isSameUser 
+              ? 'Same user.' 
+              : ( isFriend
+                  ? <button onClick={handleUnfriend}>Unfriend</button>
+                  : <button onClick={handleSendRequest}>Send friend request</button>
+                ) 
+            ) 
           : 'Login to friend this user.' }
       </div>
     );

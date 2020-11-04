@@ -25,7 +25,7 @@ exports.getAllUsers = (req, res) => {
 
 
 exports.getUserWithId = (req, res) => {
-  User.findById(req.params.userid)
+  User.findById(req.params.userid).populate('friends')
   .then((user) => {
     if (!user) {
       return res.status(404).json({
@@ -256,10 +256,11 @@ exports.removeFriend = async (req, res) => {
       })
     }
     
-    user.friends = [...user.friends].filter((friend) => friend !== req.body._id);
+    user.friends = [...user.friends].filter((friend) => friend.toString() !== req.body._id);
     
-    const saveResult = user.save();
-    return res.json( saveResult );
+    const updateResult = await User.updateOne({ _id: req.params.userid }, { friends: user.friends });
+    
+    return res.json( updateResult );
   } catch(err) {
     return res.status(500).json({
       message: 'Internal server error.',
