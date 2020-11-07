@@ -82,7 +82,7 @@ exports.createPost = async (req, res) => {
     content: req.body.content,
     author: req.body.author,
     timestamp: req.body.timestamp,
-    likes: 0
+    likes: []
   });
   
   try {
@@ -178,9 +178,40 @@ exports.getRelevantPosts = (req, res) => {
 
 
 exports.likePost = (req, res) => {
-  Post.updateOne({ _id: req.params.postid }, { $inc: {likes: 1} })
-  .then((result) => {
-    return res.json(result);
+  if (!req.body._id) {
+    return res.status(400).json({
+      message: 'Bad request.',
+      details: ['Missing user ID.']
+    });
+  }
+  
+  Post.findById(req.params.postid) 
+  .then((post) => {
+    if (!post) {
+      return res.status(404).json({
+        message: 'Post not found.'
+      });
+    }
+    
+    const likes = [...post.likes];
+    const foundUser = likes.find((user) => user.toString() === req.body._id);
+    
+    if (foundUser !== undefined) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        details: ['User has already liked the post.']
+      })
+    }
+    
+    likes.push(req.body._id);
+    
+    Post.updateOne({ _id: req.params.postid }, { likes })
+    .then((result) => {
+      return res.json(result);
+    })
+    .catch((err) => {
+      throw err;
+    })
   })
   .catch((err) => {
     return res.status(500).json({
@@ -192,9 +223,37 @@ exports.likePost = (req, res) => {
 
 
 exports.dislikePost = (req, res) => {
-  Post.updateOne({ _id: req.params.postid }, { $inc: {likes: -1} })
-  .then((result) => {
-    return res.json(result);
+  if (!req.body._id) {
+    return res.status(400).json({
+      message: 'Bad request.',
+      details: ['Missing user ID.']
+    });
+  }
+  
+  Post.findById(req.params.postid) 
+  .then((post) => {
+    if (!post) {
+      return res.status(404).json({
+        message: 'Post not found.'
+      });
+    }
+    
+    if (post.likes.indexOf(req.body._id) === -1) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        details: ['User has not liked the post before.']
+      })
+    }
+    
+    const likes = [...post.likes].filter((user) => user._id.toString() !== req.body._id);
+    
+    Post.updateOne({ _id: req.params.postid }, { likes })
+    .then((result) => {
+      return res.json(result);
+    })
+    .catch((err) => {
+      throw err;
+    })
   })
   .catch((err) => {
     return res.status(500).json({
