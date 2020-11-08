@@ -15,6 +15,7 @@ import FriendRequests from './components/user/FriendRequests';
 import LogoutPrompt from './components/misc/LogoutPrompt';
 import Dashboard from './components/user/Dashboard';
 import FullPost from './components/user/FullPost';
+import SearchResults from './components/user/SearchResults';
 
 class App extends React.Component {
   state = {
@@ -60,6 +61,7 @@ class App extends React.Component {
             <Route path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
             <Route path="/dashboard" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />
           </Switch>
         </Router>
       </div>

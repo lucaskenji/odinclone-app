@@ -289,3 +289,28 @@ exports.getUserPosts = (req, res) => {
     });
   })
 }
+
+
+exports.searchUser = (req, res) => {
+  User.find({
+    $or: [
+      {firstName: {$regex: req.params.pattern, $options: 'i'}}, 
+      {lastName: {$regex: req.params.pattern, $options: 'i'}}
+    ]
+  })
+  .then((matches) => {
+    if (matches.length === 0) {
+      return res.status(404).json({
+        message: 'No matches found'
+      });
+    }
+    
+    return res.json(matches);
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'Internal server error.',
+      details: err
+    })
+  })
+}

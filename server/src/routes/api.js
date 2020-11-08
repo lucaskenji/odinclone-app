@@ -8,6 +8,7 @@ const friendRequest = require('../controllers/friendRequestController.js');
 const auth = require('../controllers/auth.js');
 
 router.get('/users', user.getAllUsers);
+router.get('/users/search/:pattern', user.searchUser);
 router.get('/users/:userid', user.getUserWithId);
 router.post('/users', user.registerValidation, user.userValidation, user.createUser);
 router.put('/users/:userid', user.userValidation, user.updateUser);
