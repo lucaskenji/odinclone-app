@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Post(props) {
@@ -37,8 +38,11 @@ function Post(props) {
       <br/>
       by {post.author.firstName}&nbsp;{post.author.lastName}
       <br/><hr/>
+      
       <button onClick={() => handleLike()}>Like</button>
       {likes}&nbsp;{isLiked ? 'You already liked this post.' : 'You have not liked this post yet.'}
+      <br/>
+      <Link to={"/post/" + post._id}>Comments</Link>      
     </fieldset>
   );
 }

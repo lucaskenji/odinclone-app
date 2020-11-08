@@ -4,7 +4,7 @@ const User = require('../models/User.js');
 const { body, validationResult } = require('express-validator');
 
 exports.getAllComments = (req, res) => {
-  Comments.find().populate('author').populate('post')
+  Comment.find({ post: req.params.postid }).populate('author').populate('post')
   .then((comments) => {
     if (comments.length === 0) {
       return res.status(404).json({

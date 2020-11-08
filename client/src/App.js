@@ -14,6 +14,7 @@ import Profile from './components/profiles/Profile';
 import FriendRequests from './components/user/FriendRequests';
 import LogoutPrompt from './components/misc/LogoutPrompt';
 import Dashboard from './components/user/Dashboard';
+import FullPost from './components/user/FullPost';
 
 class App extends React.Component {
   state = {
@@ -40,6 +41,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Router>
+          <Link to="/dashboard">Dashboard</Link>&nbsp;
           <Link to="/register">Register</Link>&nbsp;
           <Link to="/login">Login</Link>&nbsp;
           <Link to="/logout">Logout</Link>&nbsp;
@@ -52,6 +54,7 @@ class App extends React.Component {
             <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
             <Route path="/dashboard" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
           </Switch>
         </Router>
       </div>
