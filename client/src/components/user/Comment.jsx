@@ -38,7 +38,7 @@ function Comment(props) {
       <p>{comment.content}</p>
       
       <button onClick={() => handleLike()}>Like</button>
-      {likes}&nbsp;{isLiked ? 'You already liked this post.' : 'You have not liked this post yet.'}
+      {likes}&nbsp;{isLiked ? 'You already liked this comment.' : 'You have not liked this comment yet.'}
     </div>
   );
 }

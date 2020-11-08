@@ -5,6 +5,7 @@ import PostList from './PostList';
 
 function Dashboard(props) {
   const { verifyAuth } = props;
+  const userId = localStorage.getItem('odinbook_id');
   
   useEffect(() => {
     verifyAuth();
@@ -18,7 +19,7 @@ function Dashboard(props) {
     return (
       <div>
         <PostBox/>
-        <PostList/>
+        <PostList originPath={"/api/posts/relevant/" + userId} />
       </div>
     );
   }

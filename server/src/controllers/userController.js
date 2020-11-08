@@ -2,6 +2,7 @@ const User = require('../models/User.js');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const FriendRequest = require('../models/FriendRequest');
+const Post = require('../models/Post');
 
 
 exports.getAllUsers = (req, res) => {
@@ -267,4 +268,24 @@ exports.removeFriend = async (req, res) => {
       details: err
     })
   }
+}
+
+
+exports.getUserPosts = (req, res) => {
+  Post.find({ author: req.params.userid }).populate('author')
+  .then((posts) => {
+    if (posts.length === 0) {
+      return res.status(404).json({
+        message: 'No posts found.'
+      });
+    }
+    
+    return res.json(posts);
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'Internal server error.',
+      details: err
+    });
+  })
 }

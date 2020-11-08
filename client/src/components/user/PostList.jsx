@@ -3,6 +3,7 @@ import axios from 'axios';
 import Post from './Post';
 
 function PostList(props) {
+  const { originPath } = props;
   const [postList, setPostList] = useState([]);
   const [didSearch, setDidSearch] = useState(false);
   
@@ -10,10 +11,8 @@ function PostList(props) {
     if (didSearch) {
       return;
     }
-    
-    const userId = localStorage.getItem('odinbook_id');
-    
-    axios.get(`${process.env.REACT_APP_API_URL}/api/posts/relevant/${userId}`)
+        
+    axios.get(process.env.REACT_APP_API_URL + originPath)
       .then((response) => {
         setPostList(response.data);        
         setDidSearch(true);
@@ -22,7 +21,7 @@ function PostList(props) {
         console.log(err);
         setDidSearch(true);
       })
-  }, [didSearch]);
+  }, [didSearch, originPath]);
   
   return (
     <div>

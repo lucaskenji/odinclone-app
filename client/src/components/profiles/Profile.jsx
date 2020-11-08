@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import PostList from '../user/PostList';
 
 function Profile(props) {
   const [user, setUser] = useState(null);
@@ -77,7 +78,11 @@ function Profile(props) {
     }
   }
   
-  if (user) {
+  if (props.state.loading) {
+    return 'Loading auth...';
+  } else if (!props.state.isLogged) {
+    return (<Redirect to="/" />);
+  } else if (user) {
     return (
       <div>
         <h1>Now viewing profile of {user.firstName}&nbsp;{user.lastName}</h1>
@@ -96,10 +101,12 @@ function Profile(props) {
                 ) 
             ) 
           : 'Login to friend this user.' }
+          
+        <PostList originPath={"/api/users/" + userId + "/posts"} />
       </div>
     );
   } else {
-    return 'Loading...';
+    return 'Loading user...';
   }
 }
 

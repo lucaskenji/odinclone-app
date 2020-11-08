@@ -27,6 +27,11 @@ class App extends React.Component {
       axios.get(`${process.env.REACT_APP_API_URL}/api/islogged`, { withCredentials: true })
         .then((response) => {
           this.setState({ isLogged: response.data.isLogged, loading: false });
+          
+          if (!response.data.isLogged) {
+            localStorage.setItem('odinbook_id', '');
+          }
+          
           resolve();
         })
         .catch((err) => {
