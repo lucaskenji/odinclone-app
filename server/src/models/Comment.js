@@ -6,10 +6,11 @@ const commentSchema = new Schema({
     type: String,
     required: true
   },
-  likes: {
-    type: Number,
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
-  },
+  }],
   post: {
     type: Schema.Types.ObjectId,
     ref: 'Post',

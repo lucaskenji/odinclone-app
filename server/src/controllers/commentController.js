@@ -81,7 +81,7 @@ exports.createComment = async (req, res) => {
     content: req.body.content,
     author: req.body.author,
     post: req.params.postid,
-    likes: 0
+    likes: []
   });
   
   try {
@@ -141,4 +141,91 @@ exports.deleteComment = async (req, res) => {
       details: ['Deleted count did not return 1.']
     });
   }
+}
+
+
+exports.likeComment = (req, res) => {
+  if (!req.body._id) {
+    return res.status(400).json({
+      message: 'Bad request.',
+      details: ['Missing user ID.']
+    });
+  }
+  
+  Comment.findById(req.params.commentid) 
+  .then((comment) => {
+    if (!comment) {
+      return res.status(404).json({
+        message: 'Comment not found.'
+      });
+    }
+    
+    const likes = [...comment.likes];
+    const foundUser = likes.find((user) => user.toString() === req.body._id);
+    
+    if (foundUser !== undefined) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        details: ['User has already liked this comment.']
+      })
+    }
+    
+    likes.push(req.body._id);
+    
+    Comment.updateOne({ _id: req.params.commentid }, { likes })
+    .then((result) => {
+      return res.json(result);
+    })
+    .catch((err) => {
+      throw err;
+    })
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'An internal error occurred.',
+      details: err
+    })
+  })
+}
+
+
+exports.dislikeComment = (req, res) => {
+  if (!req.body._id) {
+    return res.status(400).json({
+      message: 'Bad request.',
+      details: ['Missing user ID.']
+    });
+  }
+  
+  Comment.findById(req.params.commentid) 
+  .then((comment) => {
+    if (!comment) {
+      return res.status(404).json({
+        message: 'Comment not found.'
+      });
+    }
+    
+    if (comment.likes.indexOf(req.body._id) === -1) {
+      return res.status(403).json({
+        message: 'Forbidden',
+        details: ['User has not liked this comment before.']
+      })
+    }
+    
+    const likes = [...comment.likes].filter((user) => user._id.toString() !== req.body._id);
+    
+    Comment.updateOne({ _id: req.params.commentid }, { likes })
+    .then((result) => {
+      return res.json(result);
+    })
+    .catch((err) => {
+      throw err;
+    })
+  })
+  .catch((err) => {
+    return res.status(500).json({
+      message: 'An internal error occurred.',
+      details: err
+    })
+  })
 }

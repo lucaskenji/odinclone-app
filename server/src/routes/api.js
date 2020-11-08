@@ -30,6 +30,8 @@ router.get('/posts/:postid/comments/:commentid', comment.getCommentWithId);
 router.post('/posts/:postid/comments', comment.commentValidation, comment.createComment);
 router.put('/posts/:postid/comments/:commentid', comment.updateValidation, comment.updateComment);
 router.delete('/posts/:postid/comments/:commentid', comment.deleteComment);
+router.put('/posts/:postid/comments/:commentid/like', comment.likeComment);
+router.put('/posts/:postid/comments/:commentid/dislike', comment.dislikeComment);
 
 router.get('/friendrequests', friendRequest.getAllRequests);
 router.get('/friendrequests/:requestid', friendRequest.getRequestWithId);

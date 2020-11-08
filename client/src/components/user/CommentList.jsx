@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import Comment from './Comment';
 import axios from 'axios';
 
 function CommentList(props) {
@@ -20,10 +21,7 @@ function CommentList(props) {
       <h5>{comments.length}&nbsp;comments</h5>
         {
           comments.map((comment) =>
-            <div key={comment._id}>
-              {comment.author.firstName}&nbsp;{comment.author.lastName}&nbsp; commented:
-              <p>{comment.content}</p>
-            </div>
+            <Comment comment={comment} key={comment._id} />
           )
         }
     </div>
