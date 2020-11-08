@@ -6,6 +6,7 @@ function Post(props) {
   const { post } = props;
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.post.likes.length);
+  const [finishedAsync, setFinishedAsync] = useState(true);
   
   useEffect(() => {
     const userId = localStorage.getItem('odinbook_id');
@@ -15,6 +16,7 @@ function Post(props) {
   }, [ post.likes ]);
   
   const handleLike = async () => {
+    setFinishedAsync(false);
     const userId = localStorage.getItem('odinbook_id');
     
     try {
@@ -30,6 +32,7 @@ function Post(props) {
     }
     
     setIsLiked(!isLiked);
+    setFinishedAsync(true);
   }
   
   return (
@@ -39,7 +42,7 @@ function Post(props) {
       by {post.author.firstName}&nbsp;{post.author.lastName}
       <br/><hr/>
       
-      <button onClick={() => handleLike()}>Like</button>
+      <button disabled={!finishedAsync} onClick={() => handleLike()}>Like</button>
       {likes}&nbsp;{isLiked ? 'You already liked this post.' : 'You have not liked this post yet.'}
       <br/>
       <Link to={"/post/" + post._id}>Comments</Link>      

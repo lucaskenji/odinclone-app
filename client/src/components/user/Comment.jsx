@@ -5,6 +5,7 @@ function Comment(props) {
   const { comment } = props;
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.comment.likes.length);
+  const [finishedAsync, setFinishedAsync] = useState(true);
   
   useEffect(() => {
     const userId = localStorage.getItem('odinbook_id');
@@ -14,6 +15,7 @@ function Comment(props) {
   }, [ comment.likes ]);
   
   const handleLike = async () => {
+    setFinishedAsync(false);
     const userId = localStorage.getItem('odinbook_id');
     
     try {
@@ -29,6 +31,7 @@ function Comment(props) {
     }
     
     setIsLiked(!isLiked);
+    setFinishedAsync(true);
   }
   
   return (
@@ -37,7 +40,7 @@ function Comment(props) {
       {comment.author.firstName}&nbsp;{comment.author.lastName}&nbsp; commented:
       <p>{comment.content}</p>
       
-      <button onClick={() => handleLike()}>Like</button>
+      <button disabled={!finishedAsync} onClick={() => handleLike()}>Like</button>
       {likes}&nbsp;{isLiked ? 'You already liked this comment.' : 'You have not liked this comment yet.'}
     </div>
   );
