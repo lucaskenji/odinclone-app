@@ -31,7 +31,10 @@ const userSchema = new Schema({
   friends: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }]
+  }],
+  facebookId: {
+    type: String
+  }
 });
 
 const User = mongoose.model('User', userSchema);

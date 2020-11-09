@@ -148,7 +148,7 @@ function Profile(props) {
       <div>
         <h1>Now viewing profile of {user.firstName}&nbsp;{user.lastName}</h1>
         Born on {user.birthDate}<br/>
-        {user.gender}<br/>
+        {user.gender === 'undefined' ? 'Not defined by user' : user.gender}<br/>
         Friend list:<br/>
         { user.friends.map((friend) => <div key={friend._id}>{friend.firstName}&nbsp;{friend.lastName}</div>) }
         

@@ -44,5 +44,10 @@ router.delete('/friendrequests/:requestid', friendRequest.deleteRequest);
 router.get('/islogged', auth.checkAuth);
 router.get('/logout', auth.logout);
 router.post('/login', passport.authenticate('local'), auth.authenticate);
+router.get('/facebook', passport.authenticate('facebook'));
+router.get('/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: process.env.FRONTEND_URL, 
+  failureRedirect: process.env.FRONTEND_URL + '/login'
+}));
 
 module.exports = router;

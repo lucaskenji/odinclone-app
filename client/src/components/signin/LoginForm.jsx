@@ -42,6 +42,8 @@ function LoginForm(props) {
           
           <button type="submit">Sign in</button>
         </form>
+        <br/>
+        <a href={process.env.REACT_APP_API_URL + '/api/facebook'}>Login with Facebook</a>
       </div>
     );
   } else {

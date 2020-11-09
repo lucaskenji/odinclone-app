@@ -31,6 +31,8 @@ class App extends React.Component {
           
           if (!response.data.isLogged) {
             localStorage.setItem('odinbook_id', '');
+          } else {
+            localStorage.setItem('odinbook_id', response.data.id);
           }
           
           resolve();
