@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PostList from '../user/PostList';
+import noAvatar from '../../images/no-avatar.png';
 
 function Profile(props) {
   const [user, setUser] = useState(null);
@@ -21,13 +22,7 @@ function Profile(props) {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
-        setUser({
-          firstName: response.data.firstName,
-          lastName: response.data.lastName,
-          birthDate: response.data.birthDate,
-          gender: response.data.gender,
-          friends: response.data.friends
-        });
+        setUser(response.data);
         
         const loggedUser = localStorage.getItem('odinbook_id');
         const friendIds = [...response.data.friends].map((friend) => friend._id);
@@ -147,6 +142,11 @@ function Profile(props) {
     return (
       <div>
         <h1>Now viewing profile of {user.firstName}&nbsp;{user.lastName}</h1>
+
+        <br/>
+        <img src={user.photo || noAvatar} alt="User's avatar" />
+        <br/>
+        
         Born on {user.birthDate}<br/>
         {user.gender === 'undefined' ? 'Not defined by user' : user.gender}<br/>
         Friend list:<br/>

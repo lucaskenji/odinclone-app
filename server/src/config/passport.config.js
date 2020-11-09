@@ -38,7 +38,8 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: '/api/facebook/callback'
+      callbackURL: '/api/facebook/callback',
+      profileFields: ['id', 'displayName', 'picture.type(large)']
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({facebookId: profile.id}, (err, user) => {
@@ -47,7 +48,6 @@ passport.use(
         }
         
         if (user) {
-          console.log('Found a user with id');
           return done(null, user);
         }
         
@@ -66,6 +66,7 @@ passport.use(
           birthDate: new Date(),
           gender: 'undefined',
           friends: [],
+          photo: profile.photos ? profile.photos[0].value : '',
           facebookId: profile.id
         });
         
@@ -74,7 +75,6 @@ passport.use(
             return done(err);
           }
           
-          console.log('Created a user');
           return done(err, createdUser);
         })
       })
