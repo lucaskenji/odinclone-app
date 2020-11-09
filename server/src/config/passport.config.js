@@ -27,7 +27,7 @@ passport.use(
           
           return done(null, user);
         })
-      })
+      }).select("+password")
     }
   )
 );
@@ -37,7 +37,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).lean()
+  User.findById(id).select("+password").lean()
   .then((user) => {
     done(null, user);
   })
