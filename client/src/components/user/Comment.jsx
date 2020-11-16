@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import noAvatar from '../../images/no-avatar.png';
 
 function Comment(props) {
   const { comment } = props;
@@ -35,13 +37,19 @@ function Comment(props) {
   }
   
   return (
-    <div>
-      <hr/>
-      {comment.author.firstName}&nbsp;{comment.author.lastName}&nbsp; commented:
-      <p>{comment.content}</p>
+    <div className="comment">
+      <Link className="comment-link" to={"/profile/" + comment.author._id}>
+        <img src={comment.author.photo || noAvatar} alt="Commenter's avatar" className="post-avatar" />
+      </Link>
       
-      <button disabled={!finishedAsync} onClick={() => handleLike()}>Like</button>
-      {likes}&nbsp;{isLiked ? 'You already liked this comment.' : 'You have not liked this comment yet.'}
+      <div className="comment-content">
+        <Link to={"/profile/" + comment.author._id}>{comment.author.firstName}&nbsp;{comment.author.lastName}</Link>
+        <p>{comment.content}</p>
+        
+        <button className={isLiked ? "btn btn-post uses-font btn-liked" : "btn btn-post uses-font"} disabled={!finishedAsync} onClick={() => handleLike()}>
+          <i className="far fa-thumbs-up"></i> Like ({likes})
+        </button>
+      </div>
     </div>
   );
 }

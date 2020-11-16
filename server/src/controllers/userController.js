@@ -292,10 +292,16 @@ exports.getUserPosts = (req, res) => {
 
 
 exports.searchUser = (req, res) => {
+  let query = req.params.pattern.split(' ');
+
+  if (query.length === 1) {
+    query = [req.params.pattern, req.params.pattern];
+  }
+  
   User.find({
     $or: [
-      {firstName: {$regex: req.params.pattern, $options: 'i'}}, 
-      {lastName: {$regex: req.params.pattern, $options: 'i'}}
+      {firstName: {$regex: query[0], $options: 'i'}}, 
+      {lastName: {$regex: query[1], $options: 'i'}}
     ]
   })
   .then((matches) => {

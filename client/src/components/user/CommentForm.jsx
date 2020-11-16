@@ -24,14 +24,14 @@ function CommentForm(props) {
       })
       .catch((err) => {
         console.log(err);
+        setFinishedAsync(true);
       })
   }
   
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="commentinput" className="sr-only">Make a nice comment</label>
-      <input disabled={!finishedAsync} type="text" placeholder="Make a nice comment..." id="commentinput" name="content" />
-      <button disabled={!finishedAsync} type="submit">Submit</button>
+      <label htmlFor="comment-input" className="sr-only">Write a comment</label>
+      <input className="uses-font" disabled={!finishedAsync} type="text" placeholder="Write a comment" id="comment-input" name="content" />
     </form>
   );
 }

@@ -35,7 +35,7 @@ function FullPost(props) {
     return (<Redirect to="/" />);
   } else if (post._id) {
     return (
-      <div>
+      <div className="full-post">
         <Post post={post} />
         <CommentForm postId={postId} triggerRender={triggerRender} />
         <CommentList postId={postId} renderCount={renderCount} />

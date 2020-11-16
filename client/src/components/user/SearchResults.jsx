@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
+import noAvatar from '../../images/no-avatar.png';
 
 function SearchResults(props) {
   const { verifyAuth } = props;
@@ -27,11 +28,21 @@ function SearchResults(props) {
     return (<Redirect to="/" />);
   } else {
     return (
-      <div>
-        { results.map((result) => 
-            <fieldset key={result._id}>
-              <Link to={'/profile/' + result._id}>{result.firstName} {result.lastName}</Link>
-            </fieldset>)
+      <div id="search-results">
+        <h1>Showing results</h1>
+        { results.map((result, index) => 
+            <div key={result._id}>
+              <div className="search-result">
+                <Link to={'/profile/' + result._id}>
+                  <img src={result.photo || noAvatar} className="result-avatar" alt="An avatar of an user from the search results." />
+                </Link>
+                <div className="result-info">
+                  <Link to={'/profile/' + result._id}>{result.firstName} {result.lastName}</Link>
+                </div>
+              </div>
+              
+              { index+1 === results.length || <hr/>}
+            </div>)
         }
       </div>
     );

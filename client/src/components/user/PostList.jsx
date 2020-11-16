@@ -3,28 +3,29 @@ import axios from 'axios';
 import Post from './Post';
 
 function PostList(props) {
-  const { originPath } = props;
+  const { originPath, userId } = props;
   const [postList, setPostList] = useState([]);
-  const [didSearch, setDidSearch] = useState(false);
+  const [searchedUser, setSearchedUser] = useState('');
   
   useEffect(() => {
-    if (didSearch) {
+    if (searchedUser === userId) {
       return;
     }
         
     axios.get(process.env.REACT_APP_API_URL + originPath)
       .then((response) => {
         setPostList(response.data);        
-        setDidSearch(true);
+        setSearchedUser(userId);
       })
       .catch((err) => {
         console.log(err);
-        setDidSearch(true);
+        setPostList([]);
+        setSearchedUser(userId);
       })
-  }, [didSearch, originPath]);
-  
+  }, [searchedUser, originPath]);
+
   return (
-    <div>
+    <div id="post-list">
       { postList.map((post, index) => <Post post={post} key={post._id} />) }
     </div>
   );

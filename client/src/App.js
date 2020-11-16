@@ -1,21 +1,23 @@
 import React from 'react';
 import './index.css';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@fortawesome/fontawesome-free/css/solid.min.css';
+import '@fortawesome/fontawesome-free/css/regular.min.css';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Link
+  Switch
 } from 'react-router-dom';
 
 import RegisterForm from './components/signin/RegisterForm';
-import LoginForm from './components/signin/LoginForm';
 import Profile from './components/profiles/Profile';
 import FriendRequests from './components/user/FriendRequests';
 import LogoutPrompt from './components/misc/LogoutPrompt';
 import Dashboard from './components/user/Dashboard';
 import FullPost from './components/user/FullPost';
 import SearchResults from './components/user/SearchResults';
+import Navbar from './components/user/Navbar';
 
 class App extends React.Component {
   state = {
@@ -45,25 +47,21 @@ class App extends React.Component {
     });
   }
   
-  render() {
-    return (
-      <div className="App">
+  render() {          
+    return (    
+      <div className="App uses-font">        
         <Router>
-          <Link to="/dashboard">Dashboard</Link>&nbsp;
-          <Link to="/register">Register</Link>&nbsp;
-          <Link to="/login">Login</Link>&nbsp;
-          <Link to="/logout">Logout</Link>&nbsp;
-          <Link to="/requests">Requests</Link><br/>
-          
+        
+        {this.state.isLogged && <Navbar/>}
+        
           <Switch>
             <Route path="/profile/:userId" children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/login" children={<LoginForm state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
-            <Route path="/dashboard" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route path="/" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
           </Switch>
         </Router>
       </div>

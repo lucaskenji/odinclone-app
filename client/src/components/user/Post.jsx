@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import noAvatar from '../../images/no-avatar.png';
 
 function Post(props) {
   const { post } = props;
@@ -36,17 +37,32 @@ function Post(props) {
   }
   
   return (
-    <fieldset>
-      {post.content}
-      <br/>
-      by {post.author.firstName}&nbsp;{post.author.lastName}
-      <br/><hr/>
+    <div className="post">
+      <div className="post-info">
+        <Link to={"/profile/" + post.author._id}>
+          <img src={post.author.photo || noAvatar} className="post-avatar" alt="User avatar" />
+        </Link>
+        <Link to={"/profile/" + post.author._id}>
+          {post.author.firstName}&nbsp;{post.author.lastName}
+        </Link>
+      </div>
       
-      <button disabled={!finishedAsync} onClick={() => handleLike()}>Like</button>
-      {likes}&nbsp;{isLiked ? 'You already liked this post.' : 'You have not liked this post yet.'}
-      <br/>
-      <Link to={"/post/" + post._id}>Comments</Link>      
-    </fieldset>
+      <p className="post-content">
+      {post.content}
+      </p>
+      
+      <hr/>
+      
+      <div className="post-options">
+        <button className={isLiked ? "btn btn-post uses-font btn-liked" : "btn btn-post uses-font"} disabled={!finishedAsync} onClick={() => handleLike()}>
+          <i className="far fa-thumbs-up"></i> Like ({likes})
+        </button>
+        
+        <Link className="btn btn-post-comments btn-post" to={"/post/" + post._id}>
+          <i className="far fa-comment-dots"></i> Comments
+        </Link>
+      </div>
+    </div>
   );
 }
 

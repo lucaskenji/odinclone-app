@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import PostBox from './PostBox';
 import PostList from './PostList';
+import Homepage from '../signin/Homepage';
 
 function Dashboard(props) {
   const { verifyAuth } = props;
@@ -14,12 +14,12 @@ function Dashboard(props) {
   if (props.state.loading) {
     return 'Loading...';
   } else if (!props.state.isLogged) {
-    return (<Redirect to="/" />);
+    return (<Homepage />);
   } else {
     return (
-      <div>
+      <div id="dashboard">
         <PostBox/>
-        <PostList originPath={"/api/posts/relevant/" + userId} />
+        <PostList originPath={"/api/posts/relevant/" + userId} userId={userId} />
       </div>
     );
   }

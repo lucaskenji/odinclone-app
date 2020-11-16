@@ -22,16 +22,20 @@ function PostBox(props) {
       })
       .catch((err) => {
         console.log(err);
+        setFinishedAsync(true);
       })
   }
   
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="postbox" className="sr-only">Share your thoughts</label>
-      <input disabled={!finishedAsync} type="text" id="postbox" name="content" placeholder="Share your thoughts..." />
-      <br/>
-      <button disabled={!finishedAsync} type="submit">Send</button>
-    </form>
+    <div className="post-form">
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="postbox" className="sr-only">Share your thoughts</label>
+        <div id="postbox-container">
+          <input className="uses-font" disabled={!finishedAsync} type="text" id="postbox" name="content" placeholder="Share your thoughts..." />
+          <button className="btn btn-primary uses-font" disabled={!finishedAsync} type="submit" id="postbox-submit">Send</button>
+        </div>
+      </form>
+    </div>
   );
 }
 

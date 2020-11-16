@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import PostList from '../user/PostList';
 import noAvatar from '../../images/no-avatar.png';
@@ -22,7 +22,14 @@ function Profile(props) {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
-        setUser(response.data);
+        setUser({
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          birthDate: new Date(response.data.birthDate),
+          gender: response.data.gender,
+          friends: response.data.friends,
+          photo: response.data.photo
+        });
         
         const loggedUser = localStorage.getItem('odinbook_id');
         const friendIds = [...response.data.friends].map((friend) => friend._id);
@@ -140,35 +147,54 @@ function Profile(props) {
     return (<Redirect to="/" />);
   } else if (user) {
     return (
-      <div>
-        <h1>Now viewing profile of {user.firstName}&nbsp;{user.lastName}</h1>
-
-        <br/>
-        <img src={user.photo || noAvatar} alt="User's avatar" />
-        <br/>
+      <div id="profile">
+        <div id="profile-top-bg"/>
+        <div id="profile-banner"/>
+        <img src={user.photo || noAvatar} alt="User's avatar" id="profile-avatar" />
         
-        Born on {user.birthDate}<br/>
-        {user.gender === 'undefined' ? 'Not defined by user' : user.gender}<br/>
-        Friend list:<br/>
-        { user.friends.map((friend) => <div key={friend._id}>{friend.firstName}&nbsp;{friend.lastName}</div>) }
+        <div id="profile-info">
+          <h1>{user.firstName}&nbsp;{user.lastName}</h1>
+          Born on {user.birthDate.toLocaleDateString('en-US')}, {user.gender === 'undefined' ? 'no gender defined' : user.gender}<br/>
         
-        <br/>
-        {
-          isSameUser 
-            ? 'Same user.' 
-            : ( isFriend
-                ? <button disabled={!finishedAsync} onClick={handleUnfriend}>Unfriend</button>
-                : ( requestedUser
-                      ? <button onClick={acceptRequest}>Accept friend request</button>
-                      : ( friendRequestId 
-                          ? <button disabled={!finishedAsync} onClick={handleCancelRequest}>Cancel friend request</button>
-                          : <button disabled={!finishedAsync} onClick={handleSendRequest}>Send friend request</button>
-                        )
-                  )
-              ) 
-        }
-          
-        <PostList originPath={"/api/users/" + userId + "/posts"} />
+          {
+            isSameUser 
+              ? '' 
+              : ( isFriend
+                  ? <button className="btn btn-primary btn-profile btn-large uses-font" disabled={!finishedAsync} onClick={handleUnfriend}>
+                      <i className="fas fa-times"></i>  Unfriend
+                    </button>
+                  : ( requestedUser
+                        ? <button className="btn btn-primary btn-profile btn-large uses-font"  onClick={acceptRequest}>
+                            <i className="fas fa-check"></i> Accept friend request
+                          </button>
+                        : ( friendRequestId 
+                            ? <button className="btn btn-primary btn-profile btn-large uses-font"  disabled={!finishedAsync} onClick={handleCancelRequest}>
+                                <i className="fas fa-ban"></i> Cancel friend request
+                              </button>
+                            : <button className="btn btn-primary btn-profile btn-large uses-font"  disabled={!finishedAsync} onClick={handleSendRequest}>
+                                <i className="fas fa-plus"></i> Send friend request
+                              </button>
+                          )
+                    )
+                ) 
+          }
+        </div>
+        
+        <div id="profile-friends-posts">
+          <div id="profile-friends">
+            <h2>Friends</h2>
+            <div id="profile-friend-list">
+              { user.friends.map((friend) => 
+                <Link className="no-underline" key={friend._id} to={"/profile/" + friend._id}>
+                  <div className="profile-friend-container">
+                    <img src={friend.photo || noAvatar} />
+                    <span>{friend.firstName} {friend.lastName}</span>
+                  </div>
+                </Link>)}
+            </div>
+          </div>
+          <PostList originPath={"/api/users/" + userId + "/posts"} userId={userId} />
+        </div>
       </div>
     );
   } else {
