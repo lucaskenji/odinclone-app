@@ -12,6 +12,7 @@ import {
 
 import RegisterForm from './components/signin/RegisterForm';
 import Profile from './components/profiles/Profile';
+import FriendList from './components/profiles/FriendList';
 import FriendRequests from './components/user/FriendRequests';
 import LogoutPrompt from './components/misc/LogoutPrompt';
 import Dashboard from './components/user/Dashboard';
@@ -56,6 +57,7 @@ class App extends React.Component {
         
           <Switch>
             <Route path="/profile/:userId" children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route path="/friends/:userId" children={<FriendList state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />

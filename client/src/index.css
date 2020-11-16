@@ -7,6 +7,10 @@ body, html {
   background-color: #ebeff0;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 .uses-font {
   font-family: 'Hind Madurai', Arial, sans-serif !important;
 }
@@ -107,6 +111,33 @@ body, html {
     font-size: 16px;
     width: 250px;
     height: 30px;
+  }
+  
+  #nav-requests {
+    width: 64px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #nav-requests:hover {
+    background-color: #ebeff0;
+  }
+  
+  #nav-requests-link {
+    margin-left: auto;
+    color: black;
+  }
+    
+  .nav-requests-select {
+    box-shadow: 0 4px 0 white, 0 7px 0 #1877f2;
+    color: #1877f2 !important;
+  }
+  
+  .nav-requests-select #nav-requests:hover {
+    background-color: white !important;
   }
   
   #nav-options-container {
@@ -387,6 +418,9 @@ body, html {
 
 .full-post {
   margin-top: 80px;
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .comment {
@@ -558,6 +592,7 @@ body, html {
 
 .btn-profile {
   display: block;
+  margin: 0 auto;
 }
 
 #profile-friends-posts {
@@ -566,20 +601,45 @@ body, html {
   flex-direction: row;
 }
 
-#profile-friends {
+#profile-sidebar {
   width: 300px;
-  height: 420px;
   margin-top: 15px;
   margin-right: 20px;
-  padding: 15px 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+#profile-invisible {
+  /* This div is here so #profile-friends won't automatically assume height of 100% */
+  height: 100%;
+}
+
+#profile-friends {
+  padding: 15px 15px 5px 15px;
   background-color: white;
   box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
   border-radius: 12px; 
 }
 
-  #profile-friends h2 {
+#profile-friends-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+  #profile-friends-header h2 {
+    display: inline;
     margin-top: 0;
-    margin-bottom: 3px;
+    margin-bottom: 0;
+  }
+  
+  #profile-friends-header a {
+    color: black;
+  }
+  
+  #profile-friends-header a:hover {
+    text-decoration: underline;
   }
 
 #profile-friend-list {
@@ -620,11 +680,121 @@ body, html {
       text-decoration: underline;
     }
 
+/* Friend list */
+
+#friend-list {
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 80px;
+  padding: 15px 15px 5px 15px;
+  background-color: white;
+  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  border-radius: 12px; 
+}
+
+  #friend-list h2 {
+    display: inline;
+  }
+  
+  #friend-list img {
+    width: 84px;
+    height: 84px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+  
+  #friend-list img:hover {
+    filter: brightness(90%);
+  }
+
+  #friend-list a {
+    color: black;
+    font-weight: bold;
+  }
+
+  #friend-list a:hover {
+    text-decoration: underline;
+  }
+
+#friend-list-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+}
+
+  #friend-list-search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  #friend-list-icon {
+    outline: 0;
+    border: 0;
+    border-radius: 15px 0 0 15px;
+    background-color: #ebeff0;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    padding-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #friend-list-search input {
+    outline: 0;
+    border: 0;
+    border-radius: 0 15px 15px 0;
+    padding-left: 19px;
+    background-color: #ebeff0;
+    font-size: 16px;
+    width: 230px;
+    height: 28px;
+  }
+
+.friend-list-unit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#friend-list-border {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 8px 5px 5px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Post List */
+
+#post-list-empty {
+  width: 600px;
+  margin-top: 15px;
+  padding: 35px 15px 30px 15px;
+  background-color: white;
+  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  border-radius: 12px;
+  color: gray;
+  user-select: none;
+  text-align: center;
+}
+
+#post-list-empty #sad-emote {
+  font-size: 56px;
+}
+
 /* Requests */
 
 #requests-container {
   width: 650px;
   margin-top: 90px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 15px 15px 15px 15px;
   background-color: white;
   box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;

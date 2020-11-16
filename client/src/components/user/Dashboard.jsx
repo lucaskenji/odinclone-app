@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PostBox from './PostBox';
 import PostList from './PostList';
 import Homepage from '../signin/Homepage';
@@ -6,10 +6,15 @@ import Homepage from '../signin/Homepage';
 function Dashboard(props) {
   const { verifyAuth } = props;
   const userId = localStorage.getItem('odinbook_id');
+  const [renderCount, setRenderCount] = useState(0);
   
   useEffect(() => {
     verifyAuth();
   }, [ verifyAuth ]);
+  
+  const handleRender = () => {
+    setRenderCount(renderCount + 1);
+  }
   
   if (props.state.loading) {
     return 'Loading...';
@@ -18,8 +23,8 @@ function Dashboard(props) {
   } else {
     return (
       <div id="dashboard">
-        <PostBox/>
-        <PostList originPath={"/api/posts/relevant/" + userId} userId={userId} />
+        <PostBox handleRender={handleRender} />
+        <PostList originPath={"/api/posts/relevant/" + userId} userId={userId} renderCount={renderCount} />
       </div>
     );
   }

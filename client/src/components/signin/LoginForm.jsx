@@ -45,9 +45,9 @@ function LoginForm(props) {
         Create an account
       </Link>
       
-      <Link className="btn btn-primary btn-home btn-link btn-login-fb" to={process.env.REACT_APP_API_URL + '/api/facebook'}>
+      <a className="btn btn-primary btn-home btn-link btn-login-fb" href={process.env.REACT_APP_API_URL + '/api/facebook'}>
         Login with Facebook
-      </Link>
+      </a>
     </div>
   );
 }

@@ -20,6 +20,15 @@ function Profile(props) {
   }, [verifyAuth]);
   
   useEffect(() => {
+    verifyAuth();
+    setUser(null);
+    setIsSameUser(false);
+    setIsFriend(false);
+    setFriendRequestId('');
+    setRequestedUser(false);
+  }, [userId])
+  
+  useEffect(() => {    
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
         setUser({
@@ -43,7 +52,7 @@ function Profile(props) {
       })
   }, [userId]);
   
-  useEffect(() => {
+  useEffect(() => {    
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friendrequests`)
       .then((response) => {
         const loggedUser = localStorage.getItem('odinbook_id');
@@ -181,19 +190,30 @@ function Profile(props) {
         </div>
         
         <div id="profile-friends-posts">
-          <div id="profile-friends">
-            <h2>Friends</h2>
-            <div id="profile-friend-list">
-              { user.friends.map((friend) => 
-                <Link className="no-underline" key={friend._id} to={"/profile/" + friend._id}>
-                  <div className="profile-friend-container">
-                    <img src={friend.photo || noAvatar} />
-                    <span>{friend.firstName} {friend.lastName}</span>
-                  </div>
-                </Link>)}
+        
+          <div id="profile-sidebar">
+            <div id="profile-friends">
+              <div id="profile-friends-header">
+                <h2>Friends</h2>
+                <Link className="no-underline" to={"/friends/" + userId}>Show all friends</Link>
+              </div>
+              
+              <div id="profile-friend-list">
+                { user.friends.map((friend) => 
+                  <Link className="no-underline" key={friend._id} to={"/profile/" + friend._id}>
+                    <div className="profile-friend-container">
+                      <img src={friend.photo || noAvatar} />
+                      <span>{friend.firstName} {friend.lastName}</span>
+                    </div>
+                  </Link>)}
+              </div>
             </div>
+            
+            <div id="profile-invisible" />
           </div>
-          <PostList originPath={"/api/users/" + userId + "/posts"} userId={userId} />
+          
+          <PostList originPath={"/api/users/" + userId + "/posts"} userId={userId} renderCount={0} />
+          
         </div>
       </div>
     );

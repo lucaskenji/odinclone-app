@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function PostBox(props) {
   const [finishedAsync, setFinishedAsync] = useState(true);
+  const { handleRender } = props;
   
   const handleSubmit = (form) => {
     form.preventDefault();
@@ -18,6 +19,7 @@ function PostBox(props) {
       .then((response) => {
         console.log(response);
         form.target.reset();
+        handleRender();
         setFinishedAsync(true);
       })
       .catch((err) => {
