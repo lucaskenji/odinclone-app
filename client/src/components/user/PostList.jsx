@@ -30,7 +30,7 @@ function PostList(props) {
   if (postList.length === 0 && searchedUser === userId) {
     return (
       <div id="post-list-empty">
-        <div id="sad-emote">:(</div>
+        <div className="emote">:(</div>
         Nothing to see here... yet.
       </div>
     );
@@ -39,6 +39,15 @@ function PostList(props) {
   return (
     <div id="post-list">
       { postList.map((post, index) => <Post post={post} key={post._id} />) }
+      
+      {
+        postList.length === 0 
+        ||
+        <div id="post-list-message">
+          <div className="emote">;)</div>
+          That's everything for now.
+        </div>
+      }
     </div>
   );
 }

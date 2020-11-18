@@ -784,7 +784,16 @@ body {
   text-align: center;
 }
 
-#post-list-empty #sad-emote {
+#post-list-message {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #555555;
+  user-select: none;
+}
+
+.emote {
   font-size: 56px;
 }
 
