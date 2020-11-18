@@ -20,6 +20,7 @@ import FullPost from './components/user/FullPost';
 import SearchResults from './components/user/SearchResults';
 import Navbar from './components/user/Navbar';
 import ErrorPage from './components/misc/ErrorPage';
+import ForceRedirect from './components/misc/ForceRedirect';
 
 class App extends React.Component {
   state = {
@@ -65,6 +66,7 @@ class App extends React.Component {
             <Route exact path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
             <Route exact path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route exact path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/redirect" children={<ForceRedirect verifyAuth={this.verifyAuth} />} />
             <Route path="/" children={<ErrorPage errorTitle="Page not found" errorMessage="The page you're trying to access doesn't exist." />} />
           </Switch>
         </Router>

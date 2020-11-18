@@ -14,6 +14,7 @@ function LoginForm(props) {
     
     axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { email, password }, { withCredentials: true })
       .then((response) => {
+        localStorage.setItem('csrfToken', response.headers.csrf);
         localStorage.setItem('odinbook_id', response.data.id);
         window.location.href = '/';
       })

@@ -15,7 +15,12 @@ function CommentForm(props) {
       content: form.target.content.value
     }
     
-    axios.post(`${process.env.REACT_APP_API_URL}/api/posts/${postId}/comments`, newComment)
+    const csrfToken = localStorage.getItem('csrfToken');
+    
+    axios.post(`${process.env.REACT_APP_API_URL}/api/posts/${postId}/comments`, newComment, {
+      withCredentials: true,
+      headers: { csrf: csrfToken }
+    })
       .then((response) => {
         console.log(response);
         triggerRender();

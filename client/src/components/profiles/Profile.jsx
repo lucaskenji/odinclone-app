@@ -103,7 +103,9 @@ function Profile(props) {
       receiver: userId
     };
     
-    axios.post(`${process.env.REACT_APP_API_URL}/api/friendrequests`, newRequest)
+    const csrfToken = localStorage.getItem('csrfToken');
+    
+    axios.post(`${process.env.REACT_APP_API_URL}/api/friendrequests`, newRequest, { withCredentials: true, headers: {csrf: csrfToken} })
       .then((response) => {
         console.log(response);
         setFriendRequestId(response.data._id);

@@ -15,7 +15,9 @@ function PostBox(props) {
       timestamp: new Date()
     }
     
-    axios.post(`${process.env.REACT_APP_API_URL}/api/posts`, newPost)
+    const csrfToken = localStorage.getItem('csrfToken');
+    
+    axios.post(`${process.env.REACT_APP_API_URL}/api/posts`, newPost, { withCredentials: true, headers: { csrf: csrfToken } })
       .then((response) => {
         console.log(response);
         form.target.reset();

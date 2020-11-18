@@ -21,6 +21,7 @@ function Dashboard(props) {
   } else if (!props.state.isLogged) {
     return (<Homepage />);
   } else {
+    
     return (
       <div id="dashboard">
         <PostBox handleRender={handleRender} />

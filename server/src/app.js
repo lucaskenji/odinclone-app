@@ -7,6 +7,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 3030;
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // Configuration
 const connectionString = process.env.CONNECTION_STRING;
@@ -18,8 +19,11 @@ db.on('error', console.error.bind(console, 'Mongo connection error: '));
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,
-  credentials: true
+  credentials: true,
+  exposedHeaders: 'csrf'
 }));
+
+app.use(cookieParser());
 
 require('./config/passport.config.js');
 
