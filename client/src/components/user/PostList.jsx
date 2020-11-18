@@ -25,7 +25,7 @@ function PostList(props) {
         setSearchedUser(userId);
         setPreviousRender(renderCount);
       })
-  }, [searchedUser, originPath, renderCount]);
+  }, [searchedUser, originPath, renderCount, previousRender, userId]);
 
   if (postList.length === 0 && searchedUser === userId) {
     return (

@@ -272,7 +272,7 @@ exports.removeFriend = async (req, res) => {
 
 
 exports.getUserPosts = (req, res) => {
-  Post.find({ author: req.params.userid }).populate('author')
+  Post.find({ author: req.params.userid }).sort({ timestamp: -1 }).populate('author')
   .then((posts) => {
     if (posts.length === 0) {
       return res.status(404).json({

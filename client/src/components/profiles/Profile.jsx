@@ -26,7 +26,7 @@ function Profile(props) {
     setIsFriend(false);
     setFriendRequestId('');
     setRequestedUser(false);
-  }, [userId])
+  }, [userId, verifyAuth])
   
   useEffect(() => {    
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
@@ -202,7 +202,7 @@ function Profile(props) {
                 { user.friends.map((friend) => 
                   <Link className="no-underline" key={friend._id} to={"/profile/" + friend._id}>
                     <div className="profile-friend-container">
-                      <img src={friend.photo || noAvatar} />
+                      <img src={friend.photo || noAvatar} alt="Avatar from user's friend" />
                       <span>{friend.firstName} {friend.lastName}</span>
                     </div>
                   </Link>)}
