@@ -834,6 +834,21 @@ body {
   width: 105%;
 }
 
+/* Error page */
+
+#error-container {
+  width: 650px;
+  margin-top: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px 15px 15px 15px;
+  background-color: white;
+  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  border-radius: 12px;
+  color: gray;
+  text-align: center;
+}
+
 /* Accessibility */
 
 .fieldset-sr-only {

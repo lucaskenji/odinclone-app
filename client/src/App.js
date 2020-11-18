@@ -19,6 +19,7 @@ import Dashboard from './components/user/Dashboard';
 import FullPost from './components/user/FullPost';
 import SearchResults from './components/user/SearchResults';
 import Navbar from './components/user/Navbar';
+import ErrorPage from './components/misc/ErrorPage';
 
 class App extends React.Component {
   state = {
@@ -56,14 +57,15 @@ class App extends React.Component {
         {this.state.isLogged && <Navbar/>}
         
           <Switch>
-            <Route path="/profile/:userId" children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/friends/:userId" children={<FriendList state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
-            <Route path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route path="/" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/profile/:userId" children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/friends/:userId" children={<FriendList state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route path="/" children={<ErrorPage errorTitle="Page not found" errorMessage="The page you're trying to access doesn't exist." />} />
           </Switch>
         </Router>
       </div>
