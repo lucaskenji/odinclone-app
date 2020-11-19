@@ -30,6 +30,12 @@ body {
     border: 1px solid blue;
     box-shadow: 0 0 5px lightblue;
   }
+  
+  .form-input:invalid {
+    outline: 0;
+    border: 1px solid #ff5252;
+    box-shadow: 0 0 2px #ff5252;
+  }
 
 .btn {
   background: none;
@@ -495,6 +501,8 @@ body {
 /* Search results */
 #search-results {
   margin-top: 90px;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 12px;
   padding: 12px 12px 12px 12px;
   width: 640px;

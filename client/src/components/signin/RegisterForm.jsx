@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../../images/logo.svg';
+import { validateName, validateEmail, validatePassword } from './utils/validateRegister';
 
 function RegisterForm(props) {
   const { verifyAuth } = props;
@@ -10,13 +11,21 @@ function RegisterForm(props) {
   useEffect(() => {
     verifyAuth();
   }, [ verifyAuth ]);
-  
+
   const requestRegister = (form) => {
     form.preventDefault();
     setFinishedAsync(false);
     
     const fields = form.target;
     const birthDate = new Date(fields.birthYear.value, fields.birthMonth.value, fields.birthDay.value);
+    
+    if (validateName(fields.firstName).valid === false
+        || validateName(fields.lastName).valid === false
+        || validateEmail(fields.email).valid === false
+        || validatePassword(fields.password).valid === false) {
+      setFinishedAsync(true);
+      return;
+    }
     
     const newUser = {
       firstName: fields.firstName.value,
@@ -60,16 +69,48 @@ function RegisterForm(props) {
           <h1 id="register-title">Register</h1>
           
           <label htmlFor="firstName" className="sr-only">First name</label>
-          <input disabled={!finishedAsync} className="form-input uses-font" type="text" placeholder="First name" name="firstName" id="firstName" />
+          <input 
+            disabled={!finishedAsync} 
+            className="form-input uses-font" 
+            type="text" 
+            placeholder="First name" 
+            name="firstName" 
+            id="firstName" 
+            onInput={(ev) => validateName(ev.target)}
+          />
           
           <label htmlFor="lastName" className="sr-only">Last name</label>
-          <input disabled={!finishedAsync} className="form-input uses-font" type="text" placeholder="Last name" name="lastName" id="lastName" />
+          <input 
+            disabled={!finishedAsync} 
+            className="form-input uses-font" 
+            type="text" 
+            placeholder="Last name" 
+            name="lastName" 
+            id="lastName" 
+            onInput={(ev) => validateName(ev.target)} 
+          />
           
           <label htmlFor="email" className="sr-only">Email</label>
-          <input disabled={!finishedAsync} className="form-input uses-font" type="email" placeholder="Email" name="email" id="email" />
+          <input 
+            disabled={!finishedAsync} 
+            className="form-input uses-font" 
+            type="text" 
+            placeholder="Email" 
+            name="email" 
+            id="email" 
+            onInput={(ev) => validateEmail(ev.target)}
+          />
           
           <label htmlFor="password" className="sr-only">Password</label>
-          <input disabled={!finishedAsync} className="form-input uses-font" type="password" placeholder="Password" name="password" id="password" />
+          <input 
+            disabled={!finishedAsync} 
+            className="form-input uses-font" 
+            type="password" 
+            placeholder="Password" 
+            name="password" 
+            id="password" 
+            onInput={(ev) => validatePassword(ev.target)} 
+          />
                     
           <fieldset id="birthdate-fieldset" className="fieldset-sr-only">
             <legend>Birth date</legend>
@@ -100,13 +141,31 @@ function RegisterForm(props) {
           <fieldset className="fieldset-sr-only">
           <legend>Gender</legend>
             <label>
-              <input disabled={!finishedAsync} type="radio" name="gender" value="female" />&nbsp;Female
+              <input 
+                disabled={!finishedAsync} 
+                type="radio" 
+                name="gender" 
+                value="female" 
+                required
+              />&nbsp;Female
             </label>
             <label>
-              <input disabled={!finishedAsync} type="radio" name="gender" value="male" />&nbsp;Male
+              <input 
+                disabled={!finishedAsync} 
+                type="radio" 
+                name="gender" 
+                value="male" 
+                required  
+              />&nbsp;Male
             </label>
             <label>
-              <input disabled={!finishedAsync} type="radio" name="gender" value="other" />&nbsp;Other
+              <input 
+                disabled={!finishedAsync} 
+                type="radio" 
+                name="gender" 
+                value="other" 
+                required
+              />&nbsp;Other
             </label>
           </fieldset>
           
