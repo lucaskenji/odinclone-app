@@ -383,44 +383,132 @@ body {
     flex-direction: row;
     justify-content: space-around;
   }
-  
-.post-form {
+
+#postbox-container-div {
   margin-top: 90px;
-  border-radius: 12px;
-  padding: 12px 0 12px 20px;
-  width: 640px;
-  background-color: white;
-  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  width: 660px;
+  height: 40px;
 }
 
-  #postbox-container {
+#postbox-container-div .btn-postbox {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  padding: 5px 5px 5px 5px;
+  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  font-size: 16px;
+}
+
+.post-form {
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 12px;
+  padding: 5px 5px 5px 5px;
+  width: 450px;
+  background-color: white;
+  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  text-align: center;
+  z-index: 10;
+  position: fixed;
+}
+
+  #post-form-header {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
+    margin-top: 10px;
+    padding-right: 15px;
+    padding-left: 30px;
   }
-  
+    
+    #post-form-header h2 {
+      margin: 0 auto 0 auto;
+    }
+    
+    #post-form-header i:hover {
+      cursor: pointer;
+    }
+
+  #postbox-container {
+    padding: 15px 15px 15px 15px;
+  }
+
   #postbox {
     outline: 0;
     border: 0;
-    border-radius: 15px 0 0 15px;
-    padding-left: 19px;
+    border-radius: 5px;
+    padding: 15px 15px 15px 15px;
     background-color: #ebeff0;
     font-size: 16px;
-    width: 75%;
-    height: 30px;
+    width: 390px;
+    height: 90px;
     transition: background-color, .2s;
+    resize: none;
+    overflow: hidden;
   }
   
     #postbox:hover {
       background-color: #dadeef;
     }
   
-  #postbox-submit {
-    border-radius: 0 15px 15px 0;
-    font-size: 16px;
-    width: 80px;
-    height: 32px;
+  #postbox-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
+    
+    #postbox-submit {
+      border-radius: 5px;
+      font-size: 16px;
+      width: 80px;
+      height: 32px;
+    }
+    
+    .btn-photo {
+      border-radius: 15px;
+      font-size: 16px;
+      padding: 5px 10px 5px 10px;
+      background-color: #ebeff0;
+    }
+    
+    .btn-photo:hover {
+      background-color: #dadeef;
+    }
+  
+  #photo-url {
+    outline: 0;
+    border: 0;
+    border-radius: 15px;
+    margin-left: 5px;
+    padding: 5px 5px 5px 15px;
+    background-color: #ebeff0;
+    font-size: 16px;
+    visibility: hidden;
+    opacity: 0;
+    width: 1px;
+    height: 20px;
+    transition: background-color .2s, width .5s, opacity .5s, visibility .3s;
+  }
+    
+    #photo-url:hover {
+      background-color: #dadeef;
+    }
+  
+  .turn-visible {
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 180px !important;
+  }
+
+.dark-screen {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
 
 .full-post {
   margin-top: 80px;

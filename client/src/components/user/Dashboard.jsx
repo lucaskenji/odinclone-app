@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PostBox from './PostBox';
+import PostBoxContainer from './PostBoxContainer';
 import PostList from './PostList';
 import Homepage from '../signin/Homepage';
 
@@ -24,7 +24,7 @@ function Dashboard(props) {
     
     return (
       <div id="dashboard">
-        <PostBox handleRender={handleRender} />
+        <PostBoxContainer handleRender={handleRender} />
         <PostList originPath={"/api/posts/relevant/" + userId} userId={userId} renderCount={renderCount} />
       </div>
     );
