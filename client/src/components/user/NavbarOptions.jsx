@@ -36,6 +36,12 @@ function NavbarOptions(props)
         
         <hr/>
         
+        <Link className="no-underline" to="/settings">
+          <div className="nav-options-link">
+            <div className="nav-options-icon"><i className="fas fa-cog"></i></div> Settings
+          </div>
+        </Link>
+        
         <Link className="no-underline" to="/logout">
           <div className="nav-options-link">
             <div className="nav-options-icon"><i className="fas fa-door-open"></i></div> Logout

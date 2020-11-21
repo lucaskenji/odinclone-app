@@ -36,7 +36,7 @@ function RegisterForm(props) {
       gender: fields.gender.value
     };
         
-    axios.post('http://localhost:3030/api/users', newUser)
+    axios.post(`${process.env.REACT_APP_API_URL}/api/users`, newUser)
       .then((response) => {
         console.log(response);
         window.location.href = '/';

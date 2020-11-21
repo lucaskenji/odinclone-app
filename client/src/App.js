@@ -21,6 +21,7 @@ import SearchResults from './components/user/SearchResults';
 import Navbar from './components/user/Navbar';
 import ErrorPage from './components/misc/ErrorPage';
 import ForceRedirect from './components/misc/ForceRedirect';
+import UserSettings from './components/profiles/UserSettings';
 
 class App extends React.Component {
   state = {
@@ -63,6 +64,7 @@ class App extends React.Component {
             <Route exact path="/friends/:userId" children={<FriendList state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route exact path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route exact path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
+            <Route exact path="/settings" children={<UserSettings state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route exact path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
             <Route exact path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
             <Route exact path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />

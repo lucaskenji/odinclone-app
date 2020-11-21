@@ -75,7 +75,7 @@ exports.userValidation = (req, res, next) => {
       });
     }
     
-    if (user && user._id !== req.params.userid) {
+    if (user && user._id.toString() !== req.params.userid) {
       return res.status(400).json({
         message: 'Bad request.',
         details: ['The email provided is already in use.']
@@ -136,7 +136,7 @@ exports.updateUser = async (req, res) => {
   if (req.body.password) {
     try {
       const salt = await bcrypt.genSalt(10);
-      hashedPassword = bcrypt.hash(req.body.password, salt);
+      hashedPassword = await bcrypt.hash(req.body.password, salt);
     } catch (err) {
       res.status(500).json({
         message: 'An internal error occurred.',

@@ -219,7 +219,7 @@ body {
     
   .nav-visible {
     visibility: visible !important;
-    height: 100px !important;
+    height: 140px !important;
   }
 
 .no-underline {
@@ -256,6 +256,39 @@ body {
     font-size: 26px;
     font-family: Arial, sans-serif;
   }
+
+#home-footer {
+  position: absolute;
+  left: 0;
+  top: 100vh;
+  bottom: 0;
+  width: 100%;
+  height: 160px;
+  background-color: white;
+}
+  
+  #home-footer div {
+    padding: 45px 14% 0 14%;
+    color: gray;
+    font-size: 14px;
+  }
+  
+  #home-footer hr {
+    border: 1px solid lightgray;
+  }
+
+  #home-footer span {
+    margin-right: 20px;
+  }
+  
+  #home-footer a {
+    color: gray;
+    text-decoration: none;
+  }
+  
+    #home-footer a:hover {
+      text-decoration: underline;
+    }
 
 #login-container {
   width: 380px;
@@ -963,6 +996,20 @@ body {
   flex-direction: row;
   justify-content: space-between;
   width: 105%;
+}
+
+/* Settings page */
+
+#update-form-container {
+  width: 650px;
+  margin-top: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px 15px 30px 15px;
+  background-color: white;
+  box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
+  border-radius: 12px;
+  text-align: center;  
 }
 
 /* Error page */
