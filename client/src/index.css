@@ -169,7 +169,7 @@ body {
   #nav-options {
     visibility: hidden;
     width: 270px;
-    height: 100px;
+    height: 1px;
     padding: 15px 15px 15px 15px;
     background-color: white;
     box-shadow: 0 5px 10px darkgray;
@@ -219,6 +219,7 @@ body {
     
   .nav-visible {
     visibility: visible !important;
+    height: 100px !important;
   }
 
 .no-underline {
@@ -383,6 +384,23 @@ body {
     flex-direction: row;
     justify-content: space-around;
   }
+  
+  .post-image {
+    margin-top: 10px;
+    margin-left: -5px;
+    width: 660px;
+    height: 420px;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+    .post-image img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
 
 #postbox-container-div {
   margin-top: 90px;
@@ -476,7 +494,7 @@ body {
       background-color: #dadeef;
     }
   
-  #photo-url {
+  #photoUrl {
     outline: 0;
     border: 0;
     border-radius: 15px;
@@ -486,12 +504,12 @@ body {
     font-size: 16px;
     visibility: hidden;
     opacity: 0;
-    width: 1px;
+    width: 0;
     height: 20px;
     transition: background-color .2s, width .5s, opacity .5s, visibility .3s;
   }
     
-    #photo-url:hover {
+    #photoUrl:hover {
       background-color: #dadeef;
     }
   
@@ -499,6 +517,14 @@ body {
     visibility: visible !important;
     opacity: 1 !important;
     width: 180px !important;
+  }
+  
+  #image-preview-form {
+    display: none;
+  }
+  
+  .error-msg {
+    color: darkred;
   }
 
 .dark-screen {

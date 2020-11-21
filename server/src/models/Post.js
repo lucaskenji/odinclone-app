@@ -19,6 +19,9 @@ const postSchema = new Schema({
   timestamp: {
     type: Date,
     required: true
+  },
+  photo: {
+    type: String
   }
 });
 

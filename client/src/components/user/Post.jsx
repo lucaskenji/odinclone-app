@@ -51,10 +51,19 @@ function Post(props) {
       {post.content}
       </p>
       
+      { post.photo 
+        && 
+        <div className="post-image">
+          <img src={post.photo} alt={"Content posted by " + post.author.firstName} />
+        </div> }
+      
       <hr/>
       
       <div className="post-options">
-        <button className={isLiked ? "btn btn-post uses-font btn-liked" : "btn btn-post uses-font"} disabled={!finishedAsync} onClick={() => handleLike()}>
+        <button 
+          className={isLiked ? "btn btn-post uses-font btn-liked" : "btn btn-post uses-font"} 
+          disabled={!finishedAsync} 
+          onClick={() => handleLike()}>
           <i className="far fa-thumbs-up"></i> Like ({likes})
         </button>
         

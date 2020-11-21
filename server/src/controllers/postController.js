@@ -82,6 +82,7 @@ exports.createPost = async (req, res) => {
     content: req.body.content,
     author: req.body.author,
     timestamp: req.body.timestamp,
+    photo: req.body.photo || '',
     likes: []
   });
   
