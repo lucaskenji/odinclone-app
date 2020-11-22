@@ -5,6 +5,7 @@ function PostBox(props) {
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [inputUrlVisible, setInputUrlVisible] = useState(false);
   const { handleRender, handleClose } = props;
+  const [errorMessage, setErrorMessage] = useState('');
   
   const [photoUrl, setPhotoUrl] = useState('');
   const [urlIsValid, setUrlIsValid] = useState(true);
@@ -19,6 +20,7 @@ function PostBox(props) {
   const handleSubmit = (form) => {
     form.preventDefault();
     setFinishedAsync(false);
+    setErrorMessage('');
     
     if (!validatedUrl || !urlIsValid) {
       setFinishedAsync(true);
@@ -43,7 +45,12 @@ function PostBox(props) {
         closeModal();
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response) {
+          setErrorMessage('You must provide a message.');
+        } else {
+          setErrorMessage('An error occurred. Please try again later.');
+        }
+        
         setFinishedAsync(true);
       })
   }
@@ -83,6 +90,8 @@ function PostBox(props) {
         </div>
         
         <form onSubmit={handleSubmit}>
+          { errorMessage && <div className="error-message">{errorMessage}</div> }
+          
           <label htmlFor="postbox" className="sr-only">Share your thoughts</label>
           <div id="postbox-container">
             <textarea 
@@ -104,7 +113,7 @@ function PostBox(props) {
             
             { urlIsValid 
               || 
-              <span className="error-msg">
+              <span className="error-message">
                 <i className="fas fa-exclamation-circle"></i> The image URL provided is invalid.
               </span> }
             

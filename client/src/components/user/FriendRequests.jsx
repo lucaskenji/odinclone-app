@@ -7,6 +7,7 @@ function FriendRequests(props) {
   const { verifyAuth } = props;
   const [requestList, setRequestList] = useState([]);
   const [disableButton, setDisableButton] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   useEffect(() => {
     verifyAuth();
@@ -28,6 +29,7 @@ function FriendRequests(props) {
   
   const handleRequest = async (buttonClicked, requestObject) => {    
     setDisableButton(true);
+    setErrorMessage('');
     const friendId = requestObject.sender._id;
     const requestId = requestObject._id;
 
@@ -39,11 +41,7 @@ function FriendRequests(props) {
             await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friend`, { _id: friendId });
             await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${friendId}/friend`, { _id: userId });
             return resolve();
-          } catch (err) {
-            if (err.response) {
-              console.log(err.response);
-            }
-            
+          } catch (err) {            
             return reject(err);
           }
       });
@@ -57,7 +55,7 @@ function FriendRequests(props) {
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/friendrequests/${requestId}`);
       setRequestList( [...requestList].filter((request) => request._id !== requestObject._id) );
     } catch (err) {
-      console.log(err);
+      setErrorMessage('An error occurred. Please try again later.');
     }
     
     console.log('Operations done.');
@@ -102,6 +100,7 @@ function FriendRequests(props) {
                   Decline
                 </button>
               </div>
+              { errorMessage && <div className="error-message">{errorMessage}</div> }
             </div>
           </div>) }
       </div>

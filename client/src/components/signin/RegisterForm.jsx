@@ -7,6 +7,7 @@ import { validateName, validateEmail, validatePassword } from './utils/validateR
 function RegisterForm(props) {
   const { verifyAuth } = props;
   const [finishedAsync, setFinishedAsync] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   
   useEffect(() => {
     verifyAuth();
@@ -15,6 +16,7 @@ function RegisterForm(props) {
   const requestRegister = (form) => {
     form.preventDefault();
     setFinishedAsync(false);
+    setErrorMessage('');
     
     const fields = form.target;
     const birthDate = new Date(fields.birthYear.value, fields.birthMonth.value, fields.birthDay.value);
@@ -44,8 +46,15 @@ function RegisterForm(props) {
       })
       .catch((err) => {
         if (err.response) {
-          console.log(err.response.data.details);
+          if (err.response.status === 400) {
+            setErrorMessage('Invalid data.');
+          } else if (err.response.status === 409) {
+            setErrorMessage('The email provided is already in use.');
+          }
+        } else {
+          setErrorMessage('An error occurred. Please try again later.');
         }
+        
         setFinishedAsync(true);
       })
   }
@@ -67,6 +76,8 @@ function RegisterForm(props) {
         
         <form id="register-form" onSubmit={requestRegister}>
           <h1 id="register-title">Register</h1>
+          
+          { errorMessage && <div className="error-message">{errorMessage}</div> }
           
           <label htmlFor="firstName" className="sr-only">First name</label>
           <input 

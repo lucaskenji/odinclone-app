@@ -8,7 +8,7 @@ function PostList(props) {
   const [searchedUser, setSearchedUser] = useState('');
   const [previousRender, setPreviousRender] = useState(0);
   
-  useEffect(() => {
+  useEffect(() => {    
     if (searchedUser === userId && previousRender === renderCount) {
       return;
     }

@@ -226,6 +226,11 @@ body {
   text-decoration: none;
 }
 
+.error-message {
+  color: #ed1820;
+  margin-top: 5px;
+}
+
 /* Homepage */
 #home-container {
   width: 100%;
@@ -554,11 +559,7 @@ body {
   
   #image-preview-form {
     display: none;
-  }
-  
-  .error-msg {
-    color: darkred;
-  }
+  }  
 
 .dark-screen {
   position: fixed;
@@ -994,9 +995,12 @@ body {
 .request-buttons { 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   width: 105%;
 }
+
+  .request-buttons button {
+    margin-right: 5px;
+  }
 
 /* Settings page */
 

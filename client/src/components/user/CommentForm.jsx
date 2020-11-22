@@ -4,10 +4,12 @@ import axios from 'axios';
 function CommentForm(props) {
   const { postId, triggerRender } = props;
   const [finishedAsync, setFinishedAsync] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   
   const handleSubmit = (form) => {
     form.preventDefault();
     setFinishedAsync(false);
+    setErrorMessage('');
     
     const userId = localStorage.getItem('odinbook_id');
     const newComment = {
@@ -28,13 +30,16 @@ function CommentForm(props) {
         setFinishedAsync(true);
       })
       .catch((err) => {
-        console.log(err);
+        if (!err.response) {
+          setErrorMessage('An error occurred. Please try again later.');
+        }
         setFinishedAsync(true);
       })
   }
   
   return (
     <form onSubmit={handleSubmit}>
+      { errorMessage && <div className="error-message">{errorMessage}</div> }
       <label htmlFor="comment-input" className="sr-only">Write a comment</label>
       <input className="uses-font" disabled={!finishedAsync} type="text" placeholder="Write a comment" id="comment-input" name="content" />
     </form>

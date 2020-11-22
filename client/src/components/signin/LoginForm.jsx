@@ -4,10 +4,12 @@ import axios from 'axios';
 
 function LoginForm(props) {
   const [finishedAsync, setFinishedAsync] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   
   const handleLogin = (form) => {
     form.preventDefault();
     setFinishedAsync(false);
+    setErrorMessage('');
     
     const email = form.target.email.value;
     const password = form.target.password.value;
@@ -19,14 +21,21 @@ function LoginForm(props) {
         window.location.href = '/';
       })
       .catch((err) => {
+        if (err.response) {
+          setErrorMessage('Incorrect username or password.');
+        } else {
+          setErrorMessage('An error occurred. Please try again later.');
+        }
+        
         setFinishedAsync(true);
-        console.log(err);
       })
   }
     
 
   return (    
     <div id="login-container">
+      { errorMessage && <div className="error-message">{errorMessage}</div> }
+      
       <form onSubmit={handleLogin} id="login-form">
         <label htmlFor="emailLogin" className="sr-only">Email:</label>
         <input disabled={!finishedAsync} className="form-input uses-font" type="text" name="email" id="emailLogin" placeholder="Email" />

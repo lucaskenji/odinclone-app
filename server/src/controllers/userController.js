@@ -69,15 +69,15 @@ exports.userValidation = (req, res, next) => {
   User.findOne({ email: req.body.email })
   .then((user) => {
     if (user && typeof req.params.userid === 'undefined') {   
-      return res.status(400).json({
-        message: 'Bad request.',
+      return res.status(409).json({
+        message: 'Conflict.',
         details: ['The email provided is already in use.']
       });
     }
     
     if (user && user._id.toString() !== req.params.userid) {
-      return res.status(400).json({
-        message: 'Bad request.',
+      return res.status(409).json({
+        message: 'Conflict.',
         details: ['The email provided is already in use.']
       });
     }

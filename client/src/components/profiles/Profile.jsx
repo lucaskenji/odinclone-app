@@ -3,6 +3,7 @@ import { useParams, Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import PostList from '../user/PostList';
 import noAvatar from '../../images/no-avatar.png';
+import ErrorPage from '../misc/ErrorPage';
 
 function Profile(props) {
   const [user, setUser] = useState(null);
@@ -11,6 +12,8 @@ function Profile(props) {
   const [friendRequestId, setFriendRequestId] = useState('');
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [requestedUser, setRequestedUser] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [fatalError, setFatalError] = useState(false);
   const { userId } = useParams();
   const { verifyAuth } = props;
   const { isLogged } = props.state;
@@ -20,15 +23,6 @@ function Profile(props) {
   }, [verifyAuth]);
   
   useEffect(() => {
-    verifyAuth();
-    setUser(null);
-    setIsSameUser(false);
-    setIsFriend(false);
-    setFriendRequestId('');
-    setRequestedUser(false);
-  }, [userId, verifyAuth])
-  
-  useEffect(() => {    
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
         setUser({
@@ -48,11 +42,11 @@ function Profile(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        setFatalError(true);
       })
   }, [userId]);
   
-  useEffect(() => {    
+  useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friendrequests`)
       .then((response) => {
         const loggedUser = localStorage.getItem('odinbook_id');
@@ -65,7 +59,13 @@ function Profile(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response) {
+          if (err.response.status === 404) {
+            return;
+          }
+        }
+        
+        setFatalError(true);
       })
   }, [userId]);
   
@@ -83,7 +83,13 @@ function Profile(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response) {
+          if (err.response.status === 404) {
+            return;
+          }
+        }
+        
+        setFatalError(true);
       })
   }, [userId]);
   
@@ -97,6 +103,7 @@ function Profile(props) {
   
   const handleSendRequest = () => {
     setFinishedAsync(false);
+    setErrorMessage('');
     
     const newRequest = {
       sender: localStorage.getItem('odinbook_id'),
@@ -112,12 +119,14 @@ function Profile(props) {
         setFinishedAsync(true);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMessage('An error occurred. Please try again later.');
       })
   }
   
   const handleCancelRequest = () => {
     setFinishedAsync(false);
+    setErrorMessage('');
+    
     axios.delete(`${process.env.REACT_APP_API_URL}/api/friendrequests/${friendRequestId}`)
       .then((response) => {
         console.log(response);
@@ -125,12 +134,14 @@ function Profile(props) {
         setFinishedAsync(true);
       })
       .catch((err) => {
-        console.log(err);
+        setErrorMessage('An error occurred. Please try again later.');
       })
   }
   
   const handleUnfriend = async () => {
     setFinishedAsync(false);
+    setErrorMessage('');
+    
     const requesterId = localStorage.getItem('odinbook_id');
     
     try {
@@ -144,12 +155,16 @@ function Profile(props) {
       setUser(newUser);
       setFinishedAsync(true);
     } catch (err) {
-      console.log(err.response);
+      setErrorMessage('An error occurred. Please try again later.');
     }
   }
   
   const acceptRequest = () => {
     window.location.href = '/requests';
+  }
+  
+  if (fatalError) {
+    return (<ErrorPage errorTitle="Uh-oh!" errorMessage="An error occurred on the server. Please try again later." />);
   }
   
   if (props.state.loading) {
@@ -167,6 +182,7 @@ function Profile(props) {
           <h1>{user.firstName}&nbsp;{user.lastName}</h1>
           Born on {user.birthDate.toLocaleDateString('en-US')}, {user.gender === 'undefined' ? 'no gender defined' : user.gender}<br/>
         
+          
           {
             isSameUser 
               ? '' 
@@ -189,6 +205,8 @@ function Profile(props) {
                     )
                 ) 
           }
+          
+          { errorMessage && <span className="error-message">{errorMessage}</span> }
         </div>
         
         <div id="profile-friends-posts">
@@ -202,7 +220,7 @@ function Profile(props) {
               
               <div id="profile-friend-list">
                 { user.friends.map((friend) => 
-                  <Link className="no-underline" key={friend._id} to={"/profile/" + friend._id}>
+                  <Link className="no-underline" key={friend._id} to={"/profile_redirect/" + friend._id}>
                     <div className="profile-friend-container">
                       <img src={friend.photo || noAvatar} alt="Avatar from user's friend" />
                       <span>{friend.firstName} {friend.lastName}</span>

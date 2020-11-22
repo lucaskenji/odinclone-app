@@ -11,6 +11,7 @@ function UserSettings(props) {
   const [photoUrl, setPhotoUrl] = useState('');
   const [urlIsValid, setUrlIsValid] = useState(true);
   const [validatedUrl, setValidatedUrl] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   
   useEffect(() => {
     verifyAuth();
@@ -36,6 +37,7 @@ function UserSettings(props) {
   const requestUpdate = (form) => {
     form.preventDefault();
     setFinishedAsync(false);
+    setErrorMessage('');
     
     // Checks validation
     if (!validatedUrl || !urlIsValid) {
@@ -74,7 +76,13 @@ function UserSettings(props) {
       })
       .catch((err) => {
         if (err.response) {
-          console.log(err.response.data.details);
+          if (err.response.status === 409) {
+            setErrorMessage('The email provided is already in use.');
+          } else {
+            setErrorMessage('Invalid data.');
+          }
+        } else {
+          setErrorMessage('An error occurred. Please try again later.');
         }
         setFinishedAsync(true);
       })
@@ -119,6 +127,8 @@ function UserSettings(props) {
       <div id="update-form-container">
         <form id="update-form" onSubmit={requestUpdate}>
           <h1 id="update-title">Settings</h1>
+          
+          { errorMessage && <div className="error-message">{errorMessage}</div> }
           
           <label htmlFor="updateFirstName" className="sr-only">First name</label>
           <input 
