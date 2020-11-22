@@ -7,17 +7,19 @@ function NavbarOptions(props)
 {
   const [showOptions, setShowOptions] = useState(false);
   const [user, setUser] = useState({});
-  const userId = localStorage.getItem('odinbook_id');
+  const { loggedUserId } = props;
   
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [userId]);
+    if (loggedUserId) {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}`)
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedUserId]);
   
   const handleToggle = () => {
     setShowOptions(!showOptions);

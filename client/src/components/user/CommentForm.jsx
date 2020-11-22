@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function CommentForm(props) {
-  const { postId, triggerRender } = props;
+  const { postId, triggerRender, loggedUserId } = props;
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   
@@ -11,9 +11,8 @@ function CommentForm(props) {
     setFinishedAsync(false);
     setErrorMessage('');
     
-    const userId = localStorage.getItem('odinbook_id');
     const newComment = {
-      author: userId,
+      author: loggedUserId,
       content: form.target.content.value
     }
     

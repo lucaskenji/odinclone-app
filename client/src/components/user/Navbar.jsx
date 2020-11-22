@@ -20,7 +20,7 @@ function Navbar(props) {
           <i className="fas fa-user-friends"></i>
         </div>
       </Link>
-      <NavbarOptions/>
+      <NavbarOptions loggedUserId={props.loggedUserId}/>
     </nav>
   )
 }

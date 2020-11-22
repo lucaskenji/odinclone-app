@@ -3,31 +3,31 @@ import axios from 'axios';
 import Post from './Post';
 
 function PostList(props) {
-  const { originPath, userId, renderCount } = props;
+  const { originPath, loggedUserId, renderCount } = props;
   const [postList, setPostList] = useState([]);
   const [searchedUser, setSearchedUser] = useState('');
   const [previousRender, setPreviousRender] = useState(0);
   
   useEffect(() => {    
-    if (searchedUser === userId && previousRender === renderCount) {
+    if (searchedUser === loggedUserId && previousRender === renderCount) {
       return;
     }
     
     axios.get(process.env.REACT_APP_API_URL + originPath)
       .then((response) => {
         setPostList(response.data);        
-        setSearchedUser(userId);
+        setSearchedUser(loggedUserId);
         setPreviousRender(renderCount);
       })
       .catch((err) => {
         console.log(err);
         setPostList([]);
-        setSearchedUser(userId);
+        setSearchedUser(loggedUserId);
         setPreviousRender(renderCount);
       })
-  }, [searchedUser, originPath, renderCount, previousRender, userId]);
+  }, [searchedUser, originPath, renderCount, previousRender, loggedUserId]);
 
-  if (postList.length === 0 && searchedUser === userId) {
+  if (postList.length === 0 && searchedUser === loggedUserId) {
     return (
       <div id="post-list-empty">
         <div className="emote">:(</div>
@@ -38,7 +38,7 @@ function PostList(props) {
   
   return (
     <div id="post-list">
-      { postList.map((post, index) => <Post post={post} key={post._id} />) }
+      { postList.map((post, index) => <Post loggedUserId={loggedUserId} post={post} key={post._id} />) }
       
       {
         postList.length === 0 

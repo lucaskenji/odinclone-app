@@ -27,26 +27,28 @@ import UserSettings from './components/profiles/UserSettings';
 class App extends React.Component {
   state = {
     loading: true,
-    isLogged: false
+    isLogged: false,
+    loggedUserId: ''
   }
   
   verifyAuth = () => {
     return new Promise((resolve, reject) => {
       axios.get(`${process.env.REACT_APP_API_URL}/api/islogged`, { withCredentials: true })
         .then((response) => {
-          this.setState({ isLogged: response.data.isLogged, loading: false });
-          
-          if (!response.data.isLogged) {
-            localStorage.setItem('odinbook_id', '');
-          } else {
-            localStorage.setItem('odinbook_id', response.data.id);
-          }
+          this.setState({
+            isLogged: response.data.isLogged, 
+            loading: false, 
+            loggedUserId: response.data.isLogged ? response.data.id : ''
+          });
           
           resolve();
         })
         .catch((err) => {
-          console.log(err);
-          this.setState({ isLogged: false, loading: false });
+          this.setState({
+            isLogged: false, 
+            loading: false, 
+            loggedUserId: ''
+          });
           reject();
         });
     });
@@ -57,7 +59,7 @@ class App extends React.Component {
       <div className="App uses-font">        
         <Router>
         
-        {this.state.isLogged && <Navbar/>}
+        {this.state.isLogged && <Navbar loggedUserId={this.state.loggedUserId} />}
         
           <Switch>
             <Route exact path="/" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />

@@ -1,31 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 function ForceRedirect(props) {
-  // Not a good way of doing things, but this is here so I can set the user ID on localStorage when logging with FB.
-  const { verifyAuth } = props;
-  const [verified, setVerified] = useState(false);
+  // Previously used to set user id and csrf token on localStorage, and now only CSRF token.
   
-  useEffect(() => {
-    localStorage.setItem('csrfToken', Cookies.get('CSRF'));
-    
-    verifyAuth()
-      .then(() => {
-        setVerified(true);
-      })
-      .catch(() => {
-        setVerified(true);
-      })
-  }, [verifyAuth]);
-  
-  if (verified) {
-    return (
-      <Redirect to="/" />
-    );
-  } else {
-    return '';
-  }
+  localStorage.setItem('csrfToken', Cookies.get('CSRF'));
+  return (<Redirect to="/" />);
 }
 
 export default ForceRedirect;

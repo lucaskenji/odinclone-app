@@ -4,7 +4,7 @@ import axios from 'axios';
 function PostBox(props) {
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [inputUrlVisible, setInputUrlVisible] = useState(false);
-  const { handleRender, handleClose } = props;
+  const { handleRender, handleClose, loggedUserId } = props;
   const [errorMessage, setErrorMessage] = useState('');
   
   const [photoUrl, setPhotoUrl] = useState('');
@@ -28,7 +28,7 @@ function PostBox(props) {
     }
     
     const newPost = {
-      author: localStorage.getItem('odinbook_id'),
+      author: loggedUserId,
       content: form.target.content.value,
       timestamp: new Date(),
       photo: form.target.photoUrl.value || ''

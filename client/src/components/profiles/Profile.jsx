@@ -17,7 +17,7 @@ function Profile(props) {
   const [isUnmounted, setIsUnmounted] = useState(false);
   const { userId } = useParams();
   const { verifyAuth } = props;
-  const { isLogged } = props.state;
+  const { isLogged, loggedUserId } = props.state;
   
   useEffect(() => {
     return () => { setIsUnmounted(true) }
@@ -28,6 +28,10 @@ function Profile(props) {
   }, [verifyAuth]);
   
   useEffect(() => {
+    if (!loggedUserId) {
+      return;
+    }
+    
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
         if (!isUnmounted) {
@@ -41,23 +45,25 @@ function Profile(props) {
           });
         }
         
-        const loggedUser = localStorage.getItem('odinbook_id');
         const friendIds = [...response.data.friends].map((friend) => friend._id);
         
-        if (friendIds.indexOf(loggedUser) !== -1 && !isUnmounted) {
+        if (friendIds.indexOf(loggedUserId) !== -1 && !isUnmounted) {
           setIsFriend(true);
         }
       })
       .catch((err) => {
         setFatalError(true);
       })
-  }, [userId, isUnmounted]);
+  }, [userId, isUnmounted, loggedUserId]);
   
   useEffect(() => {
+    if (!loggedUserId) {
+      return;
+    }
+    
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friendrequests`)
       .then((response) => {
-        const loggedUser = localStorage.getItem('odinbook_id');
-        const requestFromUser = response.data.find((request) => request.sender._id === loggedUser);
+        const requestFromUser = response.data.find((request) => request.sender._id === loggedUserId);
         
         if (!isUnmounted) {
           if (requestFromUser == null) {
@@ -78,12 +84,14 @@ function Profile(props) {
           setFatalError(true);
         }
       })
-  }, [userId, isUnmounted]);
+  }, [userId, isUnmounted, loggedUserId]);
   
   useEffect(() => {
-    const loggedUser = localStorage.getItem('odinbook_id');
+    if (!loggedUserId) {
+      return;
+    }
     
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/${loggedUser}/friendrequests`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}/friendrequests`)
       .then((response) => {
         const requestFromUser = response.data.find((request) => request.sender._id === userId);
         
@@ -106,22 +114,22 @@ function Profile(props) {
           setFatalError(true);
         }
       })
-  }, [userId, isUnmounted]);
+  }, [userId, isUnmounted, loggedUserId]);
   
   useEffect(() => {
-    if (isLogged) {
-      if (localStorage.getItem('odinbook_id') === userId && !isUnmounted) {
+    if (loggedUserId) {
+      if (loggedUserId === userId && !isUnmounted) {
         setIsSameUser(true);
       }
     }
-  }, [isLogged, userId, isUnmounted]);
+  }, [loggedUserId, userId, isUnmounted]);
   
   const handleSendRequest = () => {
     setFinishedAsync(false);
     setErrorMessage('');
     
     const newRequest = {
-      sender: localStorage.getItem('odinbook_id'),
+      sender: loggedUserId,
       receiver: userId
     };
     
@@ -163,14 +171,12 @@ function Profile(props) {
     setFinishedAsync(false);
     setErrorMessage('');
     
-    const requesterId = localStorage.getItem('odinbook_id');
-    
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${requesterId}/unfriend`, { _id: userId });
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${userId}/unfriend`, { _id: requesterId });
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}/unfriend`, { _id: userId });
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${userId}/unfriend`, { _id: loggedUserId });
       
       const newUser = {...user};
-      newUser.friends = newUser.friends.filter((friend) => friend._id.toString() !== requesterId);
+      newUser.friends = newUser.friends.filter((friend) => friend._id.toString() !== loggedUserId);
       
       if (!isUnmounted) {
         setIsFriend(false);

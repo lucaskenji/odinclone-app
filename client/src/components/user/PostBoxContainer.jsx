@@ -3,7 +3,7 @@ import PostBox from './PostBox';
 
 function PostBoxContainer(props) {
   const [openModal, setOpenModal] = useState(false);
-  const { handleRender } = props;
+  const { handleRender, loggedUserId } = props;
   
   const createModal = () => {
     setOpenModal(true);
@@ -16,7 +16,7 @@ function PostBoxContainer(props) {
   return (
     <div id="postbox-container-div">
       <button className="btn btn-primary uses-font btn-postbox" onClick={createModal}>New Post</button>
-      { openModal ? <PostBox handleRender={handleRender} handleClose={handleClose} /> : '' }
+      { openModal ? <PostBox handleRender={handleRender} handleClose={handleClose} loggedUserId={loggedUserId} /> : '' }
     </div>
   );
 }

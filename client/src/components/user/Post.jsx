@@ -4,29 +4,27 @@ import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
 
 function Post(props) {
-  const { post } = props;
+  const { post, loggedUserId } = props;
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.post.likes.length);
   const [finishedAsync, setFinishedAsync] = useState(true);
   
   useEffect(() => {
-    const userId = localStorage.getItem('odinbook_id');
-    const foundUser = post.likes.find(user => user.toString() === userId);
+    const foundUser = post.likes.find(user => user.toString() === loggedUserId);
     
     foundUser == null ? setIsLiked(false) : setIsLiked(true);
-  }, [ post.likes ]);
+  }, [ post.likes, loggedUserId ]);
   
   const handleLike = async () => {
     setFinishedAsync(false);
-    const userId = localStorage.getItem('odinbook_id');
     
     try {
       if (!isLiked) {
         setLikes(likes + 1);
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${post._id}/like`, { _id: userId });
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${post._id}/like`, { _id: loggedUserId });
       } else {
         setLikes(likes - 1);
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${post._id}/dislike`, { _id: userId });
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${post._id}/dislike`, { _id: loggedUserId });
       }
     } catch (err) {
       console.log(err);

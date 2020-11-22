@@ -5,7 +5,7 @@ import Homepage from '../signin/Homepage';
 
 function Dashboard(props) {
   const { verifyAuth } = props;
-  const userId = localStorage.getItem('odinbook_id');
+  const { loggedUserId } = props.state;
   const [renderCount, setRenderCount] = useState(0);
   
   useEffect(() => {
@@ -21,11 +21,10 @@ function Dashboard(props) {
   } else if (!props.state.isLogged) {
     return (<Homepage />);
   } else {
-    
     return (
       <div id="dashboard">
-        <PostBoxContainer handleRender={handleRender} />
-        <PostList originPath={"/api/posts/relevant/" + userId} userId={userId} renderCount={renderCount} />
+        <PostBoxContainer handleRender={handleRender} loggedUserId={loggedUserId} />
+        <PostList originPath={"/api/posts/relevant/" + loggedUserId} loggedUserId={loggedUserId} renderCount={renderCount} />
       </div>
     );
   }

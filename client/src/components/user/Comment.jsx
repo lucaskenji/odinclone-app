@@ -4,29 +4,27 @@ import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
 
 function Comment(props) {
-  const { comment } = props;
+  const { comment, loggedUserId } = props;
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.comment.likes.length);
   const [finishedAsync, setFinishedAsync] = useState(true);
   
   useEffect(() => {
-    const userId = localStorage.getItem('odinbook_id');
-    const foundUser = comment.likes.find(user => user.toString() === userId);
+    const foundUser = comment.likes.find(user => user.toString() === loggedUserId);
     
     foundUser == null ? setIsLiked(false) : setIsLiked(true);
-  }, [ comment.likes ]);
+  }, [ comment.likes, loggedUserId ]);
   
   const handleLike = async () => {
     setFinishedAsync(false);
-    const userId = localStorage.getItem('odinbook_id');
     
     try {
       if (!isLiked) {
         setLikes(likes + 1);
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${comment.post}/comments/${comment._id}/like`, { _id: userId });
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${comment.post}/comments/${comment._id}/like`, { _id: loggedUserId });
       } else {
         setLikes(likes - 1);
-        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${comment.post}/comments/${comment._id}/dislike`, { _id: userId });
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${comment.post}/comments/${comment._id}/dislike`, { _id: loggedUserId });
       }
     } catch (err) {
       console.log(err);

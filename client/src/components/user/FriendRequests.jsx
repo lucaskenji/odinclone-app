@@ -5,6 +5,7 @@ import noAvatar from '../../images/no-avatar.png';
 
 function FriendRequests(props) {
   const { verifyAuth } = props;
+  const { loggedUserId } = props.state;
   const [requestList, setRequestList] = useState([]);
   const [disableButton, setDisableButton] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -14,10 +15,8 @@ function FriendRequests(props) {
   }, [verifyAuth]);
 
   useEffect(() => {
-    if (props.state.isLogged) {
-      const userId = localStorage.getItem('odinbook_id');
-      
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friendrequests`)
+    if (loggedUserId) {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}/friendrequests`)
         .then((response) => {
           setRequestList(response.data);
         })
@@ -25,7 +24,7 @@ function FriendRequests(props) {
           console.log(err);
         })
     }
-  }, [props.state.isLogged]);
+  }, [loggedUserId]);
   
   const handleRequest = async (buttonClicked, requestObject) => {    
     setDisableButton(true);
@@ -34,12 +33,10 @@ function FriendRequests(props) {
     const requestId = requestObject._id;
 
     const addEachOther = () => {
-      return new Promise(async (resolve, reject) => {
-          const userId = localStorage.getItem('odinbook_id');
-          
+      return new Promise(async (resolve, reject) => {          
           try {
-            await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friend`, { _id: friendId });
-            await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${friendId}/friend`, { _id: userId });
+            await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}/friend`, { _id: friendId });
+            await axios.put(`${process.env.REACT_APP_API_URL}/api/users/${friendId}/friend`, { _id: loggedUserId });
             return resolve();
           } catch (err) {            
             return reject(err);

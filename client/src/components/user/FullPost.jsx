@@ -7,6 +7,7 @@ import CommentList from './CommentList';
 
 function FullPost(props) {
   const { verifyAuth } = props;
+  const { loggedUserId } = props.state;
   const { postId } = useParams();
   const [post, setPost] = useState({});
   const [renderCount, setRenderCount] = useState(0);
@@ -43,9 +44,9 @@ function FullPost(props) {
   } else if (post._id) {
     return (
       <div className="full-post">
-        <Post post={post} />
-        <CommentForm postId={postId} triggerRender={triggerRender} />
-        <CommentList postId={postId} renderCount={renderCount} />
+        <Post post={post} loggedUserId={loggedUserId} />
+        <CommentForm postId={postId} triggerRender={triggerRender} loggedUserId={loggedUserId} />
+        <CommentList postId={postId} renderCount={renderCount} loggedUserId={loggedUserId} />
       </div>
     );
   } else {

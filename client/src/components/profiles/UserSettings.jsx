@@ -5,7 +5,7 @@ import { validateName, validateEmail, validatePassword } from '../signin/utils/v
 
 function UserSettings(props) {
   const { verifyAuth } = props;
-  const { isLogged } = props.state;
+  const { loggedUserId } = props.state;
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [user, setUser] = useState({});
   const [photoUrl, setPhotoUrl] = useState('');
@@ -18,10 +18,8 @@ function UserSettings(props) {
   }, [ verifyAuth ]);
   
   useEffect(() => {
-    if (isLogged) {
-      const userId = localStorage.getItem('odinbook_id');
-      
-      axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
+    if (loggedUserId) {      
+      axios.get(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}`)
         .then((response) => {
           const userWithStringData = {...response.data};
           userWithStringData.birthDate = new Date(response.data.birthDate);
@@ -31,7 +29,7 @@ function UserSettings(props) {
           console.log(err);
         })
     }
-  }, [isLogged])
+  }, [loggedUserId])
   
   
   const requestUpdate = (form) => {
@@ -47,7 +45,6 @@ function UserSettings(props) {
     
     const fields = form.target;
     const birthDate = new Date(fields.birthYear.value, fields.birthMonth.value, fields.birthDay.value);
-    const userId = localStorage.getItem('odinbook_id');
     
     if (validateName(fields.firstName).valid === false
         || validateName(fields.lastName).valid === false
@@ -68,11 +65,11 @@ function UserSettings(props) {
       gender: fields.gender.value
     };
         
-    axios.put(`${process.env.REACT_APP_API_URL}/api/users/${userId}`, updatedUser)
+    axios.put(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}`, updatedUser)
       .then((response) => {
         console.log(response);
         setFinishedAsync(true);
-        window.location.href='/profile/' + userId;
+        window.location.href='/profile/' + loggedUserId;
       })
       .catch((err) => {
         if (err.response) {
