@@ -8,6 +8,11 @@ function FriendList(props) {
   const { userId } = useParams();
   const [friends, setFriends] = useState([]);
   const [displayedFriends, setDisplayedFriends] = useState([]);
+  const [isUnmounted, setIsUnmounted] = useState(false);
+  
+  useEffect(() => {
+    return () => {setIsUnmounted(true)};
+  }, [verifyAuth, userId])
   
   useEffect(() => {
     verifyAuth();
@@ -16,17 +21,20 @@ function FriendList(props) {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
-        setFriends(response.data.friends);
-        setDisplayedFriends(response.data.friends);
+        if (!isUnmounted) {
+          setFriends(response.data.friends);
+          setDisplayedFriends(response.data.friends);
+        }
       })
       .catch((err) => {
         console.log(err);
       })
-  }, [userId]);
+  }, [userId, isUnmounted]);
   
   const handleSearch = (ev) => {
     const query = new RegExp(ev.target.value, 'i');
     const results = [...friends].filter((f) => query.test(f.firstName) || query.test(f.lastName));
+    
     setDisplayedFriends(results);
   }
   

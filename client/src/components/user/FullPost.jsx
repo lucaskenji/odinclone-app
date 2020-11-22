@@ -10,6 +10,11 @@ function FullPost(props) {
   const { postId } = useParams();
   const [post, setPost] = useState({});
   const [renderCount, setRenderCount] = useState(0);
+  const [isUnmounted, setIsUnmounted] = useState(false);
+  
+  useEffect(() => {
+    return () => { setIsUnmounted(true) };
+  }, [verifyAuth, postId]);
   
   useEffect(() => {
     verifyAuth();
@@ -18,12 +23,14 @@ function FullPost(props) {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/posts/${postId}`)
       .then((response) => {
-        setPost(response.data);
+        if (!isUnmounted) {
+          setPost(response.data);
+        }
       })
       .catch((err) => {
         console.log(err);
       })
-  }, [postId]);
+  }, [postId, isUnmounted]);
   
   const triggerRender = () => {
     setRenderCount(renderCount + 1);

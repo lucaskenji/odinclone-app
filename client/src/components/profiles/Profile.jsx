@@ -14,9 +14,14 @@ function Profile(props) {
   const [requestedUser, setRequestedUser] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [fatalError, setFatalError] = useState(false);
+  const [isUnmounted, setIsUnmounted] = useState(false);
   const { userId } = useParams();
   const { verifyAuth } = props;
   const { isLogged } = props.state;
+  
+  useEffect(() => {
+    return () => { setIsUnmounted(true) }
+  }, [verifyAuth, userId, isLogged]);
   
   useEffect(() => {
     verifyAuth();
@@ -25,26 +30,28 @@ function Profile(props) {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}`)
       .then((response) => {
-        setUser({
-          firstName: response.data.firstName,
-          lastName: response.data.lastName,
-          birthDate: new Date(response.data.birthDate),
-          gender: response.data.gender,
-          friends: response.data.friends,
-          photo: response.data.photo
-        });
+        if (!isUnmounted) {
+          setUser({
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            birthDate: new Date(response.data.birthDate),
+            gender: response.data.gender,
+            friends: response.data.friends,
+            photo: response.data.photo
+          });
+        }
         
         const loggedUser = localStorage.getItem('odinbook_id');
         const friendIds = [...response.data.friends].map((friend) => friend._id);
         
-        if (friendIds.indexOf(loggedUser) !== -1) {
+        if (friendIds.indexOf(loggedUser) !== -1 && !isUnmounted) {
           setIsFriend(true);
         }
       })
       .catch((err) => {
         setFatalError(true);
       })
-  }, [userId]);
+  }, [userId, isUnmounted]);
   
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/${userId}/friendrequests`)
@@ -52,10 +59,12 @@ function Profile(props) {
         const loggedUser = localStorage.getItem('odinbook_id');
         const requestFromUser = response.data.find((request) => request.sender._id === loggedUser);
         
-        if (requestFromUser == null) {
-          setFriendRequestId('');
-        } else {
-          setFriendRequestId(requestFromUser._id);
+        if (!isUnmounted) {
+          if (requestFromUser == null) {
+            setFriendRequestId('');
+          } else {
+            setFriendRequestId(requestFromUser._id);
+          }
         }
       })
       .catch((err) => {
@@ -65,9 +74,11 @@ function Profile(props) {
           }
         }
         
-        setFatalError(true);
+        if (!isUnmounted) {
+          setFatalError(true);
+        }
       })
-  }, [userId]);
+  }, [userId, isUnmounted]);
   
   useEffect(() => {
     const loggedUser = localStorage.getItem('odinbook_id');
@@ -76,10 +87,12 @@ function Profile(props) {
       .then((response) => {
         const requestFromUser = response.data.find((request) => request.sender._id === userId);
         
-        if (requestFromUser == null) {
-          setRequestedUser(false);
-        } else {
-          setRequestedUser(true);
+        if (!isUnmounted) {
+          if (requestFromUser == null) {
+            setRequestedUser(false);
+          } else {
+            setRequestedUser(true);
+          }
         }
       })
       .catch((err) => {
@@ -89,17 +102,19 @@ function Profile(props) {
           }
         }
         
-        setFatalError(true);
+        if (!isUnmounted) {
+          setFatalError(true);
+        }
       })
-  }, [userId]);
+  }, [userId, isUnmounted]);
   
   useEffect(() => {
     if (isLogged) {
-      if (localStorage.getItem('odinbook_id') === userId) {
+      if (localStorage.getItem('odinbook_id') === userId && !isUnmounted) {
         setIsSameUser(true);
       }
     }
-  }, [isLogged, userId]);
+  }, [isLogged, userId, isUnmounted]);
   
   const handleSendRequest = () => {
     setFinishedAsync(false);
@@ -114,12 +129,15 @@ function Profile(props) {
     
     axios.post(`${process.env.REACT_APP_API_URL}/api/friendrequests`, newRequest, { withCredentials: true, headers: {csrf: csrfToken} })
       .then((response) => {
-        console.log(response);
-        setFriendRequestId(response.data._id);
-        setFinishedAsync(true);
+        if (!isUnmounted) {
+          setFriendRequestId(response.data._id);
+          setFinishedAsync(true);
+        }
       })
       .catch((err) => {
-        setErrorMessage('An error occurred. Please try again later.');
+        if (!isUnmounted) {
+          setErrorMessage('An error occurred. Please try again later.');
+        }
       })
   }
   
@@ -129,12 +147,15 @@ function Profile(props) {
     
     axios.delete(`${process.env.REACT_APP_API_URL}/api/friendrequests/${friendRequestId}`)
       .then((response) => {
-        console.log(response);
-        setFriendRequestId('');
-        setFinishedAsync(true);
+        if (!isUnmounted) {
+          setFriendRequestId('');
+          setFinishedAsync(true);
+        }
       })
       .catch((err) => {
-        setErrorMessage('An error occurred. Please try again later.');
+        if (!isUnmounted) {
+          setErrorMessage('An error occurred. Please try again later.');
+        }
       })
   }
   
@@ -151,11 +172,15 @@ function Profile(props) {
       const newUser = {...user};
       newUser.friends = newUser.friends.filter((friend) => friend._id.toString() !== requesterId);
       
-      setIsFriend(false);
-      setUser(newUser);
-      setFinishedAsync(true);
+      if (!isUnmounted) {
+        setIsFriend(false);
+        setUser(newUser);
+        setFinishedAsync(true);
+      }
     } catch (err) {
-      setErrorMessage('An error occurred. Please try again later.');
+      if (!isUnmounted) {
+        setErrorMessage('An error occurred. Please try again later.');
+      }
     }
   }
   
