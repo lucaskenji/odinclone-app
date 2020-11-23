@@ -46,24 +46,31 @@ function UserSettings(props) {
     const fields = form.target;
     const birthDate = new Date(fields.birthYear.value, fields.birthMonth.value, fields.birthDay.value);
     
-    if (validateName(fields.firstName).valid === false
-        || validateName(fields.lastName).valid === false
-        || validateEmail(fields.email).valid === false
-        || validatePassword(fields.password).valid === false) {
+    if (validateName(fields.firstName).valid === false || validateName(fields.lastName).valid === false) {
       setFinishedAsync(true);
       return;
+    }
+    
+    if (!user.facebookId) {
+      if (validateEmail(fields.email).valid === false || validatePassword(fields.password).valid === false) {
+        setFinishedAsync(true);
+        return;
+      }
     }
     
     // Updates
     const updatedUser = {
       firstName: fields.firstName.value,
       lastName: fields.lastName.value,
-      email: fields.email.value,
-      password: fields.password.value,
       photo: fields.photoUrl.value,
       birthDate,
       gender: fields.gender.value
     };
+    
+    if (!user.facebookId) {
+      updatedUser.email = fields.email.value;
+      updatedUser.password = fields.password.value;
+    }
         
     axios.put(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}`, updatedUser)
       .then((response) => {
@@ -151,28 +158,33 @@ function UserSettings(props) {
             onInput={(ev) => validateName(ev.target)} 
           />
           
-          <label htmlFor="updateEmail" className="sr-only">Email</label>
-          <input 
-            disabled={!finishedAsync} 
-            className="form-input uses-font" 
-            type="text" 
-            placeholder="Email" 
-            name="email" 
-            id="updateEmail" 
-            defaultValue={user.email} 
-            onInput={(ev) => validateEmail(ev.target)}
-          />
+          {
+            user.facebookId ? '' :
+            <React.Fragment>
+              <label htmlFor="updateEmail" className="sr-only">Email</label>
+              <input 
+                disabled={!finishedAsync} 
+                className="form-input uses-font" 
+                type="text" 
+                placeholder="Email" 
+                name="email" 
+                id="updateEmail" 
+                defaultValue={user.email} 
+                onInput={(ev) => validateEmail(ev.target)}
+              />
           
-          <label htmlFor="updatePassword" className="sr-only">Password</label>
-          <input 
-            disabled={!finishedAsync} 
-            className="form-input uses-font" 
-            type="password" 
-            placeholder="Password" 
-            name="password" 
-            id="updatePassword" 
-            onInput={(ev) => validatePassword(ev.target)} 
-          />
+              <label htmlFor="updatePassword" className="sr-only">Password</label>
+              <input 
+                disabled={!finishedAsync} 
+                className="form-input uses-font" 
+                type="password" 
+                placeholder="Password" 
+                name="password" 
+                id="updatePassword" 
+                onInput={(ev) => validatePassword(ev.target)} 
+              />
+            </React.Fragment>
+          }
           
           <img 
             id="image-preview-form" 
