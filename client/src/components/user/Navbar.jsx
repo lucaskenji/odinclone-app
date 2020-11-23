@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Icon from '../../images/favicon.svg';
 import SearchBar from './SearchBar';
 import NavbarOptions from './NavbarOptions';
@@ -9,17 +8,17 @@ function Navbar(props) {
 
   return (
     <nav className="navbar">
-      <Link to="/">
+      <a href="/">
         <img src={Icon} id="nav-icon" alt="The website's logo" />
-      </Link>
+      </a>
       <SearchBar/>
-      <Link id="nav-requests-link" 
+      <a id="nav-requests-link" 
             className={/requests/.test(url) ? 'no-underline nav-requests-select' : 'no-underline'} 
-            to="/requests">
+            href="/requests">
         <div id="nav-requests">
           <i className="fas fa-user-friends"></i>
         </div>
-      </Link>
+      </a>
       <NavbarOptions loggedUserId={props.loggedUserId}/>
     </nav>
   )

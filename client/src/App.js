@@ -23,6 +23,7 @@ import ErrorPage from './components/misc/ErrorPage';
 import ForceRedirect from './components/misc/ForceRedirect';
 import ProfileRedirect from './components/misc/ProfileRedirect';
 import UserSettings from './components/profiles/UserSettings';
+import LoadingScreen from './components/misc/LoadingScreen';
 
 class App extends React.Component {
   state = {
@@ -61,19 +62,68 @@ class App extends React.Component {
         
         {this.state.isLogged && <Navbar loggedUserId={this.state.loggedUserId} />}
         
+        <LoadingScreen state={this.state} />
+        
           <Switch>
-            <Route exact path="/" children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/profile/:userId" children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/friends/:userId" children={<FriendList state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/register" children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/requests" children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/settings" children={<UserSettings state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/logout" children={<LogoutPrompt verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/post/:postId" children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/search/:query" children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/redirect" children={<ForceRedirect verifyAuth={this.verifyAuth} />} />
-            <Route exact path="/profile_redirect/:profileId" children={<ProfileRedirect/>} />
-            <Route path="/" children={<ErrorPage errorTitle="Page not found" errorMessage="The page you're trying to access doesn't exist." />} />
+            <Route 
+              exact 
+              path="/" 
+              children={<Dashboard state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/profile/:userId" 
+              children={<Profile state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/friends/:userId" 
+              children={<FriendList state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/register" 
+              children={<RegisterForm state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/requests" 
+              children={<FriendRequests state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/settings" 
+              children={<UserSettings state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/logout" 
+              children={<LogoutPrompt verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/post/:postId" 
+              children={<FullPost state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/search/:query" 
+              children={<SearchResults state={this.state} verifyAuth={this.verifyAuth} />} 
+            />
+            <Route 
+              exact 
+              path="/redirect" 
+              children={<ForceRedirect />} 
+            />
+            <Route 
+              exact 
+              path="/profile_redirect/:profileId" 
+              children={<ProfileRedirect/>} 
+            />
+            <Route 
+              path="/" 
+              children={<ErrorPage errorTitle="Page not found" errorMessage="The page you're trying to access doesn't exist." />} 
+            />
           </Switch>
         </Router>
       </div>

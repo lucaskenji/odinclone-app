@@ -1031,6 +1031,47 @@ body {
   text-align: center;
 }
 
+/* Loading screen */
+
+.loading-screen {
+  position: fixed;
+  z-index: 190;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ebeff0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity .5s;
+}
+
+  .loading-screen-fade {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+.loading-spinner {
+  animation-name: spinLoading;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  color: #1877f2;
+}
+
+@keyframes spinLoading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
 /* Accessibility */
 
 .fieldset-sr-only {

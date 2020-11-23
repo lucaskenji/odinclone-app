@@ -15,7 +15,7 @@ function PostList(props) {
     
     axios.get(process.env.REACT_APP_API_URL + originPath)
       .then((response) => {
-        setPostList(response.data);        
+        setPostList(response.data);
         setSearchedUser(loggedUserId);
         setPreviousRender(renderCount);
       })

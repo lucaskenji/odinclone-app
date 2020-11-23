@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect, Link } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PostList from '../user/PostList';
 import noAvatar from '../../images/no-avatar.png';
@@ -246,17 +246,17 @@ function Profile(props) {
             <div id="profile-friends">
               <div id="profile-friends-header">
                 <h2>Friends</h2>
-                <Link className="no-underline" to={"/friends/" + userId}>Show all friends</Link>
+                <a className="no-underline" href={"/friends/" + userId}>Show all friends</a>
               </div>
               
               <div id="profile-friend-list">
                 { user.friends.map((friend) => 
-                  <Link className="no-underline" key={friend._id} to={"/profile_redirect/" + friend._id}>
+                  <a className="no-underline" key={friend._id} href={"/profile_redirect/" + friend._id}>
                     <div className="profile-friend-container">
                       <img src={friend.photo || noAvatar} alt="Avatar from user's friend" />
                       <span>{friend.firstName} {friend.lastName}</span>
                     </div>
-                  </Link>)}
+                  </a>)}
               </div>
             </div>
             

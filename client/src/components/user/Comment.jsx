@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
 
@@ -36,12 +35,12 @@ function Comment(props) {
   
   return (
     <div className="comment">
-      <Link className="comment-link" to={"/profile/" + comment.author._id}>
+      <a className="comment-link" href={"/profile/" + comment.author._id}>
         <img src={comment.author.photo || noAvatar} alt="Commenter's avatar" className="post-avatar" />
-      </Link>
+      </a>
       
       <div className="comment-content">
-        <Link to={"/profile/" + comment.author._id}>{comment.author.firstName}&nbsp;{comment.author.lastName}</Link>
+        <a href={"/profile/" + comment.author._id}>{comment.author.firstName}&nbsp;{comment.author.lastName}</a>
         <p>{comment.content}</p>
         
         <button className={isLiked ? "btn btn-post uses-font btn-liked" : "btn btn-post uses-font"} disabled={!finishedAsync} onClick={() => handleLike()}>

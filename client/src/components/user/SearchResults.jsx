@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect, Link } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
 
@@ -33,11 +33,11 @@ function SearchResults(props) {
         { results.map((result, index) => 
             <div key={result._id}>
               <div className="search-result">
-                <Link to={'/profile/' + result._id}>
+                <a href={'/profile/' + result._id}>
                   <img src={result.photo || noAvatar} className="result-avatar" alt="An avatar of an user from the search results." />
-                </Link>
+                </a>
                 <div className="result-info">
-                  <Link to={'/profile/' + result._id}>{result.firstName} {result.lastName}</Link>
+                  <a href={'/profile/' + result._id}>{result.firstName} {result.lastName}</a>
                 </div>
               </div>
               

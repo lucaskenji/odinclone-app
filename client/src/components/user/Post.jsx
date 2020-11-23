@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
 
@@ -37,12 +36,12 @@ function Post(props) {
   return (
     <div className="post">
       <div className="post-info">
-        <Link to={"/profile/" + post.author._id}>
+        <a href={"/profile/" + post.author._id}>
           <img src={post.author.photo || noAvatar} className="post-avatar" alt="User avatar" />
-        </Link>
-        <Link to={"/profile/" + post.author._id}>
+        </a>
+        <a href={"/profile/" + post.author._id}>
           {post.author.firstName}&nbsp;{post.author.lastName}
-        </Link>
+        </a>
       </div>
       
       <p className="post-content">
@@ -65,9 +64,9 @@ function Post(props) {
           <i className="far fa-thumbs-up"></i> Like ({likes})
         </button>
         
-        <Link className="btn btn-post-comments btn-post" to={"/post/" + post._id}>
+        <a className="btn btn-post-comments btn-post" href={"/post/" + post._id}>
           <i className="far fa-comment-dots"></i> Comments
-        </Link>
+        </a>
       </div>
     </div>
   );

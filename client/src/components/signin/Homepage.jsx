@@ -15,8 +15,6 @@ function Homepage(props) {
           </div>
           <LoginForm/>
         </div>
-        
-       
       </div>
       <footer id="home-footer">
         <div>
