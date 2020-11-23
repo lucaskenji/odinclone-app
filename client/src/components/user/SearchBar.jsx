@@ -1,6 +1,9 @@
 import React from 'react';
+import localStrings from '../../localization';
 
 function SearchBar(props) {
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
+  
   const handleSearch = (form) => {
     form.preventDefault();
     
@@ -11,8 +14,14 @@ function SearchBar(props) {
   
   return (
     <form onSubmit={handleSearch}>
-      <label htmlFor="search-bar" className="sr-only">Search for users</label>
-      <input className="uses-font" type="text" id="search-bar" name="searchbar" placeholder="Search for users" />
+      <label htmlFor="search-bar" className="sr-only">{localStrings[locale]['search']['searchTip']}</label>
+      <input 
+        className="uses-font" 
+        type="text" 
+        id="search-bar" 
+        name="searchbar" 
+        placeholder={localStrings[locale]['search']['searchTip']} 
+      />
     </form>
   );
 }

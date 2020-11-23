@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Post from './Post';
+import localStrings from '../../localization';
 
 function PostList(props) {
   const { originPath, loggedUserId, renderCount } = props;
   const [postList, setPostList] = useState([]);
   const [searchedUser, setSearchedUser] = useState('');
   const [previousRender, setPreviousRender] = useState(0);
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {    
     if (searchedUser === loggedUserId && previousRender === renderCount) {
@@ -31,7 +33,7 @@ function PostList(props) {
     return (
       <div id="post-list-empty">
         <div className="emote">:(</div>
-        Nothing to see here... yet.
+        {localStrings[locale]['posts']['noPosts']}
       </div>
     );
   }
@@ -45,7 +47,7 @@ function PostList(props) {
         ||
         <div id="post-list-message">
           <div className="emote">;)</div>
-          That's everything for now.
+          {localStrings[locale]['posts']['enoughPosts']}
         </div>
       }
     </div>

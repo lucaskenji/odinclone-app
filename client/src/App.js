@@ -24,6 +24,7 @@ import ForceRedirect from './components/misc/ForceRedirect';
 import ProfileRedirect from './components/misc/ProfileRedirect';
 import UserSettings from './components/profiles/UserSettings';
 import LoadingScreen from './components/misc/LoadingScreen';
+import LocalizeEnglish from './components/misc/LocalizeEnglish';
 
 class App extends React.Component {
   state = {
@@ -119,6 +120,11 @@ class App extends React.Component {
               exact 
               path="/profile_redirect/:profileId" 
               children={<ProfileRedirect/>} 
+            />
+            <Route 
+              exact 
+              path="/en" 
+              children={<LocalizeEnglish />} 
             />
             <Route 
               path="/" 

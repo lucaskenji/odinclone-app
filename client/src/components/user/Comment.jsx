@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
+import localStrings from '../../localization';
 
 function Comment(props) {
   const { comment, loggedUserId } = props;
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.comment.likes.length);
   const [finishedAsync, setFinishedAsync] = useState(true);
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     const foundUser = comment.likes.find(user => user.toString() === loggedUserId);
@@ -36,7 +38,11 @@ function Comment(props) {
   return (
     <div className="comment">
       <a className="comment-link" href={"/profile/" + comment.author._id}>
-        <img src={comment.author.photo || noAvatar} alt="Commenter's avatar" className="post-avatar" />
+        <img 
+          src={comment.author.photo || noAvatar} 
+          alt={localStrings[locale]['posts']['alt']['commenterAvatar']} 
+          className="post-avatar" 
+        />
       </a>
       
       <div className="comment-content">

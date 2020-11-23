@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
+import localStrings from '../../localization';
 
 function FriendList(props) {
   const { verifyAuth } = props;
@@ -9,6 +10,7 @@ function FriendList(props) {
   const [friends, setFriends] = useState([]);
   const [displayedFriends, setDisplayedFriends] = useState([]);
   const [isUnmounted, setIsUnmounted] = useState(false);
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     return () => {setIsUnmounted(true)};
@@ -47,26 +49,34 @@ function FriendList(props) {
       <div id="friend-list">
       
         <div id="friend-list-header">
-          <h2>Friends</h2>
+          <h2>{localStrings[locale]['friendList']['header']}</h2>
           <div id="friend-list-search">
-            <label htmlFor="friend-list-input" className="sr-only">Search for users on friend list</label>
+            <label htmlFor="friend-list-input" className="sr-only">
+              {localStrings[locale]['friendList']['searchTipAlt']}
+            </label>
             <div id="friend-list-icon">
               <i className="fas fa-search"></i>
             </div>
-            <input className="uses-font" type="text" id="friend-list-input" placeholder="Search" onInput={handleSearch} />
+            <input 
+              className="uses-font" 
+              type="text" 
+              id="friend-list-input" 
+              placeholder={localStrings[locale]['friendList']['searchTip']} 
+              onInput={handleSearch} 
+            />
           </div>
         </div>
         
         <div id="friend-list-border">
         {
-          displayedFriends.length === 0 && 'Nothing to see here.'
+          displayedFriends.length === 0 && localStrings[locale]['friendList']['noFriends']
         }
         
         {
           displayedFriends.map((friend) => 
             <div key={friend._id} className="friend-list-unit">
               <Link className="no-underline" to={"/profile/" + friend._id}>
-                <img src={friend.photo || noAvatar} alt="The avatar of one of the user's friends." />
+                <img src={friend.photo || noAvatar} alt={localStrings[locale]['friendList']['alt']['avatar']} />
               </Link>
               <Link className="no-underline" to={"/profile/" + friend._id}>
                 {friend.firstName} {friend.lastName}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import localStrings from '../../localization';
 
 function CommentForm(props) {
   const { postId, triggerRender, loggedUserId } = props;
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   const handleSubmit = (form) => {
     form.preventDefault();
@@ -30,7 +32,7 @@ function CommentForm(props) {
       })
       .catch((err) => {
         if (!err.response) {
-          setErrorMessage('An error occurred. Please try again later.');
+          setErrorMessage(localStrings[locale]['posts']['error']['internal']);
         }
         setFinishedAsync(true);
       })
@@ -39,8 +41,15 @@ function CommentForm(props) {
   return (
     <form onSubmit={handleSubmit}>
       { errorMessage && <div className="error-message">{errorMessage}</div> }
-      <label htmlFor="comment-input" className="sr-only">Write a comment</label>
-      <input className="uses-font" disabled={!finishedAsync} type="text" placeholder="Write a comment" id="comment-input" name="content" />
+      <label htmlFor="comment-input" className="sr-only">{localStrings[locale]['posts']['commentTip']}</label>
+      <input 
+        className="uses-font" 
+        disabled={!finishedAsync} 
+        type="text" 
+        placeholder={localStrings[locale]['posts']['commentTip']} 
+        id="comment-input" 
+        name="content" 
+      />
     </form>
   );
 }

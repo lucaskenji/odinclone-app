@@ -1,16 +1,24 @@
 import React from 'react';
 import LoginForm from './LoginForm';
 import Logo from '../../images/logo.svg';
+import localStrings from '../../localization';
 
 function Homepage(props) {
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
+  
+  const setLocalization = (localizationCode) => {
+    localStorage.setItem('localizationCode', localizationCode);
+    window.location.href = "/";
+  }
+  
   return (
     <div>
       <div id="home-container">
         <div id="home-aux-container">
           <div id="home-info">
-            <img id="home-logo" src={Logo} alt="Logo of the website, named Odinclone" />
+            <img id="home-logo" src={Logo} alt={localStrings[locale]['homepage']['alt']['logo']} />
             <p id="home-description">
-              Odinclone is a Facebook clone made for learning purposes.
+              {localStrings[locale]['homepage']['homepageDesc']}
             </p>
           </div>
           <LoginForm/>
@@ -18,19 +26,23 @@ function Homepage(props) {
       </div>
       <footer id="home-footer">
         <div>
-          <span>English (US)</span>
-          <span>Português (Brasil)</span>
+          <span className="home-local" onClick={() => setLocalization('en-US')}>English (US)</span>
+          <span className="home-local" onClick={() => setLocalization('pt-BR')}>Português (Brasil)</span>
           <hr/>
-          <span>App made by Lucas Kenji</span>
+          <span>{localStrings[locale]['homepage']['credits']}</span>
           <span>
-            <a rel="noopener noreferrer" href="https://github.com/lucaskenji" target="_blank">My Github</a>
+            <a rel="noopener noreferrer" href="https://github.com/lucaskenji" target="_blank">
+              {localStrings[locale]['homepage']['githubLink']}
+            </a>
           </span>
           <span>
-            <a rel="noopener noreferrer" href="https://lucaskenji.github.io" target="_blank">My portfolio</a>
+            <a rel="noopener noreferrer" href="https://lucaskenji.github.io" target="_blank">
+              {localStrings[locale]['homepage']['portfolioLink']}
+            </a>
           </span>
           <span>
             <a rel="noopener noreferrer" href="https://www.theodinproject.com/courses/nodejs/lessons/odin-book" target="_blank">
-              The Odin Project prompt
+              {localStrings[locale]['homepage']['odinProjectLink']}
             </a>
           </span>
         </div>

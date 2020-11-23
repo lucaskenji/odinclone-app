@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { validateName, validateEmail, validatePassword } from '../signin/utils/validateRegister';
+import localStrings from '../../localization';
 
 function UserSettings(props) {
   const { verifyAuth } = props;
@@ -12,6 +13,7 @@ function UserSettings(props) {
   const [urlIsValid, setUrlIsValid] = useState(true);
   const [validatedUrl, setValidatedUrl] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     verifyAuth();
@@ -81,12 +83,12 @@ function UserSettings(props) {
       .catch((err) => {
         if (err.response) {
           if (err.response.status === 409) {
-            setErrorMessage('The email provided is already in use.');
+            setErrorMessage(localStrings[locale]['settings']['error']['emailConflict']);
           } else {
-            setErrorMessage('Invalid data.');
+            setErrorMessage(localStrings[locale]['settings']['error']['invalidData']);
           }
         } else {
-          setErrorMessage('An error occurred. Please try again later.');
+          setErrorMessage(localStrings[locale]['settings']['error']['internal']);
         }
         setFinishedAsync(true);
       })
@@ -130,28 +132,28 @@ function UserSettings(props) {
     return (
       <div id="update-form-container">
         <form id="update-form" onSubmit={requestUpdate}>
-          <h1 id="update-title">Settings</h1>
+          <h1 id="update-title">{localStrings[locale]['settings']['header']}</h1>
           
           { errorMessage && <div className="error-message">{errorMessage}</div> }
           
-          <label htmlFor="updateFirstName" className="sr-only">First name</label>
+          <label htmlFor="updateFirstName" className="sr-only">{localStrings[locale]['settings']['firstName']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="text" 
-            placeholder="First name" 
+            placeholder={localStrings[locale]['settings']['firstName']} 
             name="firstName" 
             id="updateFirstName" 
             defaultValue={user.firstName} 
             onInput={(ev) => validateName(ev.target)}
           />
           
-          <label htmlFor="updateLastName" className="sr-only">Last name</label>
+          <label htmlFor="updateLastName" className="sr-only">{localStrings[locale]['settings']['lastName']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="text" 
-            placeholder="Last name" 
+            placeholder={localStrings[locale]['settings']['lastName']} 
             name="lastName" 
             id="updateLastName" 
             defaultValue={user.lastName} 
@@ -161,24 +163,24 @@ function UserSettings(props) {
           {
             user.facebookId ? '' :
             <React.Fragment>
-              <label htmlFor="updateEmail" className="sr-only">Email</label>
+              <label htmlFor="updateEmail" className="sr-only">{localStrings[locale]['settings']['email']}</label>
               <input 
                 disabled={!finishedAsync} 
                 className="form-input uses-font" 
                 type="text" 
-                placeholder="Email" 
+                placeholder={localStrings[locale]['settings']['email']} 
                 name="email" 
                 id="updateEmail" 
                 defaultValue={user.email} 
                 onInput={(ev) => validateEmail(ev.target)}
               />
           
-              <label htmlFor="updatePassword" className="sr-only">Password</label>
+              <label htmlFor="updatePassword" className="sr-only">{localStrings[locale]['settings']['password']}</label>
               <input 
                 disabled={!finishedAsync} 
                 className="form-input uses-font" 
                 type="password" 
-                placeholder="Password" 
+                placeholder={localStrings[locale]['settings']['password']} 
                 name="password" 
                 id="updatePassword" 
                 onInput={(ev) => validatePassword(ev.target)} 
@@ -198,15 +200,15 @@ function UserSettings(props) {
           { urlIsValid 
               || 
               <div className="error-msg">
-                <i className="fas fa-exclamation-circle"></i> The image URL provided is invalid.
+                <i className="fas fa-exclamation-circle"></i> {localStrings[locale]['settings']['error']['invalidUrl']}
               </div> }
           
-          <label htmlFor="updatePhoto" className="sr-only">Avatar URL</label>
+          <label htmlFor="updatePhoto" className="sr-only">{localStrings[locale]['settings']['avatarUrl']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="text" 
-            placeholder="Avatar URL" 
+            placeholder={localStrings[locale]['settings']['avatarUrl']} 
             name="photoUrl" 
             id="updatePhoto" 
             defaultValue={user.photo} 
@@ -214,7 +216,7 @@ function UserSettings(props) {
           />
                     
           <fieldset id="update-birthdate-fieldset" className="fieldset-sr-only">
-            <legend>Birth date</legend>
+            <legend>{localStrings[locale]['settings']['birthDate']}</legend>
             
             <select disabled={!finishedAsync} 
               className="form-select uses-font" 
@@ -235,7 +237,7 @@ function UserSettings(props) {
               defaultValue={user.birthDate.getMonth()} 
             >
               {
-                ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                localStrings[locale]['settings']['monthNames']
                 .map((month, index) => <option value={index} key={month}>{month}</option>)
               }
             </select>
@@ -254,7 +256,7 @@ function UserSettings(props) {
           </fieldset>
           
           <fieldset className="fieldset-sr-only">
-          <legend>Gender</legend>
+          <legend>{localStrings[locale]['settings']['gender']}</legend>
             <label>
               <input 
                 disabled={!finishedAsync} 
@@ -263,7 +265,7 @@ function UserSettings(props) {
                 value="female" 
                 defaultChecked={user.gender === "female"}
                 required
-              />&nbsp;Female
+              />&nbsp;{localStrings[locale]['settings']['female']}
             </label>
             <label>
               <input 
@@ -273,7 +275,7 @@ function UserSettings(props) {
                 value="male" 
                 defaultChecked={user.gender === "male"}
                 required  
-              />&nbsp;Male
+              />&nbsp;{localStrings[locale]['settings']['male']}
             </label>
             <label>
               <input 
@@ -283,11 +285,13 @@ function UserSettings(props) {
                 value="other" 
                 defaultChecked={user.gender === "other"}
                 required
-              />&nbsp;Other
+              />&nbsp;{localStrings[locale]['settings']['other']}
             </label>
           </fieldset>
           
-          <button disabled={!finishedAsync} className="btn btn-primary btn-home uses-font" type="submit">Save</button>
+          <button disabled={!finishedAsync} className="btn btn-primary btn-home uses-font" type="submit">
+            {localStrings[locale]['settings']['save']}
+          </button>
         </form>
       </div>
     );

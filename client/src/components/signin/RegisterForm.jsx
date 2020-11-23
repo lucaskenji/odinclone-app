@@ -3,11 +3,13 @@ import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../../images/logo.svg';
 import { validateName, validateEmail, validatePassword } from './utils/validateRegister';
+import localStrings from '../../localization';
 
 function RegisterForm(props) {
   const { verifyAuth } = props;
   const [finishedAsync, setFinishedAsync] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     verifyAuth();
@@ -47,12 +49,12 @@ function RegisterForm(props) {
       .catch((err) => {
         if (err.response) {
           if (err.response.status === 400) {
-            setErrorMessage('Invalid data.');
+            setErrorMessage(localStrings[locale]['register']['error']['invalidData']);
           } else if (err.response.status === 409) {
-            setErrorMessage('The email provided is already in use.');
+            setErrorMessage(localStrings[locale]['register']['error']['emailConflict']);
           }
         } else {
-          setErrorMessage('An error occurred. Please try again later.');
+          setErrorMessage(localStrings[locale]['register']['error']['internal']);
         }
         
         setFinishedAsync(true);
@@ -72,59 +74,59 @@ function RegisterForm(props) {
   } else {
     return (
       <div id="register-container">
-        <Link to="/"><img src={Logo} alt="Odinclone logo" id="register-logo" /></Link>
+        <Link to="/"><img src={Logo} alt={localStrings[locale]['register']['alt']['logo']} id="register-logo" /></Link>
         
         <form id="register-form" onSubmit={requestRegister}>
-          <h1 id="register-title">Register</h1>
+        <h1 id="register-title">{localStrings[locale]['register']['header']}</h1>
           
           { errorMessage && <div className="error-message">{errorMessage}</div> }
           
-          <label htmlFor="firstName" className="sr-only">First name</label>
+          <label htmlFor="firstName" className="sr-only">{localStrings[locale]['register']['firstName']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="text" 
-            placeholder="First name" 
+            placeholder={localStrings[locale]['register']['firstName']} 
             name="firstName" 
             id="firstName" 
             onInput={(ev) => validateName(ev.target)}
           />
           
-          <label htmlFor="lastName" className="sr-only">Last name</label>
+          <label htmlFor="lastName" className="sr-only">{localStrings[locale]['register']['lastName']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="text" 
-            placeholder="Last name" 
+            placeholder={localStrings[locale]['register']['lastName']} 
             name="lastName" 
             id="lastName" 
             onInput={(ev) => validateName(ev.target)} 
           />
           
-          <label htmlFor="email" className="sr-only">Email</label>
+          <label htmlFor="email" className="sr-only">{localStrings[locale]['register']['email']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="text" 
-            placeholder="Email" 
+            placeholder={localStrings[locale]['register']['email']} 
             name="email" 
             id="email" 
             onInput={(ev) => validateEmail(ev.target)}
           />
           
-          <label htmlFor="password" className="sr-only">Password</label>
+          <label htmlFor="password" className="sr-only">{localStrings[locale]['register']['password']}</label>
           <input 
             disabled={!finishedAsync} 
             className="form-input uses-font" 
             type="password" 
-            placeholder="Password" 
+            placeholder={localStrings[locale]['register']['password']} 
             name="password" 
             id="password" 
             onInput={(ev) => validatePassword(ev.target)} 
           />
                     
           <fieldset id="birthdate-fieldset" className="fieldset-sr-only">
-            <legend>Birth date</legend>
+            <legend>{localStrings[locale]['register']['birthDate']}</legend>
             
             <select disabled={!finishedAsync} className="form-select uses-font" name="birthDay" id="birthDay" defaultValue="1">
               <option key="1">1</option>
@@ -134,9 +136,9 @@ function RegisterForm(props) {
             </select>
             
             <select disabled={!finishedAsync} className="form-select uses-font" name="birthMonth" id="birthMonth" defaultValue="Jan">
-              <option value="0" key="Jan">Jan</option>
+              <option value="0" key="Jan">{localStrings[locale]['register']['january']}</option>
               {
-                ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                localStrings[locale]['register']['monthNames']
                 .map((month, index) => <option value={index+1} key={month}>{month}</option>)
               }
             </select>
@@ -150,7 +152,7 @@ function RegisterForm(props) {
           </fieldset>
           
           <fieldset className="fieldset-sr-only">
-          <legend>Gender</legend>
+          <legend>{localStrings[locale]['register']['gender']}</legend>
             <label>
               <input 
                 disabled={!finishedAsync} 
@@ -158,7 +160,7 @@ function RegisterForm(props) {
                 name="gender" 
                 value="female" 
                 required
-              />&nbsp;Female
+              />&nbsp;{localStrings[locale]['register']['female']}
             </label>
             <label>
               <input 
@@ -167,7 +169,7 @@ function RegisterForm(props) {
                 name="gender" 
                 value="male" 
                 required  
-              />&nbsp;Male
+              />&nbsp;{localStrings[locale]['register']['male']}
             </label>
             <label>
               <input 
@@ -176,11 +178,13 @@ function RegisterForm(props) {
                 name="gender" 
                 value="other" 
                 required
-              />&nbsp;Other
+              />&nbsp;{localStrings[locale]['register']['other']}
             </label>
           </fieldset>
           
-          <button disabled={!finishedAsync} className="btn btn-confirm btn-home uses-font" type="submit">Create account</button>
+          <button disabled={!finishedAsync} className="btn btn-confirm btn-home uses-font" type="submit">
+            {localStrings[locale]['register']['createAccount']}
+          </button>
         </form>
       </div>
     );

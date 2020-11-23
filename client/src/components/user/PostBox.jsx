@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import localStrings from '../../localization';
 
 function PostBox(props) {
   const [finishedAsync, setFinishedAsync] = useState(true);
@@ -10,6 +11,8 @@ function PostBox(props) {
   const [photoUrl, setPhotoUrl] = useState('');
   const [urlIsValid, setUrlIsValid] = useState(true);
   const [validatedUrl, setValidatedUrl] = useState(true);
+  
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   const closeModal = () => {
     if (finishedAsync) {
@@ -46,9 +49,9 @@ function PostBox(props) {
       })
       .catch((err) => {
         if (err.response) {
-          setErrorMessage('You must provide a message.');
+          setErrorMessage(localStrings[locale]['postbox']['error']['badRequest']);
         } else {
-          setErrorMessage('An error occurred. Please try again later.');
+          setErrorMessage(localStrings[locale]['postbox']['error']['internal']);
         }
         
         setFinishedAsync(true);
@@ -85,14 +88,14 @@ function PostBox(props) {
       <div className="dark-screen" onClick={closeModal} />
       <div className="post-form">
         <div id="post-form-header">
-          <h2>Create a post</h2>
+          <h2>{localStrings[locale]['postbox']['header']}</h2>
           <i onClick={closeModal} className="fas fa-times"></i>
         </div>
         
         <form onSubmit={handleSubmit}>
           { errorMessage && <div className="error-message">{errorMessage}</div> }
           
-          <label htmlFor="postbox" className="sr-only">Share your thoughts</label>
+          <label htmlFor="postbox" className="sr-only">{localStrings[locale]['postbox']['postTip']}</label>
           <div id="postbox-container">
             <textarea 
               className="uses-font" 
@@ -100,7 +103,7 @@ function PostBox(props) {
               id="postbox" 
               name="content" 
               maxLength="250" 
-              placeholder="Share your thoughts..."></textarea>
+              placeholder={localStrings[locale]['postbox']['postTip']}></textarea>
             
             <img 
               id="image-preview-form" 
@@ -114,29 +117,31 @@ function PostBox(props) {
             { urlIsValid 
               || 
               <span className="error-message">
-                <i className="fas fa-exclamation-circle"></i> The image URL provided is invalid.
+                <i className="fas fa-exclamation-circle"></i> {localStrings[locale]['postbox']['error']['badUrl']}
               </span> }
             
             <div id="postbox-buttons">
               <div>
                 <button type="button" className="btn btn-photo uses-font" onClick={handleClickImage}>
-                  <i className="fas fa-images"></i>&nbsp;Image
+                  <i className="fas fa-images"></i>&nbsp;{localStrings[locale]['postbox']['imageButton']}
                 </button>
                 
-                <label htmlFor="photo-url" className={inputUrlVisible ? "sr-only turn-visible" : "sr-only"}>Photo URL</label>
+                <label htmlFor="photo-url" className={inputUrlVisible ? "sr-only turn-visible" : "sr-only"}>
+                  {localStrings[locale]['postbox']['urlTip']}
+                </label>
                 <input 
                   type="text" 
                   className={inputUrlVisible ? "uses-font post-form-input turn-visible" : "uses-font post-form-input"} 
                   disabled={!finishedAsync} 
                   id="photoUrl" 
                   name="photoUrl" 
-                  placeholder="Photo URL" 
+                  placeholder={localStrings[locale]['postbox']['urlTip']} 
                   onChange={handleInputUrl}
                 />
               </div>
               
               <button className="btn btn-primary uses-font" disabled={!finishedAsync} type="submit" id="postbox-submit">
-                Send
+                {localStrings[locale]['postbox']['send']}
               </button>
             </div>
           </div>

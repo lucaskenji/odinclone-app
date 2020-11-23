@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import noAvatar from '../../images/no-avatar.png';
+import localStrings from '../../localization';
 
 function FriendRequests(props) {
   const { verifyAuth } = props;
@@ -9,6 +10,7 @@ function FriendRequests(props) {
   const [requestList, setRequestList] = useState([]);
   const [disableButton, setDisableButton] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     verifyAuth();
@@ -52,7 +54,7 @@ function FriendRequests(props) {
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/friendrequests/${requestId}`);
       setRequestList( [...requestList].filter((request) => request._id !== requestObject._id) );
     } catch (err) {
-      setErrorMessage('An error occurred. Please try again later.');
+      setErrorMessage(localStrings[locale]['friendRequests']['error']['internal']);
     }
     
     console.log('Operations done.');
@@ -75,13 +77,17 @@ function FriendRequests(props) {
   } else {
     return (
       <div id="requests-container">
-        <h1>Friend Requests</h1>
+        <h1>{localStrings[locale]['friendRequests']['header']}</h1>
         
-        { requestList.length === 0 ? 'No new requests.' : '' }
+        { requestList.length === 0 ? localStrings[locale]['friendRequests']['noRequest'] : '' }
         
         { requestList.map((request) =>
           <div className="request-div" key={request._id} onClick={() => visitProfile(request.sender._id)}>
-            <img src={request.sender.photo || noAvatar} alt="Request sender's avatar" className="request-avatar" />
+            <img 
+              src={request.sender.photo || noAvatar} 
+              alt={localStrings[locale]['friendRequests']['alt']['avatar']} 
+              className="request-avatar" 
+            />
             
             <div>
               {request.sender.firstName}&nbsp;{request.sender.lastName}<br/>
@@ -89,12 +95,12 @@ function FriendRequests(props) {
                 <button className="btn btn-primary uses-font btn-large" 
                         disabled={disableButton} 
                         onClick={(ev) => mapEventHandler(ev, 'accept', request)}>
-                  Accept
+                  {localStrings[locale]['friendRequests']['accept']}
                 </button>
                 <button className="btn btn-secondary uses-font btn-large" 
                         disabled={disableButton} 
                         onClick={(ev) => mapEventHandler(ev, 'decline', request)}>
-                  Decline
+                  {localStrings[locale]['friendRequests']['decline']}
                 </button>
               </div>
               { errorMessage && <div className="error-message">{errorMessage}</div> }

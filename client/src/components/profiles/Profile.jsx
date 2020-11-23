@@ -4,6 +4,7 @@ import axios from 'axios';
 import PostList from '../user/PostList';
 import noAvatar from '../../images/no-avatar.png';
 import ErrorPage from '../misc/ErrorPage';
+import localStrings from '../../localization';
 
 function Profile(props) {
   const [user, setUser] = useState(null);
@@ -18,6 +19,7 @@ function Profile(props) {
   const { userId } = useParams();
   const { verifyAuth } = props;
   const { isLogged, loggedUserId } = props.state;
+  const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     return () => { setIsUnmounted(true) }
@@ -125,6 +127,7 @@ function Profile(props) {
   }, [loggedUserId, userId, isUnmounted]);
   
   const handleSendRequest = () => {
+    console.log('are u even');
     setFinishedAsync(false);
     setErrorMessage('');
     
@@ -144,7 +147,7 @@ function Profile(props) {
       })
       .catch((err) => {
         if (!isUnmounted) {
-          setErrorMessage('An error occurred. Please try again later.');
+          setErrorMessage(localStrings[locale]['profile']['error']['internal']);
         }
       })
   }
@@ -162,7 +165,7 @@ function Profile(props) {
       })
       .catch((err) => {
         if (!isUnmounted) {
-          setErrorMessage('An error occurred. Please try again later.');
+          setErrorMessage(localStrings[locale]['profile']['error']['internal']);
         }
       })
   }
@@ -185,7 +188,7 @@ function Profile(props) {
       }
     } catch (err) {
       if (!isUnmounted) {
-        setErrorMessage('An error occurred. Please try again later.');
+        setErrorMessage(localStrings[locale]['profile']['error']['internal']);
       }
     }
   }
@@ -195,7 +198,12 @@ function Profile(props) {
   }
   
   if (fatalError) {
-    return (<ErrorPage errorTitle="Uh-oh!" errorMessage="An error occurred on the server. Please try again later." />);
+    return (
+      <ErrorPage 
+        errorTitle={localStrings[locale]['profile']['error']['fatalTitle']} 
+        errorMessage={localStrings[locale]['profile']['error']['fatalMessage']} 
+      />
+    );
   }
   
   if (props.state.loading) {
@@ -207,11 +215,21 @@ function Profile(props) {
       <div id="profile">
         <div id="profile-top-bg"/>
         <div id="profile-banner"/>
-        <img src={user.photo || noAvatar} alt="User's avatar" id="profile-avatar" />
+        <img src={user.photo || noAvatar} alt={localStrings[locale]['profile']['alt']['avatar']} id="profile-avatar" />
         
         <div id="profile-info">
           <h1>{user.firstName}&nbsp;{user.lastName}</h1>
-          Born on {user.birthDate.toLocaleDateString('en-US')}, {user.gender === 'undefined' ? 'no gender defined' : user.gender}<br/>
+          {localStrings[locale]['profile']['bornPrefix']}&nbsp;{user.birthDate.toLocaleDateString(locale)},&nbsp;
+          {
+            user.gender === 'undefined' 
+            ? localStrings[locale]['profile']['noGender'] 
+            : user.gender === 'male'
+              ? localStrings[locale]['profile']['male']
+              : user.gender === 'female'
+                ? localStrings[locale]['profile']['female']
+                : localStrings[locale]['profile']['other']
+          }
+          <br/>
         
           
           {
@@ -219,18 +237,18 @@ function Profile(props) {
               ? '' 
               : ( isFriend
                   ? <button className="btn btn-primary btn-profile btn-large uses-font" disabled={!finishedAsync} onClick={handleUnfriend}>
-                      <i className="fas fa-times"></i>  Unfriend
+                      <i className="fas fa-times"></i>  {localStrings[locale]['profile']['unfriend']}
                     </button>
                   : ( requestedUser
                         ? <button className="btn btn-primary btn-profile btn-large uses-font"  onClick={acceptRequest}>
-                            <i className="fas fa-check"></i> Accept friend request
+                            <i className="fas fa-check"></i> {localStrings[locale]['profile']['accept']}
                           </button>
                         : ( friendRequestId 
                             ? <button className="btn btn-primary btn-profile btn-large uses-font"  disabled={!finishedAsync} onClick={handleCancelRequest}>
-                                <i className="fas fa-ban"></i> Cancel friend request
+                                <i className="fas fa-ban"></i> {localStrings[locale]['profile']['cancel']}
                               </button>
                             : <button className="btn btn-primary btn-profile btn-large uses-font"  disabled={!finishedAsync} onClick={handleSendRequest}>
-                                <i className="fas fa-plus"></i> Send friend request
+                                <i className="fas fa-plus"></i> {localStrings[locale]['profile']['send']}
                               </button>
                           )
                     )
@@ -245,15 +263,15 @@ function Profile(props) {
           <div id="profile-sidebar">
             <div id="profile-friends">
               <div id="profile-friends-header">
-                <h2>Friends</h2>
-                <a className="no-underline" href={"/friends/" + userId}>Show all friends</a>
+                <h2>{localStrings[locale]['profile']['headerFriends']}</h2>
+                <a className="no-underline" href={"/friends/" + userId}>{localStrings[locale]['profile']['showAllFriends']}</a>
               </div>
               
               <div id="profile-friend-list">
                 { user.friends.map((friend) => 
                   <a className="no-underline" key={friend._id} href={"/profile_redirect/" + friend._id}>
                     <div className="profile-friend-container">
-                      <img src={friend.photo || noAvatar} alt="Avatar from user's friend" />
+                      <img src={friend.photo || noAvatar} alt={localStrings[locale]['profile']['alt']['avatarFriend']} />
                       <span>{friend.firstName} {friend.lastName}</span>
                     </div>
                   </a>)}

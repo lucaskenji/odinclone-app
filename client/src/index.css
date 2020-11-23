@@ -364,6 +364,11 @@ body {
   line-height: 25px;
 }
 
+.home-local:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 /* Dashboard */
 .post {
   width: 650px;
