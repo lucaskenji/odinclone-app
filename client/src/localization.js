@@ -164,6 +164,11 @@ const localStrings = {
         'internal': 'An error occurred. Please try again later.',
         'invalidUrl': ' The image URL provided is invalid.'
       }
+    },
+    
+    'loading': {
+      'normal': 'Loading...',
+      'mainPage': 'Waiting for Heroku response...'
     }
   },
   'pt-BR': {
@@ -331,6 +336,11 @@ const localStrings = {
         'internal': 'Ocorreu um erro. Tente novamente mais tarde.',
         'invalidUrl': ' A URL providenciada é inválida.'
       }
+    },
+        
+    'loading': {
+      'normal': 'Carregando...',
+      'mainPage': 'Aguardando resposta da Heroku...'
     }
   }
 };
