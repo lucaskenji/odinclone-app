@@ -44,7 +44,7 @@ function FullPost(props) {
   } else if (post._id) {
     return (
       <div className="full-post">
-        <Post post={post} loggedUserId={loggedUserId} />
+        <Post post={post} loggedUserId={loggedUserId}/>
         <CommentForm postId={postId} triggerRender={triggerRender} loggedUserId={loggedUserId} />
         <CommentList postId={postId} renderCount={renderCount} loggedUserId={loggedUserId} />
       </div>

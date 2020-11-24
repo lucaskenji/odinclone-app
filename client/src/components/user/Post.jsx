@@ -57,7 +57,10 @@ function Post(props) {
       { post.photo 
         && 
         <div className="post-image">
-          <img src={post.photo} alt={localStrings[locale]['posts']['alt']['postImagePrefix'] + post.author.firstName} />
+          <img 
+            src={post.photo} 
+            alt={localStrings[locale]['posts']['alt']['postImagePrefix'] + post.author.firstName} 
+          />
         </div> }
       
       <hr/>

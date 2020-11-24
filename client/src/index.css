@@ -234,9 +234,28 @@ body {
   margin-top: 5px;
 }
 
+@media (max-width: 700px) {
+  #nav-options {
+    margin-top: 5px;
+  }
+  
+  #search-bar {
+    width: 150px;
+  }
+  
+  #nav-requests-link {
+    z-index: 300;
+  }
+  
+  #nav-options-container {
+    margin-left: -200px;
+  }
+}
+
 /* Homepage */
 #home-container {
   width: 100%;
+  height: 100vh;
   display: flex;
   -moz-flex-direction: row;
   flex-direction: row;
@@ -270,7 +289,7 @@ body {
 #home-footer {
   position: absolute;
   left: 0;
-  top: 100vh;
+  top: 100%;
   bottom: 0;
   width: 100%;
   height: 160px;
@@ -302,6 +321,7 @@ body {
 
 #login-container {
   width: 380px;
+  height: 300px;
   border-radius: 12px;
   background-color: #fefefe;
   box-shadow: 0 5px 10px lightgray;
@@ -375,6 +395,28 @@ body {
   text-decoration: underline;
 }
 
+@media (max-width: 900px) {
+  #home-container {
+    margin-top: 0;
+  }
+  
+  #home-aux-container {
+    -moz-flex-direction: column;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #home-info {
+    width: 100%;
+  }
+}
+
+@media (max-height: 540px) {  
+  #home-footer {
+    margin-top: 200px;
+  }
+}
+
 /* Dashboard */
 .post {
   width: 650px;
@@ -418,8 +460,10 @@ body {
   
   .post-content {
     padding-left: 15px;
+    padding-right: 15px;
     margin-top: 10px;
     margin-bottom: 0;
+    word-wrap: break-word;
   }
   
   .post hr {
@@ -664,6 +708,76 @@ body {
   color: #1877f2;
 }
 
+@media (max-width: 660px) {
+  #dashboard {
+    width: 100%;
+  }
+  
+  .full-post {
+    width: 90%;
+  }
+  
+  #comment-input {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .comm {
+    width: 90%;
+  }
+  
+  #post-list {
+    width: 90%;
+  }
+  
+  #post-list-empty {
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #postbox-container-div {
+    width: 90%;
+  }
+  
+  .post {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+  }
+  
+  .post-image {
+    width: 100%;
+    height: 300px;
+    background-color: black;
+    margin-left: 0;
+  }
+  
+  .post-image img {
+    width: 100% !important;
+  }
+  
+  .post-info {
+    padding: 15px 15px 5px 15px;
+  }
+  
+  .post-content {
+    padding: 0 25px 0 25px;
+  }
+  
+  .post-options {
+    padding: 5px 5px 15px 5px;
+  }
+}
+
+@media (max-height: 420px) {
+  .post-form {
+    top: 70px;
+  }
+}
+
 /* Search results */
 #search-results {
   margin-top: 90px;
@@ -719,6 +833,12 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
   align-items: center;
+}
+
+@media (max-width: 700px) {
+  #search-results {
+    width: 90%;
+  }
 }
 
 /* Profile */
@@ -860,6 +980,33 @@ body {
     .profile-friend-container span:hover {
       text-decoration: underline;
     }
+
+@media (max-width: 1000px) {
+  #profile {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  
+  #profile-friends-posts {
+    flex-direction: column;
+    -moz-flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+    
+  #profile-sidebar {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }  
+}
+
+@media (max-width: 660px) {
+  #profile-sidebar {
+    width: 90%;
+  }
+}
 
 /* Friend list */
 
@@ -1034,6 +1181,12 @@ body {
     margin-right: 5px;
   }
 
+@media (max-width: 700px) {
+  #requests-container {
+    width: 90%;
+  }
+}
+
 /* Settings page */
 
 #update-form-container {
@@ -1046,6 +1199,13 @@ body {
   box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
   border-radius: 12px;
   text-align: center;  
+}
+
+@media (max-width: 660px) {
+  #update-form-container {
+    width: 90%;
+    margin-bottom: 20px;
+  }
 }
 
 /* Error page */
