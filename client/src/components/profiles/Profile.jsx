@@ -18,12 +18,12 @@ function Profile(props) {
   const [isUnmounted, setIsUnmounted] = useState(false);
   const { userId } = useParams();
   const { verifyAuth } = props;
-  const { isLogged, loggedUserId } = props.state;
+  const { loggedUserId } = props.state;
   const locale = localStorage.getItem('localizationCode') === 'en-US' ? 'en-US' : 'pt-BR';
   
   useEffect(() => {
     return () => { setIsUnmounted(true) }
-  }, [verifyAuth, userId, isLogged]);
+  }, []);
   
   useEffect(() => {
     verifyAuth();
@@ -127,7 +127,6 @@ function Profile(props) {
   }, [loggedUserId, userId, isUnmounted]);
   
   const handleSendRequest = () => {
-    console.log('are u even');
     setFinishedAsync(false);
     setErrorMessage('');
     
@@ -281,7 +280,7 @@ function Profile(props) {
             <div id="profile-invisible" />
           </div>
           
-          <PostList originPath={"/api/users/" + userId + "/posts"} userId={userId} renderCount={0} />
+          <PostList originPath={"/api/users/" + userId + "/posts"} loggedUserId={loggedUserId} renderCount={0} />
           
         </div>
       </div>

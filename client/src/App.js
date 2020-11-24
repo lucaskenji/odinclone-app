@@ -56,6 +56,10 @@ class App extends React.Component {
     });
   }
   
+  finishLoading = () => {
+    this.setState({ loading: false });
+  }
+  
   render() {          
     return (    
       <div className="App uses-font">        
@@ -128,7 +132,11 @@ class App extends React.Component {
             />
             <Route 
               path="/" 
-              children={<ErrorPage errorTitle="Page not found" errorMessage="The page you're trying to access doesn't exist." />} 
+              children={<ErrorPage 
+                          finishLoading={this.finishLoading} 
+                          errorTitle="Page not found" 
+                          errorMessage="The page you're trying to access doesn't exist." 
+                        />} 
             />
           </Switch>
         </Router>

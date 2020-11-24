@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 function ErrorPage(props) {
+  const { finishLoading } = props;
+  
+  useEffect(() => {
+    finishLoading();
+  }, [finishLoading])
+  
   return (
     <div id="error-container">
       <h1>{ props.errorTitle }</h1>
