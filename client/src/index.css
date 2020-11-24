@@ -96,6 +96,7 @@ body {
   height: 56px;
   box-shadow: 0 2px 5px lightgray;
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   align-items: center;
   z-index: 200;
@@ -147,10 +148,10 @@ body {
   }
   
   #nav-options-container {
-    align-self: end;
     margin-left: auto;
     margin-right: 20px;
-    margin-top: 6px;
+    margin-top: auto;
+    padding-top: 6px;
   }
   
   #nav-toggle {
@@ -190,6 +191,7 @@ body {
     color: black;
     font-weight: bold;
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     align-items: center;
   }
@@ -212,6 +214,7 @@ body {
     margin-right: 10px;
     border-radius: 50%;
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -235,6 +238,7 @@ body {
 #home-container {
   width: 100%;
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   justify-content: space-around;
   margin-top: 120px;
@@ -243,6 +247,7 @@ body {
   #home-aux-container {
     width: 80%;
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     justify-content: space-around;
   }
@@ -313,6 +318,7 @@ body {
   margin-top: 40px;
   text-align: center;
   display: flex;
+  -moz-flex-direction: column;
   flex-direction: column;
   align-items: center;
 }
@@ -395,6 +401,7 @@ body {
     padding-left: 15px;
     padding-top: 5px;
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     align-items: center;
   }
@@ -424,6 +431,7 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     justify-content: space-around;
   }
@@ -435,6 +443,7 @@ body {
     height: 420px;
     background-color: black;
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     justify-content: center;
   }
@@ -442,6 +451,7 @@ body {
     .post-image img {
       max-width: 100%;
       max-height: 100%;
+      -o-object-fit: cover;
       object-fit: cover;
     }
 
@@ -475,6 +485,7 @@ body {
 
   #post-form-header {
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -515,6 +526,7 @@ body {
   
   #postbox-buttons {
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     justify-content: space-between;
   }
@@ -584,6 +596,7 @@ body {
 
 .comment {
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
 }
 
@@ -674,6 +687,7 @@ body {
 
 .search-result {
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
@@ -702,6 +716,7 @@ body {
 
 #dashboard {
   display: flex;
+  -moz-flex-direction: column;
   flex-direction: column;
   align-items: center;
 }
@@ -713,6 +728,7 @@ body {
   margin-left: 20%;
   margin-right: 20%;
   display: flex;
+  -moz-flex-direction: column;
   flex-direction: column;
   align-items: center;
 }
@@ -759,6 +775,7 @@ body {
 #profile-friends-posts {
   margin-top: 20px;
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
 }
 
@@ -767,6 +784,7 @@ body {
   margin-top: 15px;
   margin-right: 20px;
   display: flex;
+  -moz-flex-direction: column;
   flex-direction: column;
 }
 
@@ -784,6 +802,7 @@ body {
 
 #profile-friends-header {
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -806,6 +825,7 @@ body {
 #profile-friend-list {
   flex-wrap: wrap;
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
 }
 
@@ -880,6 +900,7 @@ body {
 
 #friend-list-header {
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -888,6 +909,7 @@ body {
 
   #friend-list-search {
     display: flex;
+    -moz-flex-direction: row;
     flex-direction: row;
     align-items: center;
   }
@@ -919,6 +941,7 @@ body {
 
 .friend-list-unit {
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   align-items: center;
 }
@@ -941,6 +964,7 @@ body {
   box-shadow: -1px 2px 3px lightgray, 1px 2px 3px lightgray;
   border-radius: 12px;
   color: gray;
+  -webkit-user-select: none;
   user-select: none;
   text-align: center;
 }
@@ -951,6 +975,7 @@ body {
   margin-bottom: 30px;
   text-align: center;
   color: #555555;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -978,6 +1003,7 @@ body {
 
 .request-div {
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   align-items: center;
   border-radius: 12px;
@@ -999,6 +1025,7 @@ body {
 
 .request-buttons { 
   display: flex;
+  -moz-flex-direction: row;
   flex-direction: row;
   width: 105%;
 }
