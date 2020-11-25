@@ -63,7 +63,7 @@ class App extends React.Component {
   render() {          
     return (    
       <div className="App uses-font">        
-        <Router>
+        <Router basename={process.env.REACT_APP_MAIN_URL}>
         
         {this.state.isLogged && <Navbar loggedUserId={this.state.loggedUserId} />}
         
