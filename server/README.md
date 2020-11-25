@@ -1,4 +1,4 @@
-# Project: Facebook clone || Front-End
+# Project: Facebook clone || Back-End
 Made for The Odin Project.
 
 ## About
@@ -26,4 +26,4 @@ npm install
 
 4. Set the environment variables necessary for this project to work. All of them are specified on the .env.example file.
 
-5. Run `npm start` to start the React server.
+5. Run `node app` to start the server.
