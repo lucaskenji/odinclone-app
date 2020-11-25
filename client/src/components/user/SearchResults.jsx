@@ -20,7 +20,7 @@ function SearchResults(props) {
         setResults(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        // Show no results if server doesn't return a response
       })
   }, [query]);
   

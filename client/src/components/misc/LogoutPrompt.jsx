@@ -11,11 +11,11 @@ function LogoutPrompt(props) {
     if (!loggedOut) {
       axios.get(`${process.env.REACT_APP_API_URL}/api/logout`, { withCredentials: true })
         .then((response) => {
-          console.log(response);
           setLoggedOut(true);
         })
         .catch((err) => {
-          console.log(err);
+          // It's hard for this route to fail, but a connection error would probably logout the user anyway
+          setLoggedOut(true);
         })
     } else {
       verifyAuth()
@@ -23,7 +23,8 @@ function LogoutPrompt(props) {
           setUpdatedState(true);
         })
         .catch((err) => {
-          console.log(err);
+          // It's hard for verifyAuth' route to fail, but a connection error would probably logout the user anyway
+          setUpdatedState(true);
         })
     }
   }, [loggedOut, verifyAuth]);

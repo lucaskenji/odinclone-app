@@ -25,7 +25,6 @@ function CommentForm(props) {
       headers: { csrf: csrfToken }
     })
       .then((response) => {
-        console.log(response);
         triggerRender();
         form.target.reset();
         setFinishedAsync(true);

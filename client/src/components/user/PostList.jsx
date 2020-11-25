@@ -22,7 +22,6 @@ function PostList(props) {
         setPreviousRender(renderCount);
       })
       .catch((err) => {
-        console.log(err);
         setPostList([]);
         setSearchedUser(loggedUserId);
         setPreviousRender(renderCount);

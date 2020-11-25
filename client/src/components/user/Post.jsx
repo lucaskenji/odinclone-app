@@ -19,6 +19,8 @@ function Post(props) {
   const handleLike = async () => {
     setFinishedAsync(false);
     
+    const previousLikes = likes;
+    
     try {
       if (!isLiked) {
         setLikes(likes + 1);
@@ -27,12 +29,17 @@ function Post(props) {
         setLikes(likes - 1);
         await axios.put(`${process.env.REACT_APP_API_URL}/api/posts/${post._id}/dislike`, { _id: loggedUserId });
       }
+      
+      setIsLiked(!isLiked);
     } catch (err) {
-      console.log(err);
+      setLikes(previousLikes);
+    } finally {    
+      setFinishedAsync(true);
     }
-    
-    setIsLiked(!isLiked);
-    setFinishedAsync(true);
+  }
+  
+  if (!post) {
+    return '';
   }
   
   return (

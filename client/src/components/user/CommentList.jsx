@@ -14,7 +14,7 @@ function CommentList(props) {
         setComments(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        // Don't load comments if server doesn't return an answer.
       })
   }, [postId, renderCount]);
   

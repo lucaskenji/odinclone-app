@@ -29,7 +29,7 @@ function FriendList(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // Routes are tested and a connection error would redirect the user
       })
   }, [userId, isUnmounted]);
   

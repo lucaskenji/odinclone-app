@@ -28,7 +28,7 @@ function UserSettings(props) {
           setUser(userWithStringData);
         })
         .catch((err) => {
-          console.log(err);
+          // Routes are tested and a connection error would redirect the user anyway
         })
     }
   }, [loggedUserId])
@@ -76,7 +76,6 @@ function UserSettings(props) {
         
     axios.put(`${process.env.REACT_APP_API_URL}/api/users/${loggedUserId}`, updatedUser)
       .then((response) => {
-        console.log(response);
         setFinishedAsync(true);
         window.location.href='/profile/' + loggedUserId;
       })

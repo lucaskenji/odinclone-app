@@ -29,7 +29,7 @@ function FullPost(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // Show no post if server doesn't return an answer.
       })
   }, [postId, isUnmounted]);
   

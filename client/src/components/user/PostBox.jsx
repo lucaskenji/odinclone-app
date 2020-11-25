@@ -41,7 +41,6 @@ function PostBox(props) {
     
     axios.post(`${process.env.REACT_APP_API_URL}/api/posts`, newPost, { withCredentials: true, headers: { csrf: csrfToken } })
       .then((response) => {
-        console.log(response);
         form.target.reset();
         handleRender();
         setFinishedAsync(true);

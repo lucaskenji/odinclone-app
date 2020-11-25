@@ -17,7 +17,7 @@ function NavbarOptions(props)
           setUser(response.data);
         })
         .catch((err) => {
-          console.log(err);
+          //
         });
     }
   }, [loggedUserId]);

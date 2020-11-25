@@ -23,7 +23,7 @@ function FriendRequests(props) {
           setRequestList(response.data);
         })
         .catch((err) => {
-          console.log(err);
+          // Show no requests if no answer from the server.
         })
     }
   }, [loggedUserId]);
@@ -57,7 +57,6 @@ function FriendRequests(props) {
       setErrorMessage(localStrings[locale]['friendRequests']['error']['internal']);
     }
     
-    console.log('Operations done.');
     setDisableButton(false);
   }
   
