@@ -11,6 +11,7 @@ const localStrings = {
       'odinProjectLink': 'The Odin Project prompt',
       'emailField': 'Email',
       'passwordField': 'Password',
+      'guest': 'or join as Guest',
       'alt': {
         'logo': 'Logo of the website, named Odinclone'
       },
@@ -97,6 +98,7 @@ const localStrings = {
     'navbar': {
       'settings': 'Settings',
       'logout': 'Logout',
+      'guest': 'Only for registered users',
       'alt': {
         'logo': 'The website\'s logo',
         'userAvatar': 'The avatar of the currently logged user.'
@@ -183,6 +185,7 @@ const localStrings = {
       'odinProjectLink': 'Proposta do The Odin Project',
       'emailField': 'Email',
       'passwordField': 'Senha',
+      'guest': 'ou entre como Convidado',
       'alt': {
         'logo': 'Logo do website, chamado Odinclone'
       },
@@ -269,6 +272,7 @@ const localStrings = {
     'navbar': {
       'settings': 'Configurações',
       'logout': 'Sair',
+      'guest': 'Somente para usuários registrados.',
       'alt': {
         'logo': 'O logo do website',
         'userAvatar': 'O avatar do usuário que está logado atualmente.'

@@ -48,9 +48,13 @@ function NavbarOptions(props)
         
         <hr/>
         
-        <a className="no-underline" href="/settings">
-          <div className="nav-options-link">
-            <div className="nav-options-icon"><i className="fas fa-cog"></i></div> {localStrings[locale]['navbar']['settings']}
+        <a className="no-underline" href={user.isGuest ? "#" : "/settings"}>
+          <div className="nav-options-link nav-options-settings">
+            <div className="nav-options-icon"><i className="fas fa-cog"></i></div> 
+            <span>
+              <span>{localStrings[locale]['navbar']['settings']}</span>
+              { user.isGuest ? <span className="nav-options-guest">{localStrings[locale]['navbar']['guest']}</span> : ''}
+            </span>
           </div>
         </a>
         

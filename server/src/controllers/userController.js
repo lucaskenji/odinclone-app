@@ -105,7 +105,8 @@ exports.createUser = async (req, res) => {
       password: hashedPassword,
       birthDate: req.body.birthDate,
       gender: req.body.gender,
-      friends: []
+      friends: [],
+      isGuest: req.body.isGuest ? true : false
     });
     
     const newDocument = await newUser.save();

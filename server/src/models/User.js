@@ -38,6 +38,9 @@ const userSchema = new Schema({
   },
   facebookId: {
     type: String
+  },
+  isGuest: {
+    type: Boolean
   }
 });
 

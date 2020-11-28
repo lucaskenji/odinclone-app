@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import localStrings from '../../localization';
+import fakeEmail from 'fake-email';
 
 function LoginForm(props) {
   const [finishedAsync, setFinishedAsync] = useState(true);
@@ -31,7 +32,42 @@ function LoginForm(props) {
         setFinishedAsync(true);
       })
   }
+  
+  const authenticateGuest = () => {
+    setFinishedAsync(false);
+    setErrorMessage('');
     
+    const birthDate = new Date();
+    const emailIdentifier = birthDate.toJSON().replace(/[-:.ZT]/g, '');
+    const guestEmail = fakeEmail(emailIdentifier)
+
+    const newUser = {
+      firstName: 'Guest',
+      lastName: 'account',
+      email: guestEmail,
+      password: 'guest',
+      birthDate,
+      gender: 'other',
+      isGuest: true
+    };
+        
+    axios.post(`${process.env.REACT_APP_API_URL}/api/users`, newUser)
+      .then((registerResponse) => {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { email: guestEmail, password: 'guest' }, { withCredentials: true })
+          .then((loginResponse) => {
+            localStorage.setItem('csrfToken', loginResponse.headers.csrf);
+            window.location.href = '/';
+          })
+          .catch((err) => {
+            setErrorMessage(localStrings[locale]['homepage']['error']['internal']);
+            setFinishedAsync(true);
+          })
+      })
+      .catch((err) => {
+        setErrorMessage(localStrings[locale]['register']['error']['internal']);
+        setFinishedAsync(true);
+      })
+  }
 
   return (    
     <div id="login-container">
@@ -61,13 +97,16 @@ function LoginForm(props) {
         <br/>
         <br/>
         
-        <button disabled={!finishedAsync} className="btn btn-primary btn-home uses-font" type="submit">
+        <button disabled={!finishedAsync} className="btn btn-primary btn-home uses-font btn-login" type="submit">
           {localStrings[locale]['homepage']['login']}
         </button>
       </form>
       <br/>
+        <button disabled={!finishedAsync} onClick={authenticateGuest} className="btn btn-guest uses-font">
+          {localStrings[locale]['homepage']['guest']}
+        </button>
       <hr/>
-      
+
       <Link className="btn btn-confirm btn-home btn-link" to="/register">
         {localStrings[locale]['homepage']['createAccount']}
       </Link>

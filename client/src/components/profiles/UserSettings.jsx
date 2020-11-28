@@ -127,6 +127,8 @@ function UserSettings(props) {
     return (<Redirect to="/" />)
   } else if (Object.keys(user).length === 0) {
     return 'Loading user data...';
+  } else if (user.isGuest === true) {
+    return (<Redirect to="/" />)
   } else {
     return (
       <div id="update-form-container">

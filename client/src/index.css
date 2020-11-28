@@ -80,7 +80,7 @@ body {
     display: inline-block;
     text-decoration: none;
     line-height: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .btn-large {
@@ -171,7 +171,7 @@ body {
     visibility: hidden;
     width: 270px;
     height: 1px;
-    padding: 15px 15px 15px 15px;
+    padding: 15px 15px 25px 15px;
     background-color: white;
     box-shadow: 0 5px 10px darkgray;
     z-index: 201;
@@ -199,6 +199,21 @@ body {
     .nav-options-link:hover {
       background-color: #ebeff0;
     }
+  
+  .nav-options-link span {
+    display: flex;
+    flex-direction: column;
+    moz-flex-direction: column;
+  }
+  
+  .nav-options-guest {
+    font-size: 14px;
+    display: none !important;
+  }
+  
+  .nav-options-settings:hover .nav-options-guest {
+    display: flex !important;
+  }
   
   .nav-options-img {
     width: 50px;
@@ -382,12 +397,24 @@ body {
   font-weight: bold;
   font-size: 20px;
 }
+
+.btn-login {
+  margin-bottom: -5px;
+}
   
 .btn-login-fb {
   width: 70%;
   font-size: 16px;
   height: 25px;
   line-height: 25px;
+}
+
+.btn-guest {
+  font-size: 16px;
+}
+
+.btn-guest:hover {
+  text-decoration: underline;
 }
 
 .home-local:hover {
