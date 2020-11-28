@@ -303,7 +303,8 @@ exports.searchUser = (req, res) => {
     $or: [
       {firstName: {$regex: query[0], $options: 'i'}}, 
       {lastName: {$regex: query[1], $options: 'i'}}
-    ]
+    ],
+    isGuest: { $ne: true }
   })
   .then((matches) => {
     if (matches.length === 0) {
